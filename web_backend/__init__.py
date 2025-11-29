@@ -79,7 +79,7 @@ mock_questions = [
 
 
 def seed_question(name: str, desc: str, color: str):
-    db.session.add(Question(name=name, description=desc))
+    db.session.add(Question(name=name, description=desc, rgb_color=color))
 
 
 with app.app_context():
