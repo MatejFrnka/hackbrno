@@ -245,6 +245,7 @@ const PatientInformation = () => {
                             onDocumentClick={handleDocumentClick}
                             currentDate={currentDocumentDate}
                             selectedColors={selectedColors}
+                            significantEvents={patient?.significantEvents || []}
                         />
                     </div>
                 </div>

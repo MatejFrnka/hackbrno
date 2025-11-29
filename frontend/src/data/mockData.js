@@ -182,6 +182,37 @@ export const generatePatients = () => {
         if (totalDocuments > 25) dataAmount = 'large';
         else if (totalDocuments > 15) dataAmount = 'medium';
 
+        // Generate significant events (mock data - will come from backend)
+        const significantEvents = [];
+        const numEvents = 5; // 1-3 events per patient
+        const eventDescriptions = [
+            'Initial diagnosis confirmed',
+            'Treatment protocol started',
+            'Surgery performed',
+            'Medication changed',
+            'Test results received',
+            'Follow-up appointment',
+            'Condition improved',
+            'Complication occurred',
+        ];
+
+        for (let i = 0; i < numEvents; i++) {
+            const eventDate = randomDate(startDate, endDate);
+            const questionIndex = Math.floor(Math.random() * patientQuestions.length);
+            const question = patientQuestions[questionIndex];
+            const descriptionIndex = Math.floor(Math.random() * eventDescriptions.length);
+
+            significantEvents.push({
+                id: `event-${id}-${i}`,
+                date: eventDate,
+                color: question.color,
+                description: eventDescriptions[descriptionIndex],
+            });
+        }
+
+        // Sort events by date
+        significantEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
         patients.push({
             id,
             startDate,
@@ -197,6 +228,7 @@ export const generatePatients = () => {
             dataAmount,
             questions: patientQuestions,
             documents: allDocuments,
+            significantEvents,
         });
     });
 
