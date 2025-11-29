@@ -89,5 +89,6 @@ class Finding(db.Model):
         db.ForeignKey('questions.id'),
         nullable=False
     )
-    offset_start = db.Column(db.Integer)
-    offset_end = db.Column(db.Integer)
+    confidence = db.Column(db.String, nullable=False)
+    offset_start = db.Column(db.Integer, nullable=False)
+    offset_end = db.Column(db.Integer, nullable=False)

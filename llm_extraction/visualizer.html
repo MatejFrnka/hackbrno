@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Medical Record Citation Visualizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #fafafa;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #333;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .panel {
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 800px;
+        }
+
+        .panel-left {
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .panel h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .citation-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .citation-item:hover {
+            background: #f0f0f0;
+            transform: translateX(2px);
+        }
+
+        .citation-item.active {
+            background: #e8eaff;
+            border-left-color: #764ba2;
+        }
+
+        .question-label {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .citation-text {
+            font-size: 15px;
+            color: #333;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .citation-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            gap: 15px;
+        }
+
+        .record-text {
+            line-height: 1.8;
+            color: #333;
+            font-size: 15px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+        }
+
+        .record-section {
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .record-header {
+            background: #f5f5f5;
+            padding: 10px 15px;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 14px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .record-content {
+            padding: 15px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            border-bottom: 2px solid #ffc107;
+        }
+
+        .highlight:hover {
+            background: #ffe69c;
+            transform: scale(1.01);
+        }
+
+        .highlight-q1 { background: #d4edda; border-bottom: 2px solid #28a745; }
+        .highlight-q2 { background: #cce5ff; border-bottom: 2px solid #007bff; }
+        .highlight-q3 { background: #f8d7da; border-bottom: 2px solid #dc3545; }
+        .highlight-q4 { background: #fff3cd; border-bottom: 2px solid #ffc107; }
+        .highlight-q5 { background: #e7e7e7; border-bottom: 2px solid #6c757d; }
+        .highlight-q6 { background: #d1ecf1; border-bottom: 2px solid #17a2b8; }
+        .highlight-q7 { background: #f5c6cb; border-bottom: 2px solid #e83e8c; }
+
+        .highlight.active {
+            animation: pulse 1s ease-in-out;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+
+        .tooltip.show {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .confidence-high { background: #d4edda; color: #155724; }
+        .confidence-medium { background: #fff3cd; color: #856404; }
+        .confidence-low { background: #f8d7da; color: #721c24; }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 12px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Medical Record Citation Visualizer</h1>
+            <p>Visualize extracted citations and their locations in original records</p>
+        </div>
+
+        <div class="controls">
+            <div class="file-input-wrapper">
+                <label>Load JSON Results:</label>
+                <input type="file" id="jsonFile" accept=".json">
+            </div>
+            <div class="file-input-wrapper">
+                <label>Load CSV Records:</label>
+                <input type="file" id="csvFile" accept=".csv">
+            </div>
+            <div class="file-input-wrapper">
+                <label>Filter by Question:</label>
+                <select id="filterQuestion">
+                    <option value="all">All Questions</option>
+                    <option value="1">Question 1</option>
+                    <option value="2">Question 2</option>
+                    <option value="3">Question 3</option>
+                    <option value="4">Question 4</option>
+                    <option value="5">Question 5</option>
+                    <option value="6">Question 6</option>
+                    <option value="7">Question 7</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="panel panel-left">
+                <h2>Citations</h2>
+                <div id="stats" class="stats"></div>
+                <div class="legend" id="legend"></div>
+                <div id="citations"></div>
+            </div>
+            <div class="panel">
+                <h2>Original Medical Records</h2>
+                <div id="recordText" class="record-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        let currentData = null;
+        let recordTexts = {};
+        let currentFilter = 'all';
+        let questionMap = {};
+
+        // Define question labels
+        const questionLabels = {
+            1: "Diagnosis Date",
+            2: "TNM Classification",
+            3: "Hormone Receptors",
+            4: "External Treatment",
+            5: "Comorbidities",
+            6: "Recurrence",
+            7: "Metastases"
+        };
+
+        document.getElementById('jsonFile').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const text = await file.text();
+            currentData = JSON.parse(text);
+            buildQuestionMap();
+            renderCitations();
+            renderStats();
+            renderFullDocument();
+        });
+
+        document.getElementById('csvFile').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const text = await file.text();
+            parseCSV(text);
+        });
+
+        document.getElementById('filterQuestion').addEventListener('change', (e) => {
+            currentFilter = e.target.value;
+            renderCitations();
+        });
+
+        function parseCSV(csvText) {
+            recordTexts = {};
+
+            // Split by newlines but handle quoted fields properly
+            const lines = [];
+            let currentLine = '';
+            let insideQuotes = false;
+
+            for (let i = 0; i < csvText.length; i++) {
+                const char = csvText[i];
+
+                if (char === '"') {
+                    insideQuotes = !insideQuotes;
+                    currentLine += char;
+                } else if (char === '\n' && !insideQuotes) {
+                    if (currentLine.trim()) {
+                        lines.push(currentLine);
+                    }
+                    currentLine = '';
+                } else {
+                    currentLine += char;
+                }
+            }
+            if (currentLine.trim()) {
+                lines.push(currentLine);
+            }
+
+            // Skip header line
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i];
+                if (!line.trim()) continue;
+
+                // Parse CSV with proper quote handling
+                const fields = parseCSVLine(line);
+
+                if (fields.length < 5) continue;
+
+                const patientId = fields[0];
+                const recordId = fields[1];
+                const date = fields[2];
+                const recordType = fields[3];
+                const text = fields[4];
+
+                // Create record entries grouped by patient
+                if (!recordTexts[patientId]) {
+                    recordTexts[patientId] = {};
+                }
+
+                recordTexts[patientId][recordId] = {
+                    date: date,
+                    recordType: recordType,
+                    text: text
+                };
+            }
+
+            console.log(`Loaded records for ${Object.keys(recordTexts).length} patients`);
+
+            if (currentData) {
+                buildQuestionMap();
+                renderCitations();
+                renderFullDocument();
+            }
+        }
+
+        function parseCSVLine(line) {
+            const fields = [];
+            let currentField = '';
+            let insideQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+
+                if (char === '"') {
+                    insideQuotes = !insideQuotes;
+                } else if (char === ',' && !insideQuotes) {
+                    fields.push(currentField);
+                    currentField = '';
+                } else {
+                    currentField += char;
+                }
+            }
+            fields.push(currentField);
+
+            return fields;
+        }
+
+        function buildQuestionMap() {
+            if (!currentData) return;
+
+            questionMap = {};
+
+            currentData.citations.forEach((citation, index) => {
+                const qid = citation.question_id;
+                if (!questionMap[qid]) {
+                    questionMap[qid] = [];
+                }
+                questionMap[qid].push({ ...citation, index });
+            });
+        }
+
+        function renderStats() {
+            if (!currentData) return;
+
+            const questionCounts = {};
+            currentData.citations.forEach(citation => {
+                const qid = citation.question_id;
+                questionCounts[qid] = (questionCounts[qid] || 0) + 1;
+            });
+
+            let statsHtml = `
+                <div class="stat-card">
+                    <div class="stat-value">${currentData.total_citations}</div>
+                    <div class="stat-label">Total Citations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${Object.keys(questionCounts).length}</div>
+                    <div class="stat-label">Question Types</div>
+                </div>
+            `;
+
+            document.getElementById('stats').innerHTML = statsHtml;
+
+            // Render legend
+            let legendHtml = '';
+            Object.keys(questionCounts).sort().forEach(qid => {
+                legendHtml += `
+                    <div class="legend-item">
+                        <div class="legend-color highlight-q${qid}"></div>
+                        <span>Q${qid}: ${questionLabels[qid] || 'Unknown'} (${questionCounts[qid]})</span>
+                    </div>
+                `;
+            });
+            document.getElementById('legend').innerHTML = legendHtml;
+        }
+
+        function renderCitations() {
+            if (!currentData) {
+                document.getElementById('citations').innerHTML = `
+                    <div class="empty-state">
+                        <p>Load a JSON results file to begin</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const citationsDiv = document.getElementById('citations');
+            let html = '';
+
+            const citations = currentFilter === 'all'
+                ? currentData.citations
+                : currentData.citations.filter(c => c.question_id === parseInt(currentFilter));
+
+            citations.forEach((citation, displayIndex) => {
+                const questionLabel = questionLabels[citation.question_id] || `Question ${citation.question_id}`;
+                const actualIndex = citation.index !== undefined ? citation.index : currentData.citations.indexOf(citation);
+
+                html += `
+                    <div class="citation-item" onclick="highlightCitation(${actualIndex})">
+                        <div class="question-label">${questionLabel}</div>
+                        <div class="citation-text">"${escapeHtml(citation.quoted_text)}"</div>
+                        <div class="citation-meta">
+                            <span>Record: ${currentData.patient_id}_${citation.record_id}</span>
+                            <span class="confidence-badge confidence-${citation.confidence}">${citation.confidence}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (!html) {
+                html = '<div class="empty-state"><p>No citations found</p></div>';
+            }
+
+            citationsDiv.innerHTML = html;
+        }
+
+        function renderFullDocument() {
+            if (!currentData || Object.keys(recordTexts).length === 0) {
+                document.getElementById('recordText').innerHTML = `
+                    <div class="empty-state">
+                        <p>Load both JSON and CSV files to view records</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+
+            // Get patient ID from current data
+            const patientId = currentData.patient_id;
+            const records = recordTexts[patientId];
+
+            if (!records) {
+                document.getElementById('recordText').innerHTML = `
+                    <div class="empty-state">
+                        <p>No records found for patient ${patientId}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get sorted record IDs
+            const recordIds = Object.keys(records).sort((a, b) => parseInt(a) - parseInt(b));
+
+            recordIds.forEach(idx => {
+                const record = records[idx];
+                const fullRecordId = `${patientId}_${idx}`;
+
+                // Find all citations for this record
+                // record_id in citations is just the number
+                const citationsForRecord = currentData.citations.filter(c => c.record_id == idx);
+
+                // Sort citations by start position
+                citationsForRecord.sort((a, b) => a.start_char - b.start_char);
+
+                html += `
+                    <div class="record-section" id="record-${fullRecordId}">
+                        <div class="record-header">
+                            <span>Record: ${fullRecordId} (${record.date} - ${record.recordType})</span>
+                            <span style="font-size: 12px; color: #666; font-weight: normal;">
+                                ${citationsForRecord.length} citation(s)
+                            </span>
+                        </div>
+                        <div class="record-content">
+                            ${highlightTextWithCitations(record.text, citationsForRecord)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('recordText').innerHTML = html;
+            setupHoverListeners();
+        }
+
+        function highlightTextWithCitations(text, citations) {
+            if (citations.length === 0) {
+                return escapeHtml(text);
+            }
+
+            let result = '';
+            let lastIndex = 0;
+
+            citations.forEach((citation, idx) => {
+                // Add text before citation
+                result += escapeHtml(text.substring(lastIndex, citation.start_char));
+
+                // Add highlighted citation
+                const highlightClass = `highlight-q${citation.question_id}`;
+                const questionLabel = questionLabels[citation.question_id] || `Question ${citation.question_id}`;
+
+                result += `<span class="highlight ${highlightClass}"
+                    data-citation-idx="${currentData.citations.indexOf(citation)}"
+                    data-question-id="${citation.question_id}"
+                    data-question-label="${questionLabel}"
+                    data-confidence="${citation.confidence}">${escapeHtml(text.substring(citation.start_char, citation.end_char))}</span>`;
+
+                lastIndex = citation.end_char;
+            });
+
+            result += escapeHtml(text.substring(lastIndex));
+            return result;
+        }
+
+        function setupHoverListeners() {
+            const tooltip = document.getElementById('tooltip');
+            const highlights = document.querySelectorAll('.highlight');
+
+            highlights.forEach(highlight => {
+                highlight.addEventListener('mouseenter', (e) => {
+                    const questionLabel = e.target.getAttribute('data-question-label');
+                    const confidence = e.target.getAttribute('data-confidence');
+
+                    tooltip.innerHTML = `
+                        <strong>${questionLabel}</strong><br>
+                        <span style="opacity: 0.7">Confidence: ${confidence}</span>
+                    `;
+                    tooltip.classList.add('show');
+                });
+
+                highlight.addEventListener('mousemove', (e) => {
+                    tooltip.style.left = (e.pageX + 15) + 'px';
+                    tooltip.style.top = (e.pageY + 15) + 'px';
+                });
+
+                highlight.addEventListener('mouseleave', () => {
+                    tooltip.classList.remove('show');
+                });
+
+                highlight.addEventListener('click', (e) => {
+                    const citationIdx = parseInt(e.target.getAttribute('data-citation-idx'));
+                    highlightCitation(citationIdx);
+                });
+            });
+        }
+
+        function highlightCitation(citationIdx) {
+            // Remove all active states
+            document.querySelectorAll('.citation-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.highlight').forEach(el => el.classList.remove('active'));
+
+            // Activate the citation in the left panel
+            const citationItems = document.querySelectorAll('.citation-item');
+            if (citationItems[citationIdx]) {
+                citationItems[citationIdx].classList.add('active');
+                citationItems[citationIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            // Activate highlights in the right panel
+            const highlights = document.querySelectorAll(`.highlight[data-citation-idx="${citationIdx}"]`);
+            highlights.forEach(h => h.classList.add('active'));
+
+            // Scroll to first highlight
+            if (highlights.length > 0) {
+                setTimeout(() => {
+                    highlights[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>

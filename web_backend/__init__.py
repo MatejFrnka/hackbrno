@@ -10,9 +10,93 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 from .models import *
+from . import run
+
+questions_colors = [
+    "#FF6B6B",  # vibrant coral red
+    "#4ECDC4",  # teal / aquamarine
+    "#5567FF",  # strong periwinkle blue
+    "#FFD93D",  # warm golden yellow
+    "#6A4C93",  # purple grape
+    "#1A9E7D",  # emerald green
+    "#FF8E3C",  # vivid orange
+    "#00A8E8",  # bright sky blue
+    "#D7263D",  # crimson rose
+    "#3EC300"   # neon green
+]
+
+mock_questions = [
+    (
+        1,
+        "Datum stanovení diagnózy",
+        """
+   - Datum, kdy byla poprvé stanovena diagnóza karcinomu prsu
+   - Může být přímé ("5. října 2022") nebo odvozené z kontextu
+   - Označ jako `inferred: true` pokud datum odvozuješ"""
+    ),
+    (
+        2,
+        "TNM klasifikace",
+        """
+   - Klinická klasifikace: cTNM (např. "cT2N0M0")
+   - Patologická klasifikace: pTNM (např. "pT2 pN0(i−)(sn) M0")
+   - Extrahuj všechny výskyty, i když se opakují"""
+    ),
+    (
+        3,
+        "Hormonální receptory",
+        """
+   - ER (estrogenové receptory): hodnoty v % nebo pozitivní/negativní
+   - PR (progesteronové receptory): hodnoty v % nebo pozitivní/negativní
+   - HER2: hodnoty jako "0", "negativní", "pozitivní"""
+    ),
+    (4,
+        "Léčba mimo MOÚ",
+        """
+   - Zmínky o léčbě v jiné nemocnici nebo zdravotnickém zařízení
+   - Je důležité vědět, jestli pacient absolvoval léčbu mimo MOÚ, hlavně před první návštěvou v MOÚ, případně mezi cykly systémové léčby.
+   - Může jít o ambulance, regionální nemocnice, domácí péče mimo MOÚ"""
+    ),
+    (5,
+        "Progrese",
+        """
+   - Informace o progresi/zhoršení onemocnění
+   - Růst tumoru, nová ložiska, zhoršení stavu"""
+    ),
+    (6,
+        "Recidiva",
+        """
+   - Zmínky o recidivě nebo návratu onemocnění
+   - Lokální i vzdálená recidiva"""
+    ),
+    (7,
+        "Vzdálené metastázy",
+        """
+   - Výskyt metastáz v různých lokacích
+   - Játra, kosti, plíce, mozek, atd."""
+    )
+]
+
+
+def seed_question(name: str, desc: str, color: str):
+    db.session.add(Question(name=name, description=desc, rgb_color=color))
+
 
 with app.app_context():
+    DATA_DIR = 'data'
     db.create_all()
+
+    if Question.query.count() == 0:
+        for i, (_, qn, qd) in enumerate(mock_questions):
+            seed_question(qn, qd, questions_colors[i])
+        db.session.commit()
+        import os
+        files = []
+        for filename in os.listdir(DATA_DIR):
+            if '.xml' not in filename:
+                continue
+            files.append(os.path.join(DATA_DIR, filename))
+        run.add_batch(files, Question.query.all())
 
 
 # Enable CORS only for API routes
@@ -26,14 +110,23 @@ def after_request(response):
 
 @app.route("/")
 def home():
-    batches = []
-    for bt in Batch.query.all():
-        bt: Batch
-        batches.append({
-            'id': bt.id,
-            'schedule': bt.schedule
+    questions = []
+    for q in Question.query.all():
+        questions.append({
+            'id': q.id,
+            'name': q.name,
+            'description': q.description,
         })
-    return jsonify(batches)
+    curr_batch = {}
+    bt = current_batch()
+    curr_batch['questions'] = []
+    for q in bt.questions:
+        curr_batch['questions'].append({
+            'id': q.id,
+            'name': q.name,
+            'description': q.description,
+        })
+    return jsonify({'questions': questions, 'batch': curr_batch})
 
 
 def current_batch() -> Batch:
@@ -151,17 +244,3 @@ def patient_api(patient_id: str):
         'documents': documents,
     })
 
-
-from .run import add_batch
-
-
-@app.route('/add')
-def _add_b():
-    import os
-    files = []
-    for filename in os.listdir('data'):
-        if '.xml' not in filename:
-            continue
-        files.append(os.path.join('data', filename))
-    add_batch(files)
-    return redirect('home')
