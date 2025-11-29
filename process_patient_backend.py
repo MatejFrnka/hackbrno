@@ -93,7 +93,7 @@ def main():
         description="Process a patient using LLMBackendBase and save results to JSON"
     )
     parser.add_argument(
-        "patient_id",
+        "--patient_id",
         help="Patient ID (e.g., HACK03)"
     )
     parser.add_argument(
