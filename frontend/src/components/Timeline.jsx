@@ -17,7 +17,6 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
     const startTime = new Date(startDate).getTime();
     const endTime = new Date(endDate).getTime();
     const totalTime = endTime - startTime;
-
     // Calculate position of current date
     const currentPosition = currentDate && totalTime > 0
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
@@ -99,14 +98,14 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                             {point.questionIds.map((questionId) => {
                                 const color = point.colors[questionId];
                                 const docId = point.docIds[questionId];
-                                const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(questionId);
+                                const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(questionId));
                                 return (
                                     <div key={`${point.date}-${questionId}`} className="relative group">
                                         <button
                                             type="button"
                                             onClick={() => onDocumentClick && onDocumentClick(docId)}
                                             className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer`}
-                                            style={{ backgroundColor: color }}
+                                            style={isActive ? { backgroundColor: color } : { backgroundColor: '#cbd5e1' }}
                                         />
                                         {/* Hover tooltip for date */}
                                         <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
@@ -131,7 +130,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                             >
                                 <div
                                     className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10`}
-                                    style={{ backgroundColor: event.color }}
+                                    style={{ backgroundColor: event.isActive ? event.color : '#cbd5e1' }}
                                 />
                             </div>
                             {/* Connecting line from diamond to bubble */}
