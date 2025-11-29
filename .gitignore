@@ -11,3 +11,4 @@ __pycache__/
 .vite
 *.db
 .idea
+package-lock.json
