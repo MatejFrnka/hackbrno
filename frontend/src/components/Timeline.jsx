@@ -87,16 +87,16 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                 <div className="relative flex-1 flex justify-center">
                     <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-slate-200" />
 
-                    {/* Black line indicating current position */}
+                    {/* White circle indicating current position */}
                     {currentPosition !== null && (
                         <div
-                            className="absolute left-1/2 -translate-x-1/2 z-30 flex items-center transition-all duration-300 ease-in-out"
+                            className="absolute left-1/2 -translate-x-1/2 z-0 flex items-center justify-center transition-all duration-300 ease-in-out"
                             style={{
                                 top: `${currentPosition}%`,
                                 transform: 'translateX(-50%) translateY(-50%)'
                             }}
                         >
-                            <div className="w-8 h-0.5 bg-slate-500"></div>
+                            <div className="w-6 h-6 rounded-full bg-white border-2 border-slate-400 shadow-md"></div>
                         </div>
                     )}
 
