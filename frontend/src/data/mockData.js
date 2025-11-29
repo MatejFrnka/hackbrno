@@ -52,13 +52,18 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
     const documentCount = Math.floor(Math.random() * 30) + 10;
     const documents = [];
 
-    // Extract texts from hack01 data
-    const sampleTexts = hack01.dokumentace.pacient.zaznam.map(record => record.text);
+    // Extract texts and types from hack01 data
+    const sampleRecords = hack01.dokumentace.pacient.zaznam.map(record => ({
+        text: record.text,
+        typ: record.typ
+    }));
 
     for (let i = 0; i < documentCount; i++) {
         const date = randomDate(startDate, endDate);
-        const textIndex = Math.floor(Math.random() * sampleTexts.length);
-        let text = sampleTexts[textIndex];
+        const recordIndex = Math.floor(Math.random() * sampleRecords.length);
+        const record = sampleRecords[recordIndex];
+        let text = record.text;
+        const typ = record.typ;
 
         // Add random highlights based on available question colors
         const highlights = [];
@@ -73,10 +78,10 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
             // Find a phrase to highlight (Czech medical terms from hack01)
             const phrases = {
                 blue: ['cT2N0M0', 'pT2N0M0', 'pTNM', 'TNM', 'klasifikace'],
-                red: ['diagnóza', 'Diagnóza', 'karcinom', 'invazivní karcinom', 'malignita'],
+                red: ['diagnóza', 'prsu', 'karcinom', 'invazivní karcinom', 'malignita'],
                 green: ['léčba', 'Léčba', 'radioterapie', 'operace', 'mastektomie', 'léčebná rozvaha'],
                 yellow: ['potíže', 'Potíže', 'bolesti', 'bolest', 'únavu', 'symptomy'],
-                purple: ['prognóza', 'Prognóza', 'příznivé', 'pozitivní'],
+                purple: ['prognóza', 'Prognóza', 'příznivé', 'pozitivní', 'CT', 'Osobní'],
                 orange: ['medikace', 'Medikace', 'léky', 'léčiv', 'farmakologická anamnéza'],
                 pink: ['vyšetření', 'Vyšetření', 'výsledky', 'laboratorní', 'CT', 'RTG', 'UZ'],
                 cyan: ['anamnéza', 'Anamnéza', 'osobní anamnéza', 'rodinná anamnéza', 'historie'],
@@ -99,6 +104,7 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
         documents.push({
             id: `doc-${patientId}-${i}`,
             date,
+            typ,
             text,
             highlightedText: createHighlightedText(text, highlights),
             highlights,
@@ -176,6 +182,37 @@ export const generatePatients = () => {
         if (totalDocuments > 25) dataAmount = 'large';
         else if (totalDocuments > 15) dataAmount = 'medium';
 
+        // Generate significant events (mock data - will come from backend)
+        const significantEvents = [];
+        const numEvents = 5; // 1-3 events per patient
+        const eventDescriptions = [
+            'Initial diagnosis confirmed',
+            'Treatment protocol started',
+            'Surgery performed',
+            'Medication changed',
+            'Test results received',
+            'Follow-up appointment',
+            'Condition improved',
+            'Complication occurred',
+        ];
+
+        for (let i = 0; i < numEvents; i++) {
+            const eventDate = randomDate(startDate, endDate);
+            const questionIndex = Math.floor(Math.random() * patientQuestions.length);
+            const question = patientQuestions[questionIndex];
+            const descriptionIndex = Math.floor(Math.random() * eventDescriptions.length);
+
+            significantEvents.push({
+                id: `event-${id}-${i}`,
+                date: eventDate,
+                color: question.color,
+                description: eventDescriptions[descriptionIndex],
+            });
+        }
+
+        // Sort events by date
+        significantEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+
         patients.push({
             id,
             startDate,
@@ -191,6 +228,7 @@ export const generatePatients = () => {
             dataAmount,
             questions: patientQuestions,
             documents: allDocuments,
+            significantEvents,
         });
     });
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { patients } from '../data/mockData';
 import { formatDateRange } from '../utils/dateUtils';
@@ -10,25 +10,83 @@ const PatientInformation = () => {
     const { id: encodedId } = useParams();
     const navigate = useNavigate();
     const [selectedColors, setSelectedColors] = useState([]);
+    const [selectedTypes, setSelectedTypes] = useState([]);
+    const [currentDocumentDate, setCurrentDocumentDate] = useState(null);
+    const documentRefs = useRef({});
 
     const decodedId = encodedId ? decodeURIComponent(encodedId) : '';
     const patient = patients.find((p) => p.id === decodedId);
 
+    // Get all unique document types
+    const documentTypes = useMemo(() => {
+        if (!patient) return [];
+        const types = [...new Set(patient.documents.map(doc => doc.typ).filter(Boolean))];
+        return types.sort();
+    }, [patient]);
+
+    // Filter documents by type only (color filter just highlights, doesn't hide)
     const filteredDocuments = useMemo(() => {
         if (!patient) return [];
-        if (selectedColors.length === 0) {
+        if (selectedTypes.length === 0) {
             return patient.documents;
         }
-        return patient.documents.filter((doc) =>
-            doc.highlights.some((h) => selectedColors.includes(h.color)),
-        );
-    }, [patient, selectedColors]);
+        return patient.documents.filter((doc) => selectedTypes.includes(doc.typ));
+    }, [patient, selectedTypes]);
 
     const handleToggleColor = (color) => {
         setSelectedColors((prev) =>
             prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color],
         );
     };
+
+    const handleToggleType = (type) => {
+        setSelectedTypes((prev) =>
+            prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
+        );
+    };
+
+    const handleDocumentClick = (docId) => {
+        const ref = documentRefs.current[docId];
+        if (ref) {
+            ref.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    };
+
+    // Track which document is currently in view
+    useEffect(() => {
+        if (filteredDocuments.length === 0) return;
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0,
+        };
+
+        const observerCallback = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const docId = entry.target.getAttribute('data-doc-id');
+                    const document = filteredDocuments.find(d => d.id === docId);
+                    if (document) {
+                        setCurrentDocumentDate(document.date);
+                    }
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe all document elements
+        Object.values(documentRefs.current).forEach((ref) => {
+            if (ref) observer.observe(ref);
+        });
+
+        return () => {
+            Object.values(documentRefs.current).forEach((ref) => {
+                if (ref) observer.unobserve(ref);
+            });
+        };
+    }, [filteredDocuments]);
 
     if (!patient) {
         return (
@@ -81,6 +139,31 @@ const PatientInformation = () => {
 
             <main className="max-w-6xl mx-auto px-4 py-8">
                 <div className="flex flex-col lg:flex-row gap-8">
+                    <div className="hidden lg:block lg:w-48 flex-shrink-0">
+                        <div className="sticky top-32 space-y-4">
+                            <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
+                                <ColorFilter
+                                    questions={patient.questions}
+                                    selectedColors={selectedColors}
+                                    onToggleColor={handleToggleColor}
+                                    onClear={() => setSelectedColors([])}
+                                    compact
+                                    label="Highlight"
+                                />
+                            </div>
+                            <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
+                                <ColorFilter
+                                    documentTypes={documentTypes}
+                                    selectedTypes={selectedTypes}
+                                    onToggleType={handleToggleType}
+                                    onClearTypes={() => setSelectedTypes([])}
+                                    compact
+                                    isTypeFilter
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="flex-1 space-y-6">
                         <section className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 space-y-6">
                             <div className="space-y-2">
@@ -110,13 +193,6 @@ const PatientInformation = () => {
                             </div>
                         </section>
 
-                        <ColorFilter
-                            questions={patient.questions}
-                            selectedColors={selectedColors}
-                            onToggleColor={handleToggleColor}
-                            onClear={() => setSelectedColors([])}
-                        />
-
                         <section className="space-y-4">
                             <div className="flex items-center justify-between flex-wrap gap-2">
                                 <div>
@@ -127,7 +203,7 @@ const PatientInformation = () => {
                                         Timeline of notes
                                     </h3>
                                 </div>
-                                {selectedColors.length > 0 && (
+                                {selectedTypes.length > 0 && (
                                     <span className="text-sm text-slate-500">
                                         Showing {filteredDocuments.length}{' '}
                                         {filteredDocuments.length === 1 ? 'document' : 'documents'}
@@ -139,12 +215,18 @@ const PatientInformation = () => {
                                 filteredDocuments.map((doc, index) => {
                                     const previousDoc = index > 0 ? filteredDocuments[index - 1] : null;
                                     return (
-                                        <DocumentCard
+                                        <div
                                             key={doc.id}
-                                            document={doc}
-                                            index={index + 1}
-                                            previousDate={previousDoc?.date}
-                                        />
+                                            ref={(el) => (documentRefs.current[doc.id] = el)}
+                                            data-doc-id={doc.id}
+                                        >
+                                            <DocumentCard
+                                                document={doc}
+                                                index={index + 1}
+                                                previousDate={previousDoc?.date}
+                                                selectedColors={selectedColors}
+                                            />
+                                        </div>
                                     );
                                 })
                             ) : (
@@ -160,8 +242,10 @@ const PatientInformation = () => {
                     <div className="lg:w-24 lg:block flex-shrink-0">
                         <Timeline
                             documents={filteredDocuments}
-                            questions={patient.questions}
-                            onColorClick={handleToggleColor}
+                            onDocumentClick={handleDocumentClick}
+                            currentDate={currentDocumentDate}
+                            selectedColors={selectedColors}
+                            significantEvents={patient?.significantEvents || []}
                         />
                     </div>
                 </div>
