@@ -96,7 +96,6 @@ class TextDuplicate(db.Model):
     offset_end = db.Column(db.Integer, nullable=False)
 
 
-
 class Finding(db.Model):
     __tablename__ = 'findings'
 

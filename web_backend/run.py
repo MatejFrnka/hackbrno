@@ -141,7 +141,15 @@ def process_batch(batch: Batch, backend: LLMBackend):
                 offset_end=c['end_char'],
             )
             db.session.add(finding)
-        # TODO: process highlights
+        for h in output['highlights']:
+            highlight = Highlight(
+                patient_record_id=h['record_id'],
+                offset_start=h['start_char'],
+                offset_end=h['end_char'],
+                description=h['note'],
+            )
+            db.session.add(highlight)
+        patient.long_summary = output['summary_long']
         # summary = backend.summarize_patient(input_data, output)
         patients.append((input_data, output, '', ''))
 
