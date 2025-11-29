@@ -87,7 +87,10 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                         <div
                             key={point.date}
                             className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-                            style={{ top: `${point.position}%` }}
+                            style={{
+                                top: `${point.position}%`,
+                                transform: 'translateX(-50%) translateY(-50%)'
+                            }}
                         >
                             {point.colors.map((color) => {
                                 const docId = point.docIds[color];
