@@ -3,9 +3,9 @@ import typing
 
 
 class LLMBackend:
-    def process_patient(self, patient: pd.DataFrame):
+    def process_patient(self, patient: pd.DataFrame, questions: typing.List[typing.Tuple[int, str, str]]):
         # TODO
-        return {'diagnosis_date': [True, True, False], 'progression': [False, True, False]}
+        return {'input': [patient, questions]}
 
     def summarize_patient(self, patient: pd.DataFrame, processed_data) -> str:
         # TODO
