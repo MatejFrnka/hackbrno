@@ -8,6 +8,7 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False)
+    rgb_color = db.Column(db.String(20), nullable=True)
 
 
 class BatchQuestion(db.Model):
