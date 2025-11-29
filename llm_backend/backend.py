@@ -41,14 +41,14 @@ class LLMBackendBase(LLMBackend):
         Configuration is loaded from environment variables:
         - OPENAI_API_KEY: API key for authentication (required)
         - OPENAI_URL: Base URL for API (default: https://api.openai.com/v1)
-        - OPENAI_MODEL: Model to use for extraction (default: gpt-4o)
+        - OPENAI_MODEL: Model to use for extraction (default: gpt-5.1)
         """
         # Initialize AsyncOpenAI client from environment
         self.client = AsyncOpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
             base_url=os.getenv("OPENAI_URL", "https://api.openai.com/v1")
         )
-        self.model = os.getenv("OPENAI_MODEL", "gpt-4o")
+        self.model = os.getenv("OPENAI_MODEL", "gpt-5.1")
 
         # Initialize extraction components
         self.extractor = FeatureExtractor(self.client, model=self.model)

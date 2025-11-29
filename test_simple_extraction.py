@@ -109,10 +109,12 @@ async def main():
     # Initialize components
     print("Initializing components...")
     client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    extractor = FeatureExtractor(client, model="gpt-4o")
+    model = os.getenv("OPENAI_MODEL", "gpt-5.1")
+
+    extractor = FeatureExtractor(client, model=model)
     span_matcher = SpanMatcher(similarity_threshold=0.9)
-    highlight_extractor = HighlightExtractor(client, model="gpt-4o")
-    highlight_filter = HighlightFilter(client, model="gpt-4o")
+    highlight_extractor = HighlightExtractor(client, model=model)
+    highlight_filter = HighlightFilter(client, model=model)
     print("✓ Components initialized")
     print()
 
