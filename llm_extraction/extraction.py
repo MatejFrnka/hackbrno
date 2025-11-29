@@ -449,16 +449,31 @@ class PatientSummaryExtractor:
 
         print("Generating patient summary...")
 
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
-            temperature=0.1,
-        )
+        max_retries = 3
+        base_delay = 1.0
 
-        return response.choices[0].message.content
+        for attempt in range(max_retries):
+            try:
+                response = await self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    temperature=0.1,
+                )
+
+                return response.choices[0].message.content
+
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    delay = base_delay * (2 ** attempt)
+                    print(f"  WARNING: Attempt {attempt + 1}/{max_retries} failed: {e}")
+                    print(f"  Retrying in {delay}s...")
+                    await asyncio.sleep(delay)
+                else:
+                    print(f"  ERROR: All {max_retries} attempts failed: {e}")
+                    raise
 
     async def summarize_citations_async(
         self,
