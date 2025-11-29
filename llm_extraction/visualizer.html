@@ -421,29 +421,25 @@
                 // Parse CSV with proper quote handling
                 const fields = parseCSVLine(line);
 
-                if (fields.length < 4) continue;
+                if (fields.length < 5) continue;
 
                 const patientId = fields[0];
-                const date = fields[1];
-                const recordType = fields[2];
-                const text = fields[3];
+                const recordId = fields[1];
+                const date = fields[2];
+                const recordType = fields[3];
+                const text = fields[4];
 
                 // Create record entries grouped by patient
                 if (!recordTexts[patientId]) {
-                    recordTexts[patientId] = [];
+                    recordTexts[patientId] = {};
                 }
 
-                recordTexts[patientId].push({
+                recordTexts[patientId][recordId] = {
                     date: date,
                     recordType: recordType,
                     text: text
-                });
+                };
             }
-
-            // Sort each patient's records by date and assign sequential IDs
-            Object.keys(recordTexts).forEach(patientId => {
-                recordTexts[patientId].sort((a, b) => a.date.localeCompare(b.date));
-            });
 
             console.log(`Loaded records for ${Object.keys(recordTexts).length} patients`);
 
@@ -544,13 +540,14 @@
 
             citations.forEach((citation, displayIndex) => {
                 const questionLabel = questionLabels[citation.question_id] || `Question ${citation.question_id}`;
+                const actualIndex = citation.index !== undefined ? citation.index : currentData.citations.indexOf(citation);
 
                 html += `
-                    <div class="citation-item" onclick="highlightCitation(${citation.index !== undefined ? citation.index : displayIndex})">
+                    <div class="citation-item" onclick="highlightCitation(${actualIndex})">
                         <div class="question-label">${questionLabel}</div>
                         <div class="citation-text">"${escapeHtml(citation.quoted_text)}"</div>
                         <div class="citation-meta">
-                            <span>Record: ${citation.record_id}</span>
+                            <span>Record: ${currentData.patient_id}_${citation.record_id}</span>
                             <span class="confidence-badge confidence-${citation.confidence}">${citation.confidence}</span>
                         </div>
                     </div>
@@ -589,19 +586,24 @@
                 return;
             }
 
-            records.forEach((record, idx) => {
-                const recordId = `${patientId}_${idx}`;
+            // Get sorted record IDs
+            const recordIds = Object.keys(records).sort((a, b) => parseInt(a) - parseInt(b));
+
+            recordIds.forEach(idx => {
+                const record = records[idx];
+                const fullRecordId = `${patientId}_${idx}`;
 
                 // Find all citations for this record
-                const citationsForRecord = currentData.citations.filter(c => c.record_id === recordId);
+                // record_id in citations is just the number
+                const citationsForRecord = currentData.citations.filter(c => c.record_id == idx);
 
                 // Sort citations by start position
                 citationsForRecord.sort((a, b) => a.start_char - b.start_char);
 
                 html += `
-                    <div class="record-section" id="record-${recordId}">
+                    <div class="record-section" id="record-${fullRecordId}">
                         <div class="record-header">
-                            <span>Record: ${recordId} (${record.date} - ${record.recordType})</span>
+                            <span>Record: ${fullRecordId} (${record.date} - ${record.recordType})</span>
                             <span style="font-size: 12px; color: #666; font-weight: normal;">
                                 ${citationsForRecord.length} citation(s)
                             </span>
