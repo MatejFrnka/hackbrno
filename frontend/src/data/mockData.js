@@ -52,13 +52,18 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
     const documentCount = Math.floor(Math.random() * 30) + 10;
     const documents = [];
 
-    // Extract texts from hack01 data
-    const sampleTexts = hack01.dokumentace.pacient.zaznam.map(record => record.text);
+    // Extract texts and types from hack01 data
+    const sampleRecords = hack01.dokumentace.pacient.zaznam.map(record => ({
+        text: record.text,
+        typ: record.typ
+    }));
 
     for (let i = 0; i < documentCount; i++) {
         const date = randomDate(startDate, endDate);
-        const textIndex = Math.floor(Math.random() * sampleTexts.length);
-        let text = sampleTexts[textIndex];
+        const recordIndex = Math.floor(Math.random() * sampleRecords.length);
+        const record = sampleRecords[recordIndex];
+        let text = record.text;
+        const typ = record.typ;
 
         // Add random highlights based on available question colors
         const highlights = [];
@@ -99,6 +104,7 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
         documents.push({
             id: `doc-${patientId}-${i}`,
             date,
+            typ,
             text,
             highlightedText: createHighlightedText(text, highlights),
             highlights,

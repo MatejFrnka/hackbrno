@@ -1,7 +1,7 @@
 import { getColorBgClass } from '../utils/colorUtils';
 import { formatDate } from '../utils/dateUtils';
 
-const Timeline = ({ documents, questions, onColorClick, currentDate }) => {
+const Timeline = ({ documents, questions, onDocumentClick, currentDate }) => {
     if (documents.length === 0) return null;
 
     // Get all unique dates and sort them
@@ -18,24 +18,28 @@ const Timeline = ({ documents, questions, onColorClick, currentDate }) => {
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
         : null;
 
-    // Group documents by date with their colors
+    // Group documents by date with their colors and document IDs
     const documentsByDate = {};
     documents.forEach((doc) => {
         if (!documentsByDate[doc.date]) {
-            documentsByDate[doc.date] = [];
+            documentsByDate[doc.date] = { colors: {}, docIds: {} };
         }
-        const colors = [...new Set(doc.highlights.map((h) => h.color))];
-        if (colors.length > 0) {
-            documentsByDate[doc.date].push(...colors);
-        }
+        doc.highlights.forEach((h) => {
+            if (!documentsByDate[doc.date].colors[h.color]) {
+                documentsByDate[doc.date].colors[h.color] = true;
+                documentsByDate[doc.date].docIds[h.color] = doc.id;
+            }
+        });
     });
 
     // Calculate positions for each date
     const timelinePoints = sortedDates.map((date) => {
         const dateTime = new Date(date).getTime();
         const position = totalTime > 0 ? ((dateTime - startTime) / totalTime) * 100 : 0;
-        const colors = [...new Set(documentsByDate[date] || [])];
-        return { date, position, colors };
+        const dateData = documentsByDate[date] || { colors: {}, docIds: {} };
+        const colors = Object.keys(dateData.colors);
+        const docIds = dateData.docIds;
+        return { date, position, colors, docIds };
     });
 
     return (
@@ -73,14 +77,15 @@ const Timeline = ({ documents, questions, onColorClick, currentDate }) => {
                         >
                             {point.colors.map((color) => {
                                 const question = questions.find((q) => q.color === color);
+                                const docId = point.docIds[color];
                                 return (
                                     <div key={`${point.date}-${color}`} className="relative group">
                                         <button
                                             type="button"
-                                            onClick={() => onColorClick && onColorClick(color)}
+                                            onClick={() => onDocumentClick && onDocumentClick(docId)}
                                             className={`w-3 h-3 rounded-full ${getColorBgClass(
                                                 color,
-                                            )} border-2 border-white shadow-sm hover:scale-125 transition-transform relative z-10`}
+                                            )} border-2 border-white shadow-sm hover:scale-125 transition-transform relative z-10 cursor-pointer`}
                                             title={question ? question.text : color}
                                         />
                                         {/* Hover tooltip for date */}

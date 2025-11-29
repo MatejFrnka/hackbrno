@@ -22,6 +22,11 @@ const DocumentCard = ({ document, index, previousDate }) => {
             <article className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 mb-4">
                 <div className="flex justify-between items-start mb-4">
                     <div>
+                        {document.typ && (
+                            <p className="text-sm text-slate-500 mt-0.5">
+                                {document.typ}
+                            </p>
+                        )}
                         <h4 className="text-lg font-semibold text-slate-900">
                             Medical document ({index})
                         </h4>

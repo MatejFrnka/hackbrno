@@ -32,6 +32,13 @@ const PatientInformation = () => {
         );
     };
 
+    const handleDocumentClick = (docId) => {
+        const ref = documentRefs.current[docId];
+        if (ref) {
+            ref.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    };
+
     // Track which document is currently in view
     useEffect(() => {
         if (filteredDocuments.length === 0) return;
@@ -119,6 +126,20 @@ const PatientInformation = () => {
 
             <main className="max-w-6xl mx-auto px-4 py-8">
                 <div className="flex flex-col lg:flex-row gap-8">
+                    <div className="hidden lg:block lg:w-48 flex-shrink-0">
+                        <div className="sticky top-32 space-y-6">
+                            <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
+                                <ColorFilter
+                                    questions={patient.questions}
+                                    selectedColors={selectedColors}
+                                    onToggleColor={handleToggleColor}
+                                    onClear={() => setSelectedColors([])}
+                                    compact
+                                />
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="flex-1 space-y-6">
                         <section className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 space-y-6">
                             <div className="space-y-2">
@@ -147,13 +168,6 @@ const PatientInformation = () => {
                                 ))}
                             </div>
                         </section>
-
-                        <ColorFilter
-                            questions={patient.questions}
-                            selectedColors={selectedColors}
-                            onToggleColor={handleToggleColor}
-                            onClear={() => setSelectedColors([])}
-                        />
 
                         <section className="space-y-4">
                             <div className="flex items-center justify-between flex-wrap gap-2">
@@ -204,7 +218,7 @@ const PatientInformation = () => {
                         <Timeline
                             documents={filteredDocuments}
                             questions={patient.questions}
-                            onColorClick={handleToggleColor}
+                            onDocumentClick={handleDocumentClick}
                             currentDate={currentDocumentDate}
                         />
                     </div>
