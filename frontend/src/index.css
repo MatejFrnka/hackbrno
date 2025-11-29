@@ -26,3 +26,20 @@ body {
 #root {
     min-height: 100vh;
 }
+
+/* Custom scrollbar styles - hidden but still scrollable */
+.custom-scrollbar {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
