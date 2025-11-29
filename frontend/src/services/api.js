@@ -65,6 +65,8 @@ export const fetchDashboard = async () => {
         throw new Error('Failed to fetch dashboard data');
     }
     const data = await response.json();
+    console.log("aaa");
+    console.log(data);
     // Transform data to match frontend expectations
     const transformedPatients = data.patients.map((p) => {
         // Combine answered and unanswered questions
@@ -78,16 +80,15 @@ export const fetchDashboard = async () => {
 
         // Use patient_id if available, otherwise use id as fallback
         // Note: patient_id is the string identifier, id is the database ID
-        const patientId = p.patient_id
         return {
-            id: patientId,
+            id: p.id,
+            name: p.name,
             startDate: p.documents_start_date,
             endDate: p.documents_end_date,
             totalDocuments: p.documents_total,
             relevantDocuments: p.relevant_documents_total,
             locatedAnswers: p.answered_questions,
             missingAnswers: p.unanswered_questions,
-            totalLocated: 0,
             totalMissing: 0,
             summary: p.short_summary || '',
             difficulty: p.difficulty || 1,

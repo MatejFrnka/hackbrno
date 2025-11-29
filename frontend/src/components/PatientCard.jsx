@@ -4,15 +4,12 @@ import DifficultyRating from './DifficultyRating';
 
 const PatientCard = ({ patient }) => {
     const navigate = useNavigate();
-
-
     const handleReview = (e) => {
         e.stopPropagation();
         navigate(`/patient/${encodeURIComponent(patient.id)}`);
     };
 
-    const ColorChip = ({ item, value, label }) => {
-        console.log(item);
+    const ColorChip = ({ item, label }) => {
         return (
             <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 bg-white/80">
                 <span
@@ -22,7 +19,7 @@ const PatientCard = ({ patient }) => {
                 />
                 <span className="text-slate-900 font-medium">{item.name}</span>
                 <span className="text-slate-500">
-                    {value} {label}
+                    {item.documents_count} {label}
                 </span>
             </span>
         )
@@ -36,7 +33,7 @@ const PatientCard = ({ patient }) => {
                         Patient
                     </p>
                     <h3 className="text-2xl font-semibold text-slate-900">
-                        {patient.id}
+                        {patient.name}
                     </h3>
                     <p className="text-sm text-slate-500 mt-1">
                         {formatDateRange(patient.startDate, patient.endDate)}
@@ -60,8 +57,8 @@ const PatientCard = ({ patient }) => {
                         Answers
                     </p>
                     <p className="text-lg font-semibold text-slate-900 mt-2">
-                        {patient.totalLocated}
-                        <span className="text-sm text-slate-500"> out of {patient.totalMissing} found</span>
+                        {patient.locatedAnswers.length}
+                        <span className="text-sm text-slate-500"> out of {patient.locatedAnswers.length + patient.missingAnswers.length} found</span>
                     </p>
                 </div>
             </div>
@@ -98,7 +95,6 @@ const PatientCard = ({ patient }) => {
                                     key={`${patient.id}-${item.id}-missing`}
                                     item={item}
                                     value={item.unanswered}
-                                    label="pending"
                                 />
                             ))
                         ) : (

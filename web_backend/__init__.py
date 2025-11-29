@@ -137,6 +137,7 @@ def dashboard_api():
         
         patients.append({
             'id': p.id,
+            'name': p.patient_id,
             'short_summary': p.short_summary,
             'documents_total': len(p.records),
             'relevant_documents_total': sum(1 for r in p.records if len(r.findings) > 0),
