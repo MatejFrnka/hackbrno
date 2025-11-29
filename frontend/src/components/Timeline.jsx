@@ -22,13 +22,12 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
         : null;
 
-    console.log(currentPosition);
-
     // Group documents by date with their question IDs, colors, and document IDs
+    // Also include commented highlights
     const documentsByDate = {};
     documents.forEach((doc) => {
         if (!documentsByDate[doc.date]) {
-            documentsByDate[doc.date] = { questionIds: {}, colors: {}, docIds: {} };
+            documentsByDate[doc.date] = { questionIds: {}, colors: {}, docIds: {}, commentedHighlights: [] };
         }
         doc.highlights.forEach((h) => {
             const questionId = h.question_id;
@@ -38,17 +37,25 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                 documentsByDate[doc.date].docIds[questionId] = doc.id;
             }
         });
+        // Add commented highlights for this document
+        if (doc.commentedHighlights && doc.commentedHighlights.length > 0) {
+            documentsByDate[doc.date].commentedHighlights.push({
+                docId: doc.id,
+                highlights: doc.commentedHighlights,
+            });
+        }
     });
 
     // Calculate positions for each date
     const timelinePoints = sortedDates.map((date) => {
         const dateTime = new Date(date).getTime();
         const position = totalTime > 0 ? ((dateTime - startTime) / totalTime) * 100 : 0;
-        const dateData = documentsByDate[date] || { questionIds: {}, colors: {}, docIds: {} };
+        const dateData = documentsByDate[date] || { questionIds: {}, colors: {}, docIds: {}, commentedHighlights: [] };
         const questionIds = Object.keys(dateData.questionIds);
         const colors = dateData.colors;
         const docIds = dateData.docIds;
-        return { date, position, questionIds, colors, docIds };
+        const commentedHighlights = dateData.commentedHighlights || [];
+        return { date, position, questionIds, colors, docIds, commentedHighlights };
     });
 
     // Calculate positions for significant events
@@ -60,6 +67,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
             (event.question_id && selectedQuestionIds.includes(event.question_id));
         return { ...event, position, isActive };
     });
+
 
     return (
         <aside className="hidden lg:flex w-24 sticky top-24 h-[calc(100vh-8rem)]">
@@ -130,27 +138,78 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                     transform: 'translateX(-50%) translateY(-50%)'
                                 }}
                             >
-                                {documentGroups.map((highlights, docIndex) => (
-                                    <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1">
-                                        {highlights.map((highlight) => {
-                                            const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(highlight.questionId));
-                                            return (
-                                                <div key={`${point.date}-${highlight.questionId}`} className="relative group pointer-events-none inline-flex items-center justify-center w-3 h-3">
+                                {documentGroups.map((highlights, docIndex) => {
+                                    // Find commented highlights for this document
+                                    const docId = highlights[0]?.docId;
+                                    const commentedHighlightsForDoc = point.commentedHighlights
+                                        .filter(({ docId: chDocId }) => chDocId === docId)
+                                        .flatMap(({ highlights: chHighlights }) => chHighlights);
+
+                                    return (
+                                        <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1">
+                                            {highlights.map((highlight) => {
+                                                const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(highlight.questionId));
+                                                return (
+                                                    <div key={`${point.date}-${highlight.questionId}`} className="relative group pointer-events-none inline-flex items-center justify-center w-3 h-3">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => onDocumentClick && onDocumentClick(highlight.docId)}
+                                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto`}
+                                                            style={{ backgroundColor: isActive ? highlight.color : '#cbd5e1' }}
+                                                        />
+                                                        {/* Hover tooltip for date */}
+                                                        <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
+                                                            {formatDate(point.date)}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                            {/* Render commented highlights - one diamond with combined descriptions */}
+                                            {commentedHighlightsForDoc.length > 0 && (
+                                                <div className="relative inline-flex items-center justify-center w-3 h-3">
+                                                    {/* Single diamond */}
                                                     <button
                                                         type="button"
-                                                        onClick={() => onDocumentClick && onDocumentClick(highlight.docId)}
-                                                        className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto`}
-                                                        style={isActive ? { backgroundColor: highlight.color } : { backgroundColor: '#cbd5e1' }}
+                                                        onClick={() => onDocumentClick && onDocumentClick(docId)}
+                                                        className="w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto"
+                                                        style={{ backgroundColor: '#cbd5e1' }}
                                                     />
-                                                    {/* Hover tooltip for date */}
-                                                    <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
-                                                        {formatDate(point.date)}
-                                                    </span>
+                                                    {/* Connecting line from diamond to bubble */}
+                                                    <div
+                                                        className="absolute"
+                                                        style={{
+                                                            left: 'calc(50% + 6px)',
+                                                            top: '50%',
+                                                            width: '8px',
+                                                            height: '1px',
+                                                            backgroundColor: 'rgba(148, 163, 184, 0.3)',
+                                                            transform: 'translateY(-50%)',
+                                                            zIndex: 5,
+                                                        }}
+                                                    />
+                                                    {/* Bubble with combined descriptions - always visible to the right */}
+                                                    <div
+                                                        className="absolute"
+                                                        style={{
+                                                            left: 'calc(50% + 14px)',
+                                                            top: '50%',
+                                                            transform: 'translateY(-50%)'
+                                                        }}
+                                                    >
+                                                        <div className="text-sm text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-normal z-20 max-w-[200px] text-left">
+                                                            {commentedHighlightsForDoc.map((ch, idx) => (
+                                                                <span key={ch.id}>
+                                                                    {ch.description}
+                                                                    {idx < commentedHighlightsForDoc.length - 1 && ' '}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            );
-                                        })}
-                                    </div>
-                                ))}
+                                            )}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         );
                     })}
@@ -199,6 +258,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                             </div>
                         </div>
                     ))}
+
                 </div>
 
                 {/* End date at bottom */}
@@ -213,4 +273,5 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
 };
 
 export default Timeline;
+
 

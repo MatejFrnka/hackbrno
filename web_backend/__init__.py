@@ -224,17 +224,18 @@ def patient_api(patient_id: int):
     # Get all documents with highlights
     documents = []
     for record in patient.records:
-        findings = []
+        highlights = []
         for finding in record.findings:
             # Get question info for this finding
-            findings.append({
+            highlights.append({
                 'question_id': finding.question_id,
                 'offset_start': finding.offset_start,
                 'offset_end': finding.offset_end,
             })
-        highlights = []
+        commented_highlights = []
         for highlight in record.highlights:
-            highlights.append({
+            print(highlight)
+            commented_highlights.append({
                 'offset_start': highlight.offset_start,
                 'offset_end': highlight.offset_end,
                 'description': highlight.description,
@@ -245,8 +246,8 @@ def patient_api(patient_id: int):
             'date': record.date.isoformat() if record.date else None,
             'type': record.type,
             'text': record.text,
-            'findings': findings,
             'highlights': highlights,
+            'commented_highlights': commented_highlights,
         })
     
     # Sort documents by date

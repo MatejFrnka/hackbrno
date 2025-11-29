@@ -166,6 +166,14 @@ export const fetchPatient = async (patientId) => {
             };
         });
 
+        // Extract commented highlights for timeline
+        const commentedHighlights = (doc.commented_highlights || []).map((h, idx) => ({
+            id: `commented-${doc.id}-${idx}`,
+            date: doc.date,
+            description: h.description,
+            color: '#cbd5e1', // gray
+        }));
+
         return {
             id: doc.id.toString(),
             date: doc.date,
@@ -173,6 +181,7 @@ export const fetchPatient = async (patientId) => {
             text: doc.text,
             highlightedText,
             highlights,
+            commentedHighlights: commentedHighlights,
         };
     });
 
