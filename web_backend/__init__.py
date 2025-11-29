@@ -170,7 +170,7 @@ def dashboard_api():
         answered_questions = [
             {
                 'id': q.id,
-                'description': q.description,
+                'name': q.name,
                 'rgb_color': q.rgb_color,
                 'documents_count': question_document_count.get(q.id, 0),
             } for q in batch_questions 
@@ -179,7 +179,7 @@ def dashboard_api():
         unanswered_questions = [
             {
                 'id': q.id,
-                'description': q.description,
+                'name': q.name,
                 'rgb_color': q.rgb_color,
             } for q in batch_questions 
             if q.id not in answered_question_ids
@@ -216,7 +216,6 @@ def patient_api(patient_id: str):
         {
             'id': q.id,
             'name': q.name,
-            'description': q.description,
             'rgb_color': q.rgb_color,
         }
         for q in bt.questions
