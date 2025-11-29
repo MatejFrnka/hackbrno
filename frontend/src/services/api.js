@@ -170,6 +170,7 @@ export const fetchPatient = async (patientId) => {
 
     return {
         id: patientId,
+        name: data.name,
         summary: data.long_summary || '',
         questions,
         documents,
