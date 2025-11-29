@@ -209,6 +209,7 @@ def patient_api(patient_id: int):
     documents.sort(key=lambda d: d['date'] if d['date'] else '')
     
     return jsonify({
+        'name': patient.patient_id, 
         'long_summary': patient.long_summary,
         'questions_types': questions,
         'documents': documents,

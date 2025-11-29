@@ -208,6 +208,7 @@ const PatientInformation = () => {
         { label: 'Missing answers', value: patient.totalMissing, caption: 'still pending' },
     ];
 
+    console.log(patient);
     return (
         <div className="min-h-screen bg-[#f5f5f7]">
             <header className="bg-white/80 backdrop-blur border-b border-slate-200 sticky top-0 z-20">
@@ -220,7 +221,7 @@ const PatientInformation = () => {
                             ← Back to patient list
                         </button>
                         <h1 className="text-3xl font-semibold text-slate-900">
-                            Patient {patient.id}
+                            Patient {patient.name}
                         </h1>
                         <p className="text-sm text-slate-500 mt-1">
                             {formatDateRange(patient.startDate, patient.endDate)}
