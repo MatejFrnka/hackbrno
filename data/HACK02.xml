@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dokumentace>
+  <pacient id="HACK02">
+    <zaznam>
+      <datum>2020-01-15</datum>
+      <typ>PAT-B</typ>
+      <text>Core-cut biopsie z rezistence v horním zevním kvadrantu pravého prsu, odebrány tři válečky tkáně, materiál celý zpracován. Mikroskopicky invazivní karcinom NST, převážně solidně trabekulární, ve fibrotickém stromatu, jaderný grade 2-3, mitotická aktivita zvýšená, ložiskově angioinvaze. V jednom vzorku jen benigní lobulus. Imunohistochemicky vysoká exprese ER a PR, AR rovněž silně pozitivní, proliferační aktivita Ki67 střední až vyšší.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-01-16</datum>
+      <typ>PAT-B</typ>
+      <text>HER2 imunohistochemicky: z parafinového bloku z biopsie pravého prsu provedena reakce s validovanou protilátkou proti HER2. V nádorových buňkách jen velmi slabá, nesouvislá membránová pozitivita pod 10 % buněk. Skóre 0. Závěr: karcinom prsu HER2 negativní.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-01-20</datum>
+      <typ>A-ECHO</typ>
+      <text>Transtorakální echokardiografie před zahájením antracyklinové chemoterapie. Normální velikost srdečních dutin, levá komora s dobrou systolickou funkcí, ejekční frakce odhad 70 %, bez známek významné valvulopatie. Perikard bez výpotku. Závěr: kardiologicky bez kontraindikace antracyklinů.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-01-22</datum>
+      <typ>A-GYN1</typ>
+      <text>Gynekologická konzultace pro plánovanou systémovou léčbu hormonálně senzitivního karcinomu prsu. Gravidity a porody v osobní anamnéze, spontánní cykly, poslední menstruace před dvěma týdny. Antikoncepci neužívá, gynekologické operace neudává. Doporučen spolehlivý způsob antikoncepce po dobu chemoterapie, kontrola hormonálního profilu v průběhu léčby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-01-24</datum>
+      <typ>A-ARO</typ>
+      <text>Předoperační anesteziologické vyšetření s ohledem na možnost následného chirurgického výkonu na prsu po neoadjuvantní léčbě. V osobní anamnéze bez závažných kardiálních či plicních onemocnění, laboratorně v normě, EKG fyziologické. Pacientka klasifikována jako ASA II, vhodná k výkonům v celkové anestezii.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-01-27</datum>
+      <typ>A-ONK6</typ>
+      <text>První vyšetření na onkologické ambulanci pro nově diagnostikovaný karcinom pravého prsu. Rodinná anamnéza relevantní pouze lehce, bez jasného výskytu karcinomu prsu v přímé linii. Subjektivně si pacientka několik měsíců všímá tužšího ložiska za dvorcem vpravo a nového vtahování kůže, jinak bez celkových příznaků. Klinicky KI 100 %, bez orgánových symptomů. Lokálně vpravo hmatná tužší rezistence cca 4 cm, kůže lehce vtažená, axila bez jednoznačně patologických uzlin. Zobrazovací vyšetření prsů prokázalo ložisko s mikrokalcifikacemi a podezření na postižení regionální uzliny. Histologie: invazivní karcinom NST G2-3, ER/PR a AR výrazně pozitivní, Ki67 kolem 45 %, HER2 negativní. Plán: neoadjuvantní chemoterapie antracyklin/cyklofosfamid ve čtyřech cyklech, poté týdenní paklitaxel, dále restaging a rozhodnutí o lokální léčbě. Pacientka poučena, informovaný souhlas podepsán.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-01-30</datum>
+      <typ>A-ON12</typ>
+      <text>Scintigrafie skeletu se zaměřením na bederní páteř. Zachycené fokální zvýšení aktivity v oblasti těla obratle L5, jinde skelet bez suspektních ložisek. Nález odpovídá možné osteoblastické metastáze, k upřesnění doporučeno CT páteře.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-02-03</datum>
+      <typ>A-ONK6</typ>
+      <text>Ambulantní kontrola s výsledkem scintigrafie. Pacientka bez nových potíží, udává jen úzkost z diagnózy. Vysvětlen význam suspektního ložiska v L5, indikováno CT k verifikaci. Vzhledem k absenci bolestí zad a dobrému celkovému stavu pokračujeme v plánu neoadjuvantní chemoterapie s pečlivým sledováním. Naplánován 1. cyklus režimu antracyklin/cyklofosfamid.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-02-05</datum>
+      <typ>A-KF</typ>
+      <text>Vstupní konzultace klinického farmaceuta před zahájením chemoterapie. Zkontrolována dlouhodobá medikace, nebyly zjištěny zásadní farmakologické interakce s plánovanými cytostatiky. Pacientce vysvětlen režim užívání antiemetik, doporučeno sledování případných nežádoucích účinků a kontakt s ambulancí při potížích.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-02-06</datum>
+      <typ>A-ONK6</typ>
+      <text>Podán 1. cyklus neoadjuvantní chemoterapie režimem antracyklin/cyklofosfamid. Předběžné laboratorní parametry v normě, kardiální funkce bez omezení. Premedikace antiemetiky a kortikosteroidem, venózní přístup periferní, průběh infuzí bez komplikací. Pacientka poučena o riziku alopecie, myelotoxicity, infekčních komplikací a nutnosti včasného hlášení febrilie.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-02-18</datum>
+      <typ>A-ONK9</typ>
+      <text>Telefonická konzultace s praktickým lékařem ohledně krevního obrazu po 1. cyklu chemoterapie. Lehká leukopenie bez výrazné neutropenie, zatím bez nutnosti podpory růstovým faktorem. Domluveno opakované vyšetření před druhým cyklem a sledování teploty.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-02-27</datum>
+      <typ>A-ONK6</typ>
+      <text>Ambulantní kontrola k podání 2. cyklu. Pacientka popisuje krátkodobou nevolnost po chemoterapii, bez zvracení, únavu mírnou. Klinicky bez febrilie, bez známek infekce. Krevní obraz a biochemie umožňují pokračování léčby. Lokální nález na prsu zatím beze změny. Podán 2. cyklus režimu antracyklin/cyklofosfamid.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-03-19</datum>
+      <typ>A-ONK6</typ>
+      <text>Kontrola před 3. cyklem chemoterapie. Stav stabilizovaný, pacientka zaznamenává počínající ztenčení tumoru a menší napětí kůže nad ložiskem. Laboratorně mírná anémie a neutropenie 1. stupně, bez klinických projevů. Po zvážení poměru rizika a přínosu pokračujeme v léčbě beze změny dávky.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-04-09</datum>
+      <typ>A-ONK6</typ>
+      <text>Po 4. cyklu antracyklinového režimu proveden průběžný klinický restaging. V místě původního tumoru nyní tužší kondenzace velikosti přibližně 2,5 cm, axila bez hmatných patologických uzlin. Pacientka bez klidových bolestí, únava středního stupně. Po dokončení 4 cyklů plán změny léčby na týdenní paklitaxel.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-04-20</datum>
+      <typ>A-NEUR</typ>
+      <text>Neurologická konzultace před zahájením taxanové chemoterapie. Anamnesticky bez periferní neuropatie, bez diabetu, bez předchozího postižení nervového systému. Neurologické vyšetření v normě. Pacientka informována o riziku senzitivní neuropatie při léčbě paklitaxelem, doporučeno hlášení parestezií či bolesti v končetinách.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-04-22</datum>
+      <typ>A-ONK6</typ>
+      <text>Zahájení léčby týdenním paklitaxelem v dávce 80 mg/m2. Premedikace antihistaminikem, kortikosteroidem a antiemetikem, infuze proběhla bez hypersenzitivní reakce. Pacientka udává dobrou toleranci, bez akutních potíží po skončení podání. Domluven další cyklus za 7 dní.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-05-18</datum>
+      <typ>A-ONK6</typ>
+      <text>Ambulantní kontrola při probíhající léčbě paklitaxelem (4. týden). Pacientka udává mírné parestezie v prstech u nohou, nezhoršují chůzi. Jinak bez obtíží, váhový úbytek minimální. Klinicky zřetelná regrese nálezu v prsu, ložisko kolem 1,5 cm, kůže méně vtažená. Pokračujeme v léčbě při snížené dávce u neuropatických příznaků.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-06-29</datum>
+      <typ>A-ONK6</typ>
+      <text>Ukončení série 12 týdenních podání paklitaxelu. Pacientka s alopecií, lehkou perzistující neuropatií distálně na dolních končetinách, jinak bez závažných toxicit. Klinicky v prsu reziduální drobná tuhá resistencia, axila nejasně hmatná malá uzlina. Indikován komplexní restaging včetně CT páteře, kontrolní zobrazovací vyšetření prsů a skeletu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-07-10</datum>
+      <typ>A-BMP1</typ>
+      <text>Vyhodnocení nálezu na skeletu po dokončení chemoterapie. CT bederní páteře potvrzuje sklerotické ložisko v těle obratle L5, další drobné zahuštění v L4. Při porovnání se starším snímkem mírná rekalcifikace bez expanze. Klinicky pacientka udává jen občasné tupé bolesti zad. V dokumentaci vedeno jako pravděpodobná kostní metastáza, plánována paliativní radioterapie a zavedení kostně cílené léčby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-07-20</datum>
+      <typ>A-SPOK</typ>
+      <text>Multidisciplinární onkologická komise hodnotí stav: hormonálně senzitivní karcinom pravého prsu, po neoadjuvantní chemoterapii s parciální remisií, suspektní kostní metastáza L5, klinické stadium odpovídá metastatickému onemocnění. Zvažována varianta chirurgického řešení prsu, ale vzhledem k rozsahu mikrokalcifikací a nálezu na páteři preferována systémová léčba hormonální, doplněná radioterapií na prso a páteř.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-07-27</datum>
+      <typ>A-CHI3</typ>
+      <text>Chirurgická konzultace k možnosti operace prsu. Z mamografického popisu vyplývá, že mikrokalcifikace zasahují na ploše několik centimetrů, a prs šetřící výkon by znamenal odstranění značné části žlázy s pochybným výsledkem při metastatickém onemocnění. Mastektomie by měla převážně paliativní charakter a pacientka s ní nesouhlasí. Domluveno upřednostnit kombinaci radioterapie a hormonální léčby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-08-03</datum>
+      <typ>RT</typ>
+      <text>Radioterapeutické konzilium: indikace ozáření pravého prsu a regionálních uzlin v kombinaci s paliativní radioterapií na oblast L4-L5. Pacientka bez neurologického deficitu, udává bolest zad střední intenzity. Plánováno frakcionované ozáření prsu a uzlin a krátká série paliativních frakcí na páteř s cílem snížení bolesti a rizika patologické fraktury.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-09-10</datum>
+      <typ>A-OZAR</typ>
+      <text>Kontrola po ukončení radioterapie na prso a bederní páteř. Kožní reakce na prsu stupně 1, mírné zarudnutí a olupování, bez mokvání. Bolesti zad subjektivně menší, pacientka snižuje dávku analgetik. Neurologicky bez nového nálezu. Doporučeno lokální ošetřování kůže, postupné zátěžování páteře s opatrností.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-09-15</datum>
+      <typ>A-HEM</typ>
+      <text>Hematologická konzultace k zahájení kostně cílené léčby u metastázy v bederní páteři. Laboratorně normální renální funkce, kalcium v normě. Indikován denosumab v měsíčním intervalu v kombinaci s suplementací kalcia a vitaminu D. Pacientka poučena o riziku osteonekrózy čelisti, doporučeno stomatologické vyšetření.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-09-22</datum>
+      <typ>A-GYN2</typ>
+      <text>Gynekologická kontrola po ukončení chemoterapie. Menses se po léčbě nedostavily, hormonální profil odpovídá léčbou navozené menopauze. Klinické gynekologické vyšetření v normě. Z gynekologického pohledu vhodná dlouhodobá léčba inhibitorem aromatázy, potřeba sledování kostní denzity.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-09-25</datum>
+      <typ>A-GYO1</typ>
+      <text>Konzultace onkogynekologa k otázce fertility. Pacientka již spontánně neplánuje další těhotenství, vzhledem k věku a metastatickému onemocnění není indikováno aktivní zachování fertility. Diskutováno možné odstranění adnex do budoucna, zatím ponecháno pouze v rovině úvah.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-10-01</datum>
+      <typ>GYN</typ>
+      <text>Rutinní gynekologická prevence. Kolposkopie fyziologická, cytologie z čípku děložního odebrána, palpační nález v malé pánvi bez patologie. Pacientce připomenuta nutnost pravidelných kontrol i během onkologické léčby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-10-05</datum>
+      <typ>A-GEN</typ>
+      <text>Interní vyšetření před zahájením dlouhodobé hormonální terapie. Arteriální tlak mírně zvýšený, jinak interní nález bez významnější patologie. Laboratorně mírná dyslipidemie. Doporučena úprava životosprávy, kontrola tlaku u praktického lékaře a sledování laboratorních parametrů v průběhu hormonální léčby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-10-12</datum>
+      <typ>A-ONK6</typ>
+      <text>Ambulantní kontrola při zahájení udržovací hormonální léčby inhibitorem aromatázy v kombinaci s denosumabem. Pacientka bez klidových bolestí, bolesti zad pouze při delším stání. Karnofsky index kolem 80 %. Hormonoterapie zahájena, naplánovány pravidelné kontroly po třech měsících.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-10-20</datum>
+      <typ>A-KTPP</typ>
+      <text>Psychologická konzultace v rámci podpůrné péče. Pacientka popisuje úzkost z dlouhodobé léčby a obavy z budoucnosti. Probírány strategie zvládání stresu, možnosti podpůrných skupin a rodinné komunikace o nemoci. Domluveno opakování sezení dle potřeby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-11-02</datum>
+      <typ>A-PALM</typ>
+      <text>Vyšetření v ambulanci paliativní medicíny. Dominantními symptomy jsou občasné bolesti zad a únava, jinak dobrá soběstačnost. Upravena analgetická léčba, doporučeno jemné cvičení, edukace rodiny v oblasti podpory pacienta. Paliativní tým zůstává v záloze pro případ zhoršení stavu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-11-02</datum>
+      <typ>A-PALN</typ>
+      <text>Ošetřovatelská paliativní konzultace. Zhodnocena mobilita, riziko pádů a potřeba pomůcek v domácím prostředí. Doporučena protiskluzová úprava koupelny a pravidelné změny polohy při delším sezení. Pacientka i rodina poučeni o kontaktu na ošetřovatelskou službu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2020-11-10</datum>
+      <typ>KOC</typ>
+      <text>Zápis do elektronického onkologického centra: hormonálně senzitivní karcinom pravého prsu, po neoadjuvantní chemoterapii a radioterapii, s kostní metastázou L5. Aktuálně běží hormonoterapie inhibitorem aromatázy a kostně cílená léčba. Pacientka sledována v pravidelných intervalech v onkologické ambulanci.</text>
+    </zaznam>
+  </pacient>
+</dokumentace>

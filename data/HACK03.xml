@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dokumentace>
+  <pacient id="HACK03">
+    <zaznam>
+      <datum>2022-10-04</datum>
+      <typ>A-KONZ</typ>
+      <text>První onkologická konzultace pro nově diagnostikovaný karcinom levého prsu u pacientky po menopauze. Nález v horním zevním kvadrantu s kožní infiltrací a hmatnými uzlinami v axile. Subjektivně dominují dlouhodobé bolesti zad a kloubů při známé revmatoidní artritidě, chůze o francouzských holích. Provedeno základní fyzikální vyšetření a kontrola dokumentace z mamologického pracoviště. Závěr: suspektně lokálně pokročilý nádor prsu, nutné dovyšetření a kompletní staging.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-05</datum>
+      <typ>A-KF</typ>
+      <text>Klinicko-farmaceutická konzultace. Zhodnocena chronická medikace včetně imunosupresiv při revmatoidní artritidě, analgetik a suplementů. Upozornění na sníženou funkci jediné ledviny a zvýšenou hodnotu kalcia. Nebyly nalezeny zásadní interakce s plánovanou protinádorovou léčbou, doporučeno sledování renálních funkcí, elektrolytů a úprava dávek analgetik podle aktuálního stavu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-07</datum>
+      <typ>KOC</typ>
+      <text>Hospitalizační epikríza – krátkodobý příjem na onkologickém oddělení pro asymptomatickou hyperkalcémii u pacientky s metastatickým karcinomem prsu a suspektním kostním postižením. Provedena hydratace intravenózními infuzemi, podán redukovaný bolus bisfosfonátu vzhledem k monoledvině. Kalcémie po terapii klesá, pacientka klinicky stabilní, bez dušnosti či febrilií. Propuštěna domů s doporučením dostatečného příjmu tekutin a vysazením volně prodejného kalcia.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-10</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-17</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-17</datum>
+      <typ>A-ECHO</typ>
+      <text>Transtorakální echokardiografie v rámci monitorace kardiální funkce při podaté cílené anti-HER2 léčbě. Levá komora normální velikosti se zachovanou globální systolickou funkcí, ejekční frakce odhadována kolem 60 %. Nevýznamná regurgitace na aortální a mitrální chlopni, bez známek plicní hypertenze. Perikard bez patologického výpotku. Závěr: kardiologicky bez kontraindikace pokračování v současném režimu léčby, doporučeno pravidelné echokardiografické sledování.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-18</datum>
+      <typ>A-MAM</typ>
+      <text>Zápis z mamární komise – případ projednán multidisciplinárním týmem bez přítomnosti pacientky. HER2 pozitivní karcinom levého prsu, bifokální postižení s kožní infiltrací, mnohočetné kostní a jaterní metastázy. Vzhledem k pokročilému stadiu onemocnění a symptomatickému postižení skeletu není primárně indikována chirurgická léčba prsu. Komise se shoduje na paliativní systémové terapii kombinací taxanu a dvojité blokády HER2, doplněné kostně cílenou léčbou.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-24</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-08</datum>
+      <typ>A-KF</typ>
+      <text>Klinicko-farmaceutická konzultace. Zhodnocena chronická medikace včetně imunosupresiv při revmatoidní artritidě, analgetik a suplementů. Upozornění na sníženou funkci jediné ledviny a zvýšenou hodnotu kalcia. Nebyly nalezeny zásadní interakce s plánovanou protinádorovou léčbou, doporučeno sledování renálních funkcí, elektrolytů a úprava dávek analgetik podle aktuálního stavu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-09</datum>
+      <typ>KOB</typ>
+      <text>Komplexní onkologické vyšetření při kratší hospitalizaci. Rekapitulace osobní, rodinné a gynekologické anamnézy, včetně informace o dřívějším odstranění jedné ledviny pro renální tumor a dlouhodobém revmatologickém onemocnění. Stav hodnocen jako generalizovaný karcinom prsu s kostními a jaterními metastázami, přidružená osteoporóza a chronická bolest zad. Domluveno pokračování paliativní léčby a pravidelné kontroly v onkologické ambulanci.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-21</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-21</datum>
+      <typ>A-MCH2</typ>
+      <text>Chirurgická ambulance – kontrola po implantaci centrálního žilního portu do oblasti horní hrudní stěny. Lokalita klidná, bez zarudnutí a sekrece, port dobře palpačně přístupný a bez známek infekce. Stehy odstraněny, pacientka poučena o péči o port a hlášení případných komplikací (bolest, zarudnutí, febrilie). Port ponechán k dlouhodobému používání pro systémovou léčbu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-28</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-12-19</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-01-13</datum>
+      <typ>A-ECHO</typ>
+      <text>Transtorakální echokardiografie v rámci monitorace kardiální funkce při podaté cílené anti-HER2 léčbě. Levá komora normální velikosti se zachovanou globální systolickou funkcí, ejekční frakce odhadována kolem 60 %. Nevýznamná regurgitace na aortální a mitrální chlopni, bez známek plicní hypertenze. Perikard bez patologického výpotku. Závěr: kardiologicky bez kontraindikace pokračování v současném režimu léčby, doporučeno pravidelné echokardiografické sledování.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-01-16</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-01-19</datum>
+      <typ>A-SPOK</typ>
+      <text>Spondylo-onkologická komise – konzultace nálezu na páteři a pánevním skeletu. Na zobrazovacím vyšetření popsána mnohočetná osteolytická ložiska s kompresivními frakturami obratlových těl a rizikem patologické fraktury proximálního femuru. Doporučeno šetrné zatěžování, používání ortopedických pomůcek, zvážení stabilizačního výkonu nebo radioterapie na symptomatické úseky páteře a pokračování kostně cílené léčby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-01-20</datum>
+      <typ>A-ONK9</typ>
+      <text>Telefonická konzultace – upřesnění termínů kontrol a laboratorních odběrů. S pacientkou (případně rodinným příslušníkem) probrán průběh posledních dní, bez horeček, bez nových neurologických příznaků. Přetrvávají bolesti zad, účinek analgetik je dostatečný. Doporučeno nadále sledovat teplotu, kontaktovat pracoviště při náhlém zhoršení bolestí nebo při pádu, a dostavit se k plánované kontrole včetně krevního obrazu a biochemie.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-02-13</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-02-27</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-03-13</datum>
+      <typ>A-ECHO</typ>
+      <text>Transtorakální echokardiografie v rámci monitorace kardiální funkce při podaté cílené anti-HER2 léčbě. Levá komora normální velikosti se zachovanou globální systolickou funkcí, ejekční frakce odhadována kolem 60 %. Nevýznamná regurgitace na aortální a mitrální chlopni, bez známek plicní hypertenze. Perikard bez patologického výpotku. Závěr: kardiologicky bez kontraindikace pokračování v současném režimu léčby, doporučeno pravidelné echokardiografické sledování.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-03-13</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-22</datum>
+      <typ>A-ECHO</typ>
+      <text>Transtorakální echokardiografie v rámci monitorace kardiální funkce při podaté cílené anti-HER2 léčbě. Levá komora normální velikosti se zachovanou globální systolickou funkcí, ejekční frakce odhadována kolem 60 %. Nevýznamná regurgitace na aortální a mitrální chlopni, bez známek plicní hypertenze. Perikard bez patologického výpotku. Závěr: kardiologicky bez kontraindikace pokračování v současném režimu léčby, doporučeno pravidelné echokardiografické sledování.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-22</datum>
+      <typ>A-INTT</typ>
+      <text>Interní konzilium u pacientky léčené pro metastatický karcinom prsu. Posouzen celkový interní stav, krevní tlak mírně zvýšený, jinak oběhově kompenzovaná. Laboratorně mírně zhoršené renální parametry odpovídající chronickému stavu po nefrektomii. Nebyly zjištěny překážky pro pokračování v protinádorové léčbě, doporučena úprava antihypertenzní terapie a pravidelné kontroly u praktického lékaře.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-22</datum>
+      <typ>A-ONK3</typ>
+      <text>Onkologická kontrola v průběhu paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater. Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu, zvládá však základní sebeobsluhu. Subjektivně udává kolísající bolesti kostí, bez významné nauzey či zvracení, bez klidové dušnosti. Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru, axila s drobnými tuhými uzlinami. Laboratorně přiměřený krevní obraz, mírně zvýšené jaterní testy. Závěr: pokračovat v aktuální léčbě za pečlivého monitorování toxicity a bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-24</datum>
+      <typ>A-ONKH</typ>
+      <text>Onko-hematologická konzultace po zobrazení mozku a dalších částí skeletu. Potvrzena diseminace onemocnění s postižím mozkového parenchymu a mnohačetnými kostními metastázami. Onko-hematolog doporučuje zachovat stávající systémovou léčbu a soustředit se na symptomatickou kontrolu bolesti a neurologických obtíží, případně doplnit lokální radioterapii na nejvíce symptomatická ložiska.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-25</datum>
+      <typ>A-KF</typ>
+      <text>Klinicko-farmaceutická konzultace. Zhodnocena chronická medikace včetně imunosupresiv při revmatoidní artritidě, analgetik a suplementů. Upozornění na sníženou funkci jediné ledviny a zvýšenou hodnotu kalcia. Nebyly nalezeny zásadní interakce s plánovanou protinádorovou léčbou, doporučeno sledování renálních funkcí, elektrolytů a úprava dávek analgetik podle aktuálního stavu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-25</datum>
+      <typ>RT</typ>
+      <text>Radioterapeutické vyšetření. Důvodem je paliativní ozáření bolestivých kostních ložisek v oblasti páteře a pánevního skeletu a případně radioterapie prsu. Pacientka přichází s výraznými bolestmi při chůzi a při změně polohy. Vysvětlen cíl léčby – úleva od bolesti a snížení rizika patologických fraktur. Naplánováno krátké frakcionované schéma s ohledem na celkový stav a probíhající systémovou léčbu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-25</datum>
+      <typ>A-KTPP</typ>
+      <text>Konzultace paliativního týmu. Přítomna pacientka a blízká osoba. Diskutovány možnosti domácí péče, úprava prostředí z hlediska prevence pádů a plánování budoucí léčby. Hlavními obtížemi jsou bolesti kostí, únava a obavy z dalšího průběhu onemocnění. Navržena optimalizace analgetické terapie, možnost zapojení domácí ošetřovatelské služby a podpora při zvládání psychické zátěže.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-29</datum>
+      <typ>KOA</typ>
+      <text>Ambulantní kontrola po nedávné hospitalizaci a úpravě analgetické léčby. Pacientka popisuje mírně lepší zvládání běžných denních aktivit, přetrvává však únava a omezená chůze. Bez nových krvácivých projevů, stolice i močení bez patologie. Domluveno pokračování v aktuálním analgetickém režimu, kontrola za několik týdnů nebo dříve při náhlém zhoršení stavu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-30</datum>
+      <typ>A-KTPP</typ>
+      <text>Konzultace paliativního týmu. Přítomna pacientka a blízká osoba. Diskutovány možnosti domácí péče, úprava prostředí z hlediska prevence pádů a plánování budoucí léčby. Hlavními obtížemi jsou bolesti kostí, únava a obavy z dalšího průběhu onemocnění. Navržena optimalizace analgetické terapie, možnost zapojení domácí ošetřovatelské služby a podpora při zvládání psychické zátěže.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-05-31</datum>
+      <typ>A-PALM</typ>
+      <text>Ambulance paliativní medicíny – telefonické sdělení výsledků posledních vyšetření a dalšího postupu. Onemocnění je hodnoceno jako stabilizované, avšak s vysokým rizikem komplikací při pádu nebo infekci. Důraz kladen na kvalitní analgezii, prevenci dekubitů a podporu rodiny v péči o pacientku. Nabídnuta možnost další konzultace dle potřeby.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-06-02</datum>
+      <typ>RT</typ>
+      <text>Radioterapeutické vyšetření. Důvodem je paliativní ozáření bolestivých kostních ložisek v oblasti páteře a pánevního skeletu a případně radioterapie prsu. Pacientka přichází s výraznými bolestmi při chůzi a při změně polohy. Vysvětlen cíl léčby – úleva od bolesti a snížení rizika patologických fraktur. Naplánováno krátké frakcionované schéma s ohledem na celkový stav a probíhající systémovou léčbu.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-06-09</datum>
+      <typ>A-ONK9</typ>
+      <text>Telefonická konzultace – upřesnění termínů kontrol a laboratorních odběrů. S pacientkou (případně rodinným příslušníkem) probrán průběh posledních dní, bez horeček, bez nových neurologických příznaků. Přetrvávají bolesti zad, účinek analgetik je dostatečný. Doporučeno nadále sledovat teplotu, kontaktovat pracoviště při náhlém zhoršení bolestí nebo při pádu, a dostavit se k plánované kontrole včetně krevního obrazu a biochemie.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-07-28</datum>
+      <typ>A-KONZ</typ>
+      <text>První onkologická konzultace pro nově diagnostikovaný karcinom levého prsu u pacientky po menopauze. Nález v horním zevním kvadrantu s kožní infiltrací a hmatnými uzlinami v axile. Subjektivně dominují dlouhodobé bolesti zad a kloubů při známé revmatoidní artritidě, chůze o francouzských holích. Provedeno základní fyzikální vyšetření a kontrola dokumentace z mamologického pracoviště. Závěr: suspektně lokálně pokročilý nádor prsu, nutné dovyšetření a kompletní staging.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-07-28</datum>
+      <typ>A-ONK9</typ>
+      <text>Telefonická konzultace – upřesnění termínů kontrol a laboratorních odběrů. S pacientkou (případně rodinným příslušníkem) probrán průběh posledních dní, bez horeček, bez nových neurologických příznaků. Přetrvávají bolesti zad, účinek analgetik je dostatečný. Doporučeno nadále sledovat teplotu, kontaktovat pracoviště při náhlém zhoršení bolestí nebo při pádu, a dostavit se k plánované kontrole včetně krevního obrazu a biochemie.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-08-14</datum>
+      <typ>A-ECHO</typ>
+      <text>Transtorakální echokardiografie v rámci monitorace kardiální funkce při podaté cílené anti-HER2 léčbě. Levá komora normální velikosti se zachovanou globální systolickou funkcí, ejekční frakce odhadována kolem 60 %. Nevýznamná regurgitace na aortální a mitrální chlopni, bez známek plicní hypertenze. Perikard bez patologického výpotku. Závěr: kardiologicky bez kontraindikace pokračování v současném režimu léčby, doporučeno pravidelné echokardiografické sledování.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-08-15</datum>
+      <typ>A-ONK9</typ>
+      <text>Telefonická konzultace – upřesnění termínů kontrol a laboratorních odběrů. S pacientkou (případně rodinným příslušníkem) probrán průběh posledních dní, bez horeček, bez nových neurologických příznaků. Přetrvávají bolesti zad, účinek analgetik je dostatečný. Doporučeno nadále sledovat teplotu, kontaktovat pracoviště při náhlém zhoršení bolestí nebo při pádu, a dostavit se k plánované kontrole včetně krevního obrazu a biochemie.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-08-23</datum>
+      <typ>A-ONK9</typ>
+      <text>Telefonická konzultace – upřesnění termínů kontrol a laboratorních odběrů. S pacientkou (případně rodinným příslušníkem) probrán průběh posledních dní, bez horeček, bez nových neurologických příznaků. Přetrvávají bolesti zad, účinek analgetik je dostatečný. Doporučeno nadále sledovat teplotu, kontaktovat pracoviště při náhlém zhoršení bolestí nebo při pádu, a dostavit se k plánované kontrole včetně krevního obrazu a biochemie.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-09-05</datum>
+      <typ>A-ONK1</typ>
+      <text>Závěrečné shrnutí v onkologické ambulanci v průběhu dlouhodobé paliativní léčby. Pacientka je nadále sledována v pravidelných intervalech, systémová léčba byla přizpůsobena aktuálnímu výkonostnímu stavu. Přetrvává závislost na pomoci druhé osoby při některých denních činnostech, ale psychicky je pacientka stabilní, informovaná o povaze onemocnění a možnostech další péče. Domluvena další kontrola a možnost kontaktu pracoviště při jakémkoli zhoršení.</text>
+    </zaznam>
+  </pacient>
+</dokumentace>

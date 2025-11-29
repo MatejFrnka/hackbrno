@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dokumentace>
+  <pacient id="HACK01">
+    <zaznam>
+      <datum>2022-08-20</datum>
+      <typ>RT</typ>
+      <text>Důvod odeslání, odesílající lékař, pracoviště:
+Odeslána z dermatologické ambulance regionální nemocnice k posouzení možností radioterapie.
+
+Subjektivní potíže: Dlouhodobě se léčí s rozsáhlým defektem kůže na temeni hlavy po dřívějším úrazu a plastické operaci. V posledním roce pozoruje zvětšování a krvácení kožní léze, z rány vytéká zapáchající sekret. Časté bolesti hlavy, únava, obtížnější spánek.
+Karnofsky index: 70 %
+
+Objektivní vyšetření: Pacientka při vědomí, orientovaná, spolupracující, s pokrývkou hlavy. Na kalvě parietálně vlevo přesahující střední čáru nepravidelné ulcerované ložisko přibližně 14 × 14 cm se šedožlutým povlakem a místy granulační tkání. V centru defektu patrná destrukce kosti kalvy. Okolní kůže ztenčená, zarudlá. Regionální uzliny hmatné nejsou.
+
+Histologie z předchozí biopsie: invazivní dlaždicobuněčný karcinom kůže s ulcerací, středně až málo diferencovaný, nádor zasahuje do okrajů odebraného vzorku.
+
+Zobrazovací metody:
+CT kalvy: defekt kosti parietálně vlevo šíře cca 5 cm se známkami zánětlivých změn v měkkých tkáních, podezření na intrakraniální propagaci.
+RTG plic: bez známek ložiskových změn.
+
+Diagnostický souhrn:
+Pokročilý spinocelulární karcinom kalvy, stav po starší traumatické a plastické operaci temene.
+Pacientka dosud sledována v rámci domácí ošetřovatelské péče.
+
+Léčebná rozvaha:
+Indikujeme paliativní radioterapii v oblasti kalvy s cílem snížení bolestivosti a sekrece. Plánováno ozáření prakticky celé kalvy včetně podložené mozkové tkáně pod defektem kosti. Frakcionace 5×2,0 Gy týdně, celková dávka 50 Gy podle tolerance. Ošetřovatelské převazy v ambulanci radioterapie během celé léčby.
+
+Závěr:
+1. dg: Zhoubný novotvar kůže NS [C44.9]
+Morfologie: dlaždicobuněčný karcinom, 8070/3
+
+Péče bude poskytnuta ambulantně ve spolupráci s domácí ošetřovatelskou službou. Pacientka poučena o průběhu radioterapie, akutních i pozdních nežádoucích účincích a podepsala informovaný souhlas.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-05</datum>
+      <typ>PAT-B</typ>
+      <text>Makroskopický nález:
+Odeslány čtyři válečky tkáně o celkové délce 12 mm z rezistence v pravém prsu, uložené v 10% formalínu. Materiál kompletně zpracován.
+
+Mikroskopický nález:
+Ve všech vzorcích je přítomen invazivní karcinom s převážně solidní a kribriformní architekturou s výraznou extracelulární mukoprodukcí. Jaderný grade střední, mitózy ojedinělé. V okolí ložisek nádorových buněk jsou nápadné proužky hyalinního vaziva. Nejsou přítomny myoepiteliální buňky (IHC p63 negativní), nález podporuje invazivní charakter léze.
+
+Imunohistochemické vyšetření:
+ER: 100 % pozitivních nádorových buněk se silnou jadernou reakcí.
+PR: cca 10 % nádorových buněk se slabou až střední jadernou reakcí.
+Ki67: proliferace nízká, odhad 3 %.
+
+Závěr:
+Core biopsie pravého prsu: invazivní mucinózní karcinom, celulární typ, odpovídající středně diferencovanému nádoru (G2). Diferenciálně diagnosticky se zvažuje i solidně papilární karcinom, pro stávající terapii bez významu. ER 100 %, PR 10 %, Ki67 3 %, HER2 bude došetřen zvláštním vyšetřením.
+
+KLASIFIKACE:
+Topografie (ICD-O-3): C50.1 (pravý prs, centrální oblast)
+Morfologie (ICD-O-3): 8480/3
+
+PŘÍJEM: 4. 10. 2022
+PROVEDENO: 5. 10. 2022
+
+Vyšetřující patolog: specialista na mamární patologii.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-07</datum>
+      <typ>PAT-B</typ>
+      <text>HER2 imunohistochemicky:
+
+Z parafinového bloku z core biopsie pravého prsu byla provedena imunohistochemická reakce pomocí certifikovaného kitu s monoklonální protilátkou proti HER2. Hodnocena byla pouze membránová pozitivita v oblasti invazivního karcinomu.
+
+Výsledek:
+Membránová pozitivita v nádorových buňkách nebyla prokázána.
+IHC skóre: 0 (negativní).
+
+Interpretace:
+Karcinom prsu je HER2 negativní ve smyslu platných indikačních kritérií. FISH vyšetření není indikováno.
+
+PŘÍJEM: 5. 10. 2022
+PROVEDENO: 7. 10. 2022
+
+Vyšetřující patolog: specialista na prediktivní markery.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-14</datum>
+      <typ>A-MCH1</typ>
+      <text>Chirurgická mamární ambulance – první vyšetření pro nově diagnostikovaný nádor prsu.
+
+Pacientka je v průběhu paliativní radioterapie pro spinocelulární karcinom kalvy. Při hygieně zaznamenala hmatnou rezistenci v pravém prsu v oblasti za dvorcem. Praktický lékař ji odeslal do mamární poradny.
+
+Subjektivně: Neudává bolesti v prsu, nevšimla si sekrece z bradavky, bez celkových B-symptomů. Únavu přikládá probíhající radioterapii a chronickému defektu na hlavě.
+
+Doposud provedená vyšetření:
+UZ prsu: oválná hypoechogenní léze v pravém prsu za dvorcem, cca 24 × 16 × 20 mm, bez zjevné infiltrace pektorální fascie; axilární uzliny normálního vzhledu.
+Core biopsie: invazivní mucinózní karcinom G2, ER 100 %, PR 10 %, Ki67 3 %, HER2 negativní (0).
+
+Klinické vyšetření:
+Prsy symetrické, ptotické. Vpravo v zóně za dvorcem v horním zevním kvadrantu hmatná tužší rezistence cca 3 cm, poměrně dobře ohraničená, volně posunlivá vůči hrudní stěně. Kůže bez známek retrakce, bez „peau d'orange“. V axilách nehmatné patologicky zvětšené uzliny.
+
+MG není zatím k dispozici, bude doplněno oboustranné MG vyšetření.
+
+Závěr:
+Suspektní nádor pravého prsu – verifikovaný invazivní mucinózní karcinom, klinicky cT2N0.
+
+Doporučení:
+Doplnit bilaterální mamografii a standardní staging (UZ jater, RTG plic). V případě nepřítomnosti vzdálených metastáz plánujeme prs zachovávající výkon – parciální mastektomii pravého prsu s biopsií sentinelové uzliny (SNB). Definitivní rozhodnutí o rozsahu operace po doplnění zobrazení.
+
+Pacientka je o plánovaném postupu informována, souhlasí, žádá pokud možno krátkou hospitalizaci a koordinaci termínu s ošetřovatelskou péčí o defekt na hlavě.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-18</datum>
+      <typ>RT</typ>
+      <text>Kontrolní vyšetření při ukončení radioterapie kalvy.
+
+Diagnóza a klasifikace:
+1. dg: Zhoubný novotvar kůže NS [C44.9], morfologie: dlaždicobuněčný karcinom, 8070/3
+Diagnostický souhrn:
+Spinocelulární karcinom kalvy, stav po starším poranění a plastice.
+Ošetřována v rámci domácí péče, po dobu radioterapie docházela k převazům na naše pracoviště.
+Radioterapie kalvy provedena v rozsahu 25×2,0 Gy technikou VMAT, ukončena dne 18. 10. 2022, kožní toxicita max. G1.
+
+Během léčby nově diagnostikován:
+Invazivní mucinózní karcinom pravého prsu (ER 100 %, PR 10 %, HER2 0, Ki67 nízké), klinicky dle UZ přibližně 24 × 16 × 20 mm, axily bez suspektních uzlin, MG dosud neprovedena.
+
+Průběh radioterapie:
+Léčba byla dobře tolerována, subjektivně úleva od bolesti v oblasti defektu, pokles zápachu a sekrece pouze částečný. V závěru léčby kůže v ozařovaném poli erytematózní s jemným olupováním, bez hlubokých nekróz.
+
+Stav při ukončení léčby:
+Karnofsky index: 70 %
+Subjektivní potíže: udává obavy z další léčby nádoru prsu, jinak bez nových obtíží.
+Objektivně: kardiopulmonálně kompenzovaná, břicho klidné, DK bez otoků. Na temeni přetrvává ulcerace s usurací kosti, velikost ložiska se během RT významně nezměnila, okraje jsou klidnější.
+
+Závěr a doporučení:
+Radioterapie kalvy ukončena dle plánu, efekt parciální.
+Vzhledem k nově diagnostikovanému karcinomu prsu probíhá doplnění stagingu a plánuje se prs zachovávající operace. Termín onkochirurgické kontroly v mamární ambulanci byl pacientce sdělen, kontrola v radioterapeutické ambulanci za 4–6 týdnů s ohledem na stav defektu na hlavě.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-20</datum>
+      <typ>A-MCH1</typ>
+      <text>Kontrola v mamární chirurgické ambulanci s doplněným zobrazením.
+
+Mamografie oboustranná:
+Středně denzní fibroglandulární struktura typu Tabár I. V levém prsu bez ložiskových změn. V pravém prsu centrálně a do horního zevního kvadrantu neostře ohraničené ztluštění parenchymu odpovídající známému nádoru, bez podezřelých mikrokalcifikací. Axilární uzliny nejsou patrné.
+
+UZ jater a RTG plic:
+Bez průkazu vzdálených metastáz.
+
+Závěr:
+Známá malignita pravého prsu – invazivní mucinózní karcinom G2, klinické stadium cT2N0M0.
+
+Doporučení:
+Platí plán prs zachovávajícího výkonu – parciální mastektomie pravého prsu po UZ lokalizaci ložiska a biopsie sentinelové uzliny. Pacientka preferuje hospitalizaci v pracovních dnech s možností zajištění doprovodu. Termín operace předběžně stanoven na první polovinu listopadu, anesteziologické vyšetření a přijetí den před výkonem.
+
+Vzhledem k souběžné léčbě rozsáhlého defektu kalvy je nutná úzká spolupráce s radioterapeutickou ambulancí a domácí péčí ohledně převazů.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-10-27</datum>
+      <typ>A-MAM</typ>
+      <text>Zápis z mamární komise – primární rozhodnutí před operací.
+
+Podklady:
+Klinické vyšetření, mamografie a UZ prsu, core biopsie s imunohistochemickým vyšetřením, základní staging.
+
+Shrnutí nálezu:
+Invazivní mucinózní karcinom pravého prsu, centrální oblast, velikost dle zobrazovacích metod přibližně 2–2,5 cm, bez průkazu postižení axilárních uzlin a bez známek vzdálených metastáz.
+Receptorový profil: ER 100 %, PR 10 %, HER2 0, Ki67 nízké.
+Souběžně proběhlá paliativní radioterapie pro pokročilý spinocelulární karcinom kalvy, významná komorbidita.
+
+Závěr komise:
+1) Indikována parciální mastektomie pravého prsu s biopsií sentinelové uzliny (SNB).
+2) V případě peroperačního nálezu vícečetného či rozsáhlejšího ložiska je možné zvážit rozšíření výkonu, ale preferujeme zachování prsu.
+3) Předpokládá se následná adjuvantní hormonoterapie a podle definitivního histologického výsledku též adjuvantní radioterapie prsu, pokud to dovolí celkový stav pacientky.
+
+Pacientka nebude komisi osobně přítomna, o závěrech bude informována ošetřujícím chirurgem.
+
+Zapsal: člen mamární komise, onkochirurg.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-08</datum>
+      <typ>A-ARO</typ>
+      <text>Předoperační anesteziologické vyšetření.
+
+Základní diagnóza:
+Karcinom pravého prsu – plánovaná parciální mastektomie + SNB.
+
+Osobní anamnéza:
+Vzdáleně prodělané těžké poranění hlavy s následnou plastickou operací, nyní s chronickým defektem kůže a proběhlou paliativní radioterapií.
+V minulosti sledována pro chronickou pyelonefritidu, aktuálně bez obtíží. Dále cholecystolithiasa, degenerativní postižení pohybového aparátu, depresivní syndrom a poruchy spánku.
+
+Farmakologická anamnéza:
+Dlouhodobě antidepresivum ze skupiny trazodon, analgetika dle potřeby.
+
+Alergie:
+Uvedena nesnášenlivost jednoho nesteroidního antiflogistika, aktuálně bez projevů, jinak bez známých lékových alergií.
+
+Vyšetření:
+EKG: sinusový rytmus, bez známek akutní ischemie.
+RTG plic: bez výraznější patologie.
+Laboratorní výsledky: hemoglobin 120 g/l, koagulační parametry v normě, základní biochemie v mezích.
+
+Fyzikální nález:
+Hmotnost 70 kg, mírná hypertenze, jinak kardiopulmonálně kompenzovaná, bez známek srdečního selhání, bez klidové dušnosti.
+
+Zhodnocení rizika:
+Pacientka ASA II. Ze systémového hlediska je schopna podstoupit výkon v celkové anestezii. Rizika a možné komplikace operace i anestezie vysvětlena, pacientka dotazy nemá, souhlasí s plánovaným výkonem a stvrdila jej podpisem.
+
+Premedikace:
+Večer před výkonem anxiolytikum, ráno v den výkonu lehká premedikace a analgetikum per os.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-08</datum>
+      <typ>A-KF</typ>
+      <text>Vstupní konzultace klinického farmaceuta.
+
+Byla ověřena aktuální chronická medikace podle dokumentace a rozhovoru s pacientkou. Rizikové faktory lékových problémů (polypragmazie, závažné interakce, nedostatečná adherence) nebyly zjištěny.
+
+Závěr:
+Pacientka má nízké riziko výskytu lékových problémů během plánované hospitalizace. Chronická medikace je ve vztahu k základním diagnózám vhodně nastavena. Vstupní medikace i navržená premedikace z anesteziologického hlediska jsou akceptovatelné. Další sledování klinickým farmaceutem není rutinně nutné, je možné podle klinické potřeby.
+
+Zapsal: klinický farmaceut.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-10</datum>
+      <typ>OMKOCH</typ>
+      <text>Přijetí na onkochirurgické oddělení a průběh hospitalizace.
+
+Rodinná a sociální anamnéza:
+V rodině se nádorová onemocnění prsu nevyskytují. Pacientka žije v domácnosti s rodinou, je v důchodu, dříve manuálně pracovala.
+
+Osobní anamnéza:
+Viz dřívější dokumentace – chronické onemocnění ledvin v minulosti, stav po úrazu hlavy a plastické operaci, nyní spinocelulární karcinom v oblasti jizvy po úrazu léčený paliativní radioterapií. Depresivní syndrom, poruchy spánku.
+
+Subjektivní stav při přijetí:
+Bez akutních potíží, neudává klidovou bolest, lehká úzkost před výkonem. Močení a stolice pravidelné, dušnost či stenokardie popírá.
+
+Objektivní vyšetření:
+Výška 173 cm, hmotnost 70 kg, TK 150/85 mmHg, puls 80/min. Pacientka lucidní, orientovaná, dýchání klidné, srdeční akce pravidelná, břicho klidné, DK bez otoků. 
+St. localis: prsy volumózní a ptotické, v pravém prsu za dvorcem hmatná rezistence cca 3 cm, pohyblivá, bez kožních změn. Axily bez hmatných patologických uzlin. Na temeni rozsáhlý defekt po spinocelulárním karcinomu, pravidelně převazován.
+
+Plán diagnosticko‑léčebné péče:
+Parciální mastektomie pravého prsu se SNB, během hospitalizace pokračovat v převazech defektu na hlavě.
+
+Průběh:
+Dne 10. 11. 2022 provedena parciální mastektomie pravého prsu s biopsií sentinelové uzliny. Operační výkon i bezprostřední pooperační průběh bez komplikací. Pacientka afebrilní, hemodynamicky stabilní, drenáže postupně odstraněny, rány klidné, horní končetina bez otoku a poruchy hybnosti. Defekt na hlavě převazován ve spolupráci s ošetřovatelským personálem.
+
+Závěr:
+Diagnóza: karcinom pravého prsu, klinicky cT2N0M0.
+Operace: parciální mastektomie pravého prsu + biopsie sentinelové uzliny.
+
+Doporučení při propuštění:
+Propuštěna do domácí péče ve stabilizovaném stavu. Rány v oblasti prsu možno sprchovat, ponechat volně, vhodné nošení podprsenky. Kontrola u praktického lékaře do 3 dnů od propuštění, další pracovní neschopnost dle stavu. Kontrola v mamární chirurgické ambulanci s výsledkem definitivní histologie bude sdělena samostatně. Dočasně profylaxe nízkomolekulárním heparinem, analgetika dle potřeby. Převazy defektu kalvy nadále cestou domácí péče, zajištěny potřebné pomůcky.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-22</datum>
+      <typ>RT</typ>
+      <text>Radioterapeutická ambulance – kontrola po operaci prsu.
+
+Důvod odeslání:
+Kontrola stavu po radioterapii kalvy a po recentní parciální mastektomii pravého prsu. Zhoršení soběstačnosti.
+
+Subjektivní potíže:
+Pacientka udává pád v domácím prostředí s poraněním levého zápěstí, nyní v dlaze. Od pádu je výrazně méně soběstačná, většinu dne tráví na lůžku, potřebuje pomoc rodiny. Rána na prsu ji nebolí, obtěžuje ji spíše přetrvávající defekt na hlavě.
+
+Karnofsky index: 40–50 %.
+
+Objektivní vyšetření:
+Kardiopulmonálně kompenzovaná, přivezena transportní službou na sedačce. Na levé horní končetině dlahová fixace zápěstí. Na kalvě přetrvává rozsáhlý defekt s ulcerací a sekrecí, velikost bez jednoznačné regrese. V oblasti pravého prsu pooperační jizva v centrální části, klidná, bez zarudnutí, bez známek recidivy. Axily bez hmatného nálezu.
+
+Diagnostický souhrn:
+1) Pokročilý spinocelulární karcinom kalvy – stav po paliativní RT, efekt částečný, ulcerace přetrvává.
+2) Nádorová duplicita – invazivní mucinózní karcinom pravého prsu, stav po parciální mastektomii a SNB; definitivní histologický nález dosud není k dispozici.
+
+Léčebná rozvaha:
+Další onkologický plán bude určen na základě výsledku pooperační histologie a doporučení mamární komise. Vzhledem k výraznému snížení soběstačnosti je indikována každodenní ošetřovatelská péče blízkou osobou či domácí zdravotní službou. Vzhledem k omezené mobilitě a schopnosti komunikace je nadále indikovaný převoz sanitním vozem s doprovodem.
+
+Závěr:
+Prioritní je symptomatická a ošetřovatelská péče o defekt na hlavě a zajištění bezpečnosti v domácím prostředí. Další radioterapeutické postupy budou zvažovány podle celkového stavu a závěrů mamární komise.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-11-24</datum>
+      <typ>A-MCH1</typ>
+      <text>Chirurgická kontrola 14 dní po parciální mastektomii se SNB pravého prsu.
+
+Pacientka udává, že s prsem nemá potíže, bez známek infekce či krvácení. V mezidobí došlo k pádu s frakturou levého předloktí, ošetřeno v regionální nemocnici, nyní sádrová fixace.
+
+Objektivně:
+Pooperační rány na prsu i v axile klidné, bez sekrece, bez hematomu. Extrahovány kožní stehy. Otok horní končetiny nepozorován, hybnost zatím mírně omezená pro bolest.
+
+Definitivní histologické vyšetření resekátu prsu a sentinelové uzliny zatím není k dispozici.
+
+Závěr:
+Po chirurgické stránce je hojení příznivé, je možný návrat k běžnému dennímu režimu s omezením větší fyzické zátěže a s ohledem na frakturu levé horní končetiny.
+
+Doporučení:
+Další onkologický postup bude stanoven na základě výsledku histologie v rámci mamární komise. Pacientka bude o doporučeném postupu a termínu kontroly informována telefonicky, vzhledem k omezené mobilitě bude zajištěn transport. Kontrola v chirurgické ambulanci pouze v případě komplikací (horečka, zarudnutí rány, sekrece apod.).</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-12-02</datum>
+      <typ>PAT-B</typ>
+      <text>Definitivní histologické vyšetření pooperačního materiálu.
+
+Makroskopický nález:
+1) Parciální mastektomie pravého prsu: orientovaný resekát velikosti 60 × 60 × 40 mm s přiloženým označením okrajů. V centrální části je patrné tužší ložisko 23 × 18 mm, promítající se k mediálním a kraniálním okrajům. Vzdálenost tumoru od všech resekčních okrajů minimálně 10 mm. Přilehlý úsek fascie bez makroskopické infiltrace.
+2) Sentinelová uzlina: jedna uzlina velikosti cca 10 mm.
+
+Mikroskopický nález:
+V resekátu prsu je přítomen invazivní karcinom s výraznou extracelulární mukoprodukcí, solidně kribriformní stavby. Nádorové buňky tvoří okrouhlé hnízda oddělená proužky vaziva, jádra mírně variabilní, mitózy do 3/10 HPF. Angioinvaze neprokázána. Laterálně, 0,5 mm od resekční linie, je drobný fokus duktálního karcinomu in situ (DCIS) kribriformní stavby G1 o velikosti asi 2 mm, nález hraniční s atypickou duktální hyperplazií. Resekční linie jsou pro invazivní komponentu negativní.
+
+Sentinelová uzlina:
+Jedna mízní uzlina, v rutinních řezech bez metastáz. Po seriovém prořezání a imunohistochemické detekci cytokeratinu nebyla zjištěna metastatická infiltrace.
+
+Imunohistochemie:
+Prediktivní faktory (ER, PR, HER2) byly vyšetřeny již z core biopsie: ER 100 %, PR 10 %, HER2 0. Aktuálně opakováno Ki67: 7 %.
+
+Závěr:
+Invazivní mucinózní karcinom prsu, celulární typ, G2, s mikrofokusem DCIS G1 v laterálním okraji (0,5 mm od resekční linie). Resekční linie pro invazivní karcinom negativní (R0). Angioinvaze neprokázána. Sentinelová uzlina bez metastatického postižení (0/1).
+
+KLASIFIKACE:
+Topografie (ICD-O-3): C50.4 (pravý prs, horní zevní kvadrant)
+Morfologie (ICD-O-3): 8480/3
+pTNM (8. vydání): pT2 (23 mm) pN0(i−)(sn) M0, L0, V0, R0
+
+PŘÍJEM: 11. 11. 2022
+PROVEDENO: 2. 12. 2022
+
+Vyšetřující patolog: mamární specialista.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-12-06</datum>
+      <typ>A-MAM</typ>
+      <text>Zápis z mamární komise – pooperační.
+
+Podklady:
+Definitivní histologický protokol po parciální mastektomii a SNB, předchozí dokumentace.
+
+Shrnutí:
+Invazivní mucinózní karcinom pravého prsu, G2, velikost 23 mm, ER 100 %, PR 10 %, HER2 negativní, Ki67 7 %. R0 resekce pro invazivní komponentu, mikrofokus DCIS G1 v těsné blízkosti laterálního okraje. Sentinelová uzlina bez metastáz (0/1). 
+Klinický stav pacientky je ovlivněn současnou pokročilou malignitou kalvy, po paliativní radioterapii, a sníženou soběstačností.
+
+Závěr komise:
+1) Doporučena adjuvantní hormonoterapie – zahájit tamoxifen s následným přechodem na inhibitor aromatázy podle tolerance a vývoje, celková předpokládaná délka 7–8 let s ohledem na biologii nádoru.
+2) Standardně by byla indikována adjuvantní radioterapie pravého prsu po prs zachovávajícím výkonu, u této pacientky však nutno zohlednit celkový stav. O konečné indikaci rozhodne radioterapeut při osobní konzultaci.
+3) Chemoterapie vzhledem k nízkému proliferačnímu indexu a komorbiditám není doporučena.
+
+Pacientka nebyla jednání přítomna, o závěrech bude informována ošetřujícím onkologem.
+
+Zapsal: člen mamární komise.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2022-12-15</datum>
+      <typ>RT</typ>
+      <text>Radioterapeutické konzilium pro karcinom pravého prsu.
+
+Důvod odeslání:
+Posouzení indikace adjuvantní radioterapie pravého prsu po parciální mastektomii u pacientky s nádorovou duplicitou a omezenou soběstačností.
+
+Subjektivní potíže:
+Pacientka udává únavu, obtížnější přesuny v domácnosti, většinu času tráví na lůžku. Hlava bolí při převazech, občasné bolesti tlumí analgetiky. V oblasti prsu je bez výraznějších obtíží.
+
+Objektivní vyšetření:
+Karnofsky index: 60–70 %. Oběhově kompenzovaná, bez klidové dušnosti, přivezena na sedačce. Pooperační nález na pravém prsu klidný, bez známek recidivy, jizvy dobře zhojené. Na kalvě přetrvává ulcerovaný defekt, rozsah zhruba stacionární, s chronickou sekrecí.
+
+Diagnostický souhrn:
+1) Spinocelulární karcinom kalvy – stav po paliativní radioterapii 25×2,0 Gy, přetrvává ulcerace, symptomatická léčba.
+2) Invazivní mucinózní karcinom pravého prsu – stav po parciální mastektomii + SNB, pT2N0M0, ER 100 %, PR 10 %, HER2 0, Ki67 7 %, R0 resekce, mikrofokus DCIS.
+
+Léčebná rozvaha:
+S ohledem na duplicitní nádorové onemocnění, přetrvávající rozsáhlý defekt na hlavě, sníženou soběstačnost a očekávaný přínos vs. zátěž další radioterapie se adjuvantní ozáření prsu v tomto stadiu nedoporučuje. Upřednostňujeme zahájení hormonální léčby podle interního stavu a pečlivou klinickou kontrolu prsu.
+
+Závěr:
+Adjuvantní radioterapie pravého prsu není indikována.
+Pacientce bude při stabilizaci celkového stavu doporučeno zahájení hormonoterapie ve spolupráci s klinickým onkologem. Nadále trvá potřeba pravidelných převazů defektu kalvy a symptomatické léčby bolesti.</text>
+    </zaznam>
+    <zaznam>
+      <datum>2023-03-01</datum>
+      <typ>RT</typ>
+      <text>Dispenzární kontrola na radioterapeutické ambulanci.
+
+Karnofsky index: přibližně 50 %.
+
+Subjektivní potíže:
+Pacientka nemá výrazné klidové bolesti, bolest se zhoršuje při převazu defektu na hlavě a při delším ležení na postižené straně. Udává točení hlavy. Z důvodu kognitivního deficitu není schopna plně předávat informace, anamnestické údaje doplňuje doprovod (rodinný příslušník). Hormonoterapie pro karcinom prsu dosud nezahájena, vzhledem k celkovému stavu byla léčba opakovaně odložena.
+
+Objektivní vyšetření:
+Pacientka na transportní sedačce, kardiopulmonálně kompenzovaná. Na temeni přetrvává defekt s usurací kosti, rozsah spíše mírně progreduje, ulcerace zasahuje většinu kalvy. Kůže v okolí zarudlá, místy macerovaná. V oblasti pravého prsu jizvy po operaci klidné, bez hmatné recidivy či nových ložisek. Axilární oblasti bez suspektních uzlin.
+
+Diagnostický souhrn:
+1) Pokročilý spinocelulární karcinom kalvy po paliativní radioterapii, nyní s dominující ulcerací a lokálními obtížemi.
+2) Ca mammae pravého prsu – stav po parciální mastektomii a SNB, pT2N0M0, hormonálně senzitivní nádor, adjuvantní radioterapie nebyla indikována, hormonální léčba dosud nezahájena vzhledem k celkovému stavu.
+
+Doporučení:
+Nadále pravidelné převazy defektu na hlavě cestou domácí ošetřovatelské péče, doporučena změna krytí s využitím moderních antiseptických a vlhkých hojení podporujících materiálů. Důsledná analgezie – transdermální opioid v kombinaci s krátkodobě působícím analgetikem před převazy. 
+Adjuvantní hormonoterapie nyní vzhledem k omezené prognóze a zátěži léčby neindikována, dominantní je symptomatická a paliativní péče. Další sledování v péči praktického lékaře a regionální onkologie, naše pracoviště k dispozici ke konzultaci.
+
+Chronická kožní toxicita po RT: G1–G2 v oblasti kalvy.</text>
+    </zaznam>
+  </pacient>
+</dokumentace>
