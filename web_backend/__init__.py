@@ -4,8 +4,6 @@ load_dotenv()
 from flask import Flask, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 
-from llm_backend import LLMBackend
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -135,6 +133,12 @@ def home():
 def current_batch() -> Batch:
     bt = Batch.query.where(Batch.done.isnot(None)).order_by(Batch.done.desc()).first()
     return bt
+
+
+@app.route('/api/process')
+def process_api():
+    run.process_batches()
+    return redirect('/')
 
 
 @app.route('/api/dashboard')
