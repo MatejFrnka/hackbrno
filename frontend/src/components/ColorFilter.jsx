@@ -2,6 +2,7 @@
 const ColorFilter = ({
     items = [],
     selectedIds = [],
+    containedIds = new Set(),
     onToggle,
     onClear,
     compact = false,
@@ -29,36 +30,57 @@ const ColorFilter = ({
                     {items?.map((item) => {
                         const isSelected = selectedIds?.includes(item.id);
                         const isHovered = hoveredId !== null && Number(item.id) === Number(hoveredId);
+                        const isContained = containedIds?.has(item.id);
+
                         return (
                             <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => onToggle(item.id)}
-                                className={`group flex items-start gap-2 rounded-lg px-2 py-1.5 text-left transition-all ${isSelected
-                                    ? 'bg-slate-900'
-                                    : 'hover:bg-slate-50'
-                                    }`}
-                            >
-                                {showColorIndicator ? (
-                                    <span
-                                        className={`w-3 h-3 rounded-full flex-shrink-0 mt-0.5 ${isSelected ? 'ring-2 ring-white' : ''
-                                            }`}
-                                        aria-hidden="true"
-                                        style={{ backgroundColor: item.color }}
-                                    />
-                                ) : (
-                                    <span
-                                        className={`w-3 h-3 rounded flex-shrink-0 mt-0.5 ${isSelected ? 'bg-white' : 'bg-slate-300'
-                                            }`}
-                                        aria-hidden="true"
-                                    />
-                                )}
-                                <span className={`text-[11px] leading-tight transition-[font-weight] duration-200 ${isSelected ? 'text-white' : 'text-slate-600'
-                                    } ${isHovered ? 'font-bold' : ''}`}>
-                                    {item.label || item.text}
-                                </span>
-                            </button>
-                        );
+                                        key={item.id}
+        type="button"
+        disabled={!isContained}
+        onClick={isContained ? () => onToggle(item.id) : undefined}
+        className={`
+            group flex items-start gap-2 rounded-lg px-2 py-1.5 text-left transition-all
+
+            ${isContained
+                ? (isSelected ? 'bg-slate-900' : 'hover:bg-slate-50')
+                : 'bg-gray-200 opacity-50'
+            }
+        `}
+    >
+        {showColorIndicator ? (
+            <span
+                className={`
+                    w-3 h-3 rounded-full flex-shrink-0 mt-0.5
+                    ${isSelected ? 'ring-2 ring-white' : ''}
+                    ${!isContained ? 'opacity-40' : ''}
+                `}
+                aria-hidden="true"
+                style={{ backgroundColor: item.color }}
+            />
+        ) : (
+            <span
+                className={`
+                    w-3 h-3 rounded flex-shrink-0 mt-0.5
+                    ${isSelected ? 'bg-white' : 'bg-slate-300'}
+                    ${!isContained ? 'opacity-40' : ''}
+                `}
+                aria-hidden="true"
+            />
+        )}
+
+        <span
+            className={`
+                text-[11px] leading-tight transition-[font-weight] duration-200
+                ${isSelected ? 'text-white' : 'text-slate-600'}
+                ${isHovered && isContained ? 'font-bold' : ''}
+                ${!isContained ? 'opacity-60' : ''}
+            `}
+        >
+            {item.label || item.text}
+        </span>
+    </button>
+);
+
                     })}
                 </div>
             </div>

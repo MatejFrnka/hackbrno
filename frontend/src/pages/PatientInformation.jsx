@@ -242,6 +242,7 @@ const PatientInformation = () => {
                                 <ColorFilter
                                     items={patient.questions?.map(q => ({ id: q.id, label: q.text, color: q.color })) || []}
                                     selectedIds={selectedQuestionIds}
+                                    containedIds={patient.answeredQuestions}
                                     onToggle={handleToggleQuestion}
                                     onClear={() => setSelectedQuestionIds([])}
                                     compact
@@ -254,6 +255,7 @@ const PatientInformation = () => {
                                 <ColorFilter
                                     items={documentTypes}
                                     selectedIds={selectedTypeIds}
+                                    containedIds={new Set(documentTypes.map(x => x.id))}
                                     onToggle={handleToggleType}
                                     onClear={() => setSelectedTypeIds([])}
                                     compact
