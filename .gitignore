@@ -1,5 +1,7 @@
-__pycache__/
-.idea/
 node_modules
+.env
+.python-version
+__pycache__/
+.DS_Store
 .vite
 *.db

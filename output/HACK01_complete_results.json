@@ -1,0 +1,1148 @@
+{
+  "metadata": {
+    "patient_id": "HACK01",
+    "num_records": 16,
+    "duplicates_removed": 0,
+    "date_range": {
+      "first": "2022-08-20",
+      "last": "2023-03-01"
+    },
+    "record_types": {
+      "RT": 5,
+      "PAT-B": 3,
+      "A-MCH1": 3,
+      "A-MAM": 2,
+      "A-ARO": 1,
+      "A-KF": 1,
+      "OMKOCH": 1
+    },
+    "processing_timestamp": "2025-11-29T12:48:35.652231"
+  },
+  "extractions": {
+    "diagnosis_dates": [
+      {
+        "date": "2022-10-05",
+        "inferred": true,
+        "notes": null,
+        "spans": [
+          {
+            "text": "PROVEDENO: 5. 10. 2022",
+            "start": 1154,
+            "end": 1176,
+            "record_id": "HACK01_1",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "date": null,
+        "inferred": true,
+        "notes": null,
+        "spans": [
+          {
+            "text": "první vyšetření pro nově diagnostikovaný nádor prsu",
+            "start": 32,
+            "end": 83,
+            "record_id": "HACK01_3",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "date": null,
+        "inferred": true,
+        "notes": null,
+        "spans": [
+          {
+            "text": "Během léčby nově diagnostikován:\nInvazivní mucinózní karcinom pravého prsu",
+            "start": 464,
+            "end": 538,
+            "record_id": "HACK01_4",
+            "confidence": "low",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "date": "10. 11. 2022",
+        "inferred": true,
+        "notes": null,
+        "spans": [
+          {
+            "text": "Dne 10. 11. 2022 provedena parciální mastektomie pravého prsu s",
+            "start": 1204,
+            "end": 1267,
+            "record_id": "HACK01_9",
+            "confidence": "low",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "date": "2022-11-11",
+        "inferred": true,
+        "notes": null,
+        "spans": [
+          {
+            "text": "PŘÍJEM: 11. 11. 2022",
+            "start": 1733,
+            "end": 1753,
+            "record_id": "HACK01_12",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      }
+    ],
+    "tnm_classifications": [
+      {
+        "value": "cT2N0",
+        "type": "clinical",
+        "spans": [
+          {
+            "text": "klinicky cT2N0",
+            "start": 1186,
+            "end": 1200,
+            "record_id": "HACK01_3",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "value": "cT2N0M0",
+        "type": "clinical",
+        "spans": [
+          {
+            "text": "klinické stadium cT2N0M0",
+            "start": 497,
+            "end": 521,
+            "record_id": "HACK01_5",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "value": "cT2N0M0",
+        "type": "clinical",
+        "spans": [
+          {
+            "text": "klinicky cT2N0M0",
+            "start": 1606,
+            "end": 1622,
+            "record_id": "HACK01_9",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "value": "pT2 (23 mm) pN0(i−)(sn) M0",
+        "type": "pathological",
+        "spans": [
+          {
+            "text": "pTNM (8. vydání): pT2 (23 mm) pN0(i−)(sn) M0",
+            "start": 1675,
+            "end": 1719,
+            "record_id": "HACK01_12",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "value": "pT2N0M0",
+        "type": "pathological",
+        "spans": [
+          {
+            "text": "pT2N0M0",
+            "start": 932,
+            "end": 939,
+            "record_id": "HACK01_14",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "value": "pT2N0M0",
+        "type": "pathological",
+        "spans": [
+          {
+            "text": "pT2N0M0, hormonálně senzitivní nádor",
+            "start": 1064,
+            "end": 1100,
+            "record_id": "HACK01_15",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      }
+    ],
+    "hormone_receptors": [
+      {
+        "type": "ER",
+        "value": "100 % pozitivních",
+        "spans": [
+          {
+            "text": "ER: 100 % pozitivních nádorových buněk se silnou",
+            "start": 559,
+            "end": 607,
+            "record_id": "HACK01_1",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10 %",
+        "spans": [
+          {
+            "text": "PR: cca 10 % nádorových buněk se slabou až střední",
+            "start": 625,
+            "end": 675,
+            "record_id": "HACK01_1",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "negativní",
+        "spans": [
+          {
+            "text": "Karcinom prsu je HER2 negativní ve smyslu platných indikačních kritérií.",
+            "start": 372,
+            "end": 444,
+            "record_id": "HACK01_2",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "ER",
+        "value": "100%",
+        "spans": [
+          {
+            "text": "ER 100 %",
+            "start": 698,
+            "end": 706,
+            "record_id": "HACK01_3",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10%",
+        "spans": [
+          {
+            "text": "PR 10 %",
+            "start": 708,
+            "end": 715,
+            "record_id": "HACK01_3",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "negativní",
+        "spans": [
+          {
+            "text": "HER2 negativní (0)",
+            "start": 727,
+            "end": 745,
+            "record_id": "HACK01_3",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "ER",
+        "value": "100 %",
+        "spans": [
+          {
+            "text": "Invazivní mucinózní karcinom pravého prsu (ER 100 %",
+            "start": 497,
+            "end": 548,
+            "record_id": "HACK01_4",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10 %",
+        "spans": [
+          {
+            "text": "PR 10 %",
+            "start": 550,
+            "end": 557,
+            "record_id": "HACK01_4",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "0",
+        "spans": [
+          {
+            "text": "HER2 0",
+            "start": 559,
+            "end": 565,
+            "record_id": "HACK01_4",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "ER",
+        "value": "100 %",
+        "spans": [
+          {
+            "text": "Receptorový profil: ER 100 %",
+            "start": 381,
+            "end": 409,
+            "record_id": "HACK01_6",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10 %",
+        "spans": [
+          {
+            "text": "Receptorový profil: ER 100 ",
+            "start": 381,
+            "end": 408,
+            "record_id": "HACK01_6",
+            "confidence": "low",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "0",
+        "spans": [
+          {
+            "text": "\nReceptorový profil: ER 10",
+            "start": 380,
+            "end": 406,
+            "record_id": "HACK01_6",
+            "confidence": "low",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "ER",
+        "value": "100 %",
+        "spans": [
+          {
+            "text": "ER 100 %",
+            "start": 1246,
+            "end": 1254,
+            "record_id": "HACK01_12",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10 %",
+        "spans": [
+          {
+            "text": "PR 10 %",
+            "start": 1256,
+            "end": 1263,
+            "record_id": "HACK01_12",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "0",
+        "spans": [
+          {
+            "text": "HER2 0",
+            "start": 1265,
+            "end": 1271,
+            "record_id": "HACK01_12",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "ER",
+        "value": "100 %",
+        "spans": [
+          {
+            "text": "ER 100 %",
+            "start": 210,
+            "end": 218,
+            "record_id": "HACK01_13",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10 %",
+        "spans": [
+          {
+            "text": "PR 10 %",
+            "start": 220,
+            "end": 227,
+            "record_id": "HACK01_13",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "negativní",
+        "spans": [
+          {
+            "text": "HER2 negativní",
+            "start": 229,
+            "end": 243,
+            "record_id": "HACK01_13",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "ER",
+        "value": "100 %",
+        "spans": [
+          {
+            "text": "ER 100 %",
+            "start": 941,
+            "end": 949,
+            "record_id": "HACK01_14",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "PR",
+        "value": "10 %",
+        "spans": [
+          {
+            "text": "PR 10 %",
+            "start": 951,
+            "end": 958,
+            "record_id": "HACK01_14",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "HER2",
+        "value": "0",
+        "spans": [
+          {
+            "text": "HER2 0",
+            "start": 960,
+            "end": 966,
+            "record_id": "HACK01_14",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      }
+    ],
+    "external_treatments": [
+      {
+        "description": "Odeslána z dermatologické ambulance regionální nemocnice",
+        "location": "regionální nemocnice",
+        "spans": [
+          {
+            "text": "Odeslána z dermatologické ambulance regionální nemocnice",
+            "start": 47,
+            "end": 103,
+            "record_id": "HACK01_0",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "Pacientka dosud sledována v rámci domácí ošetřovatelské péče",
+        "location": "domácí ošetřovatelská péče",
+        "spans": [
+          {
+            "text": "Pacientka dosud sledována v rámci domácí ošetřovatelské péče",
+            "start": 1260,
+            "end": 1320,
+            "record_id": "HACK01_0",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "paliativní radioterapie pro spinocelulární karcinom kalvy",
+        "location": null,
+        "spans": [
+          {
+            "text": "v průběhu paliativní radioterapie pro spinocelulární karcinom kalvy",
+            "start": 99,
+            "end": 166,
+            "record_id": "HACK01_3",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "ošetřována v rámci domácí péče",
+        "location": null,
+        "spans": [
+          {
+            "text": "Ošetřována v rámci domácí péče",
+            "start": 253,
+            "end": 283,
+            "record_id": "HACK01_4",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "úzká spolupráce s radioterapeutickou ambulancí a domácí péčí ohledně převazů",
+        "location": "domácí péče",
+        "spans": [
+          {
+            "text": "úzká spolupráce s radioterapeutickou ambulancí a domácí péčí ohledně převazů",
+            "start": 930,
+            "end": 1006,
+            "record_id": "HACK01_5",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "paliativní radioterapie pro pokročilý spinocelulární karcinom kalvy",
+        "location": null,
+        "spans": [
+          {
+            "text": "Souběžně proběhlá paliativní radioterapie pro pokročilý spinocelulární karcinom kalvy",
+            "start": 440,
+            "end": 525,
+            "record_id": "HACK01_6",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "nyní s chronickým defektem kůže a proběhlou paliativní radioterapií",
+        "location": null,
+        "spans": [
+          {
+            "text": "nyní s chronickým defektem kůže a proběhlou paliativní radioterapií",
+            "start": 214,
+            "end": 281,
+            "record_id": "HACK01_7",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "Převazy defektu kalvy",
+        "location": "domácí péče",
+        "spans": [
+          {
+            "text": "Převazy defektu kalvy nadále cestou domácí péče",
+            "start": 2120,
+            "end": 2167,
+            "record_id": "HACK01_9",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "potřebuje pomoc rodiny",
+        "location": "Home care",
+        "spans": [
+          {
+            "text": "potřebuje pomoc rodiny",
+            "start": 351,
+            "end": 373,
+            "record_id": "HACK01_10",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "ošetřeno v regionální nemocnici",
+        "location": null,
+        "spans": [
+          {
+            "text": "ošetřeno v regionální nemocnici",
+            "start": 202,
+            "end": 233,
+            "record_id": "HACK01_11",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "paliativní radioterapii",
+        "location": null,
+        "spans": [
+          {
+            "text": "po paliativní radioterapii",
+            "start": 464,
+            "end": 490,
+            "record_id": "HACK01_13",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "léčba opakovaně odložena",
+        "location": null,
+        "spans": [
+          {
+            "text": "byla léčba opakovaně odložena",
+            "start": 463,
+            "end": 492,
+            "record_id": "HACK01_15",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "pravidelné převazy defektu na hlavě",
+        "location": "domácí ošetřovatelská péče",
+        "spans": [
+          {
+            "text": "pravidelné převazy defektu na hlavě cestou domácí ošetřovatelské péče",
+            "start": 1227,
+            "end": 1296,
+            "record_id": "HACK01_15",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "description": "sledování v péči praktického lékaře a regionální onkologie",
+        "location": "praktický lékař a regionální onkologie",
+        "spans": [
+          {
+            "text": "Další sledování v péči praktického lékaře a regionální onkologie",
+            "start": 1638,
+            "end": 1702,
+            "record_id": "HACK01_15",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      }
+    ],
+    "progressions": [
+      {
+        "type": "zvětšování a krvácení kožní léze",
+        "date": null,
+        "spans": [
+          {
+            "text": "V posledním roce pozoruje zvětšování a krvácení kožní léze",
+            "start": 261,
+            "end": 319,
+            "record_id": "HACK01_0",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "Zhoršení soběstačnosti",
+        "date": null,
+        "spans": [
+          {
+            "text": "Zhoršení soběstačnosti",
+            "start": 160,
+            "end": 182,
+            "record_id": "HACK01_10",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "type": "lokální progrese",
+        "date": null,
+        "spans": [
+          {
+            "text": "rozsah spíše mírně progreduje, ulcerace zasahuje většinu kalvy",
+            "start": 626,
+            "end": 688,
+            "record_id": "HACK01_15",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      }
+    ],
+    "recurrences": [],
+    "metastases": [
+      {
+        "location": "játra",
+        "date": null,
+        "spans": [
+          {
+            "text": "UZ jater a RTG plic:\nBez průkazu vzdálených metastáz",
+            "start": 371,
+            "end": 423,
+            "record_id": "HACK01_5",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "location": "plíce",
+        "date": null,
+        "spans": [
+          {
+            "text": "UZ jater a RTG plic:\nBez průkazu vzdálených metastáz",
+            "start": 371,
+            "end": 423,
+            "record_id": "HACK01_5",
+            "confidence": "medium",
+            "match_index": 0
+          }
+        ]
+      },
+      {
+        "location": "kalva",
+        "date": null,
+        "spans": [
+          {
+            "text": "pokročilou malignitou kalvy",
+            "start": 435,
+            "end": 462,
+            "record_id": "HACK01_13",
+            "confidence": "high",
+            "match_index": 0
+          }
+        ]
+      }
+    ],
+    "counts": {
+      "diagnosis_dates": 5,
+      "tnm_classifications": 6,
+      "hormone_receptors": 21,
+      "external_treatments": 14,
+      "progressions": 3,
+      "recurrences": 0,
+      "metastases": 3
+    }
+  },
+  "deduplication": {
+    "diagnosis_date_duplicates": [
+      {
+        "canonical_extraction": 3,
+        "duplicate_indices": [
+          3,
+          4
+        ],
+        "reasoning": "Both extractions refer to the event of the patient undergoing a procedure related to their treatment. The dates are semantically identical given the closeness in date and the context of medical procedures being documented."
+      }
+    ],
+    "tnm_duplicates": [
+      {
+        "canonical_extraction": 1,
+        "duplicate_indices": [
+          1,
+          2
+        ],
+        "reasoning": "Both entries represent the same clinical TNM classification 'cT2N0M0', described with slightly different spans, but semantically identical and suitable as a clinical stage."
+      },
+      {
+        "canonical_extraction": 4,
+        "duplicate_indices": [
+          4,
+          5
+        ],
+        "reasoning": "The entries 'pT2N0M0' both refer to the same pathological TNM classification. The additional description 'hormonálně senzitivní nádor' in one of them does not change the classification and is considered extra contextual information."
+      }
+    ],
+    "receptor_duplicates": [
+      {
+        "canonical_extraction": 0,
+        "duplicate_indices": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18
+        ],
+        "reasoning": "All represent 'ER: 100% pozitivních'. They indicate that 100% of the estrogen receptors are positive, which is consistent across all extractions."
+      },
+      {
+        "canonical_extraction": 4,
+        "duplicate_indices": [
+          4,
+          7,
+          10,
+          13,
+          16,
+          19
+        ],
+        "reasoning": "All represent 'PR: 10%'. They all indicate that 10% of the progesterone receptors are present, reflecting the same level of positivity."
+      },
+      {
+        "canonical_extraction": 2,
+        "duplicate_indices": [
+          2,
+          5,
+          17
+        ],
+        "reasoning": "All indicate 'HER2: negativní'. They all consistently state the HER2 status as negative."
+      },
+      {
+        "canonical_extraction": 8,
+        "duplicate_indices": [
+          8,
+          11,
+          14,
+          20
+        ],
+        "reasoning": "All represent HER2 as '0', which aligns with a negative status by a specific assessment metric. This represents HER2 negativity similar to 'HER2: negativní'. They are using different terminology but effectively convey the same meaning."
+      }
+    ],
+    "external_treatment_duplicates": [
+      {
+        "canonical_extraction": 2,
+        "duplicate_indices": [
+          2,
+          5,
+          10
+        ],
+        "reasoning": "All entries refer to 'paliativní radioterapie', with some additional context in extractions 2 and 5 about the condition (spinocelulární karcinom kalvy), but the core treatment is the same."
+      },
+      {
+        "canonical_extraction": 1,
+        "duplicate_indices": [
+          1,
+          3
+        ],
+        "reasoning": "Both entries describe the patient being cared for in the context of 'domácí péče' or 'domácí ošetřovatelská péče'. The terms are semantically similar in the context."
+      },
+      {
+        "canonical_extraction": 4,
+        "duplicate_indices": [
+          4,
+          7,
+          12
+        ],
+        "reasoning": "These entries detail 'domácí péče' with a focus on 'převazy', i.e., wound dressing or wrapping care in a home-care setting."
+      },
+      {
+        "canonical_extraction": 0,
+        "duplicate_indices": [
+          0,
+          9
+        ],
+        "reasoning": "Both refer to treatment being done at 'regionální nemocnice', despite different phrasing, they describe the same location context."
+      }
+    ],
+    "progression_duplicates": [
+      {
+        "canonical_extraction": 0,
+        "duplicate_indices": [
+          0
+        ],
+        "reasoning": "The extraction describes a specific progression of symptoms with details on the nature of the progression, which is distinct and semantically complete."
+      },
+      {
+        "canonical_extraction": 1,
+        "duplicate_indices": [
+          1
+        ],
+        "reasoning": "Describes a general functional decline, which is distinct and semantically complete as it is focused on a different aspect of health progression."
+      },
+      {
+        "canonical_extraction": 2,
+        "duplicate_indices": [
+          2
+        ],
+        "reasoning": "Describes a specific type of progression, emphasizing localized progression, which is distinct and semantically complete."
+      }
+    ],
+    "recurrence_duplicates": [],
+    "metastases_duplicates": [],
+    "summary": {
+      "total_groups": 14
+    }
+  },
+  "inconsistencies": {
+    "items": [
+      {
+        "type": "contradiction",
+        "severity": "minor",
+        "description": "Records indicate 'HER2 negativní' and 'HER2 0' as separate entries but are synonymous, treated as a confirmation of the HER2 negative status.",
+        "related_feature": "HER2 status",
+        "involved_records": [
+          "HACK01_2",
+          "HACK01_4"
+        ]
+      },
+      {
+        "type": "missing_expected",
+        "severity": "moderate",
+        "description": "Biopsy results available, but missing specific mention of HER2 testing in earlier stages as a clear diagnostic.",
+        "related_feature": "Biopsy and HER2 results",
+        "involved_records": [
+          "HACK01_1",
+          "HACK01_2"
+        ]
+      },
+      {
+        "type": "contradiction",
+        "severity": "critical",
+        "description": "Record indicates 'bez metastáz' in pathological TNM classifications, yet mentions of liver and lung metastases exist without clear documentation of change or progression timing.",
+        "related_feature": "Metastases and M0 status",
+        "involved_records": [
+          "HACK01_12",
+          "HACK01_14"
+        ]
+      }
+    ],
+    "summary": {
+      "total": 3,
+      "by_severity": {
+        "critical": 1,
+        "moderate": 1,
+        "minor": 1
+      },
+      "by_type": {
+        "contradiction": 2,
+        "missing_expected": 1
+      }
+    }
+  },
+  "timeline": {
+    "diagnosis": {
+      "feature_name": "Diagnosis",
+      "events": [
+        {
+          "date": "unknown",
+          "description": "První vyšetření pro nově diagnostikovaný nádor prsu",
+          "significance": "inferred"
+        },
+        {
+          "date": "2022-10-05",
+          "description": "Diagnóza invazivního mucinózního karcinomu prsu",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-11-10",
+          "description": "Parciální mastektomie pravého prsu provedena",
+          "significance": "exact"
+        }
+      ],
+      "narrative": "Diagnóza mucinózního karcinomu prsu byla stanovena 5. října 2022, následovaná parciální mastektomií pravého prsu 10. listopadu 2022."
+    },
+    "tnm": {
+      "feature_name": "TNM Classifications",
+      "events": [
+        {
+          "date": "2022-10-14",
+          "description": "Klinické stadium cT2N0",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-10-20",
+          "description": "Klinické stadium cT2N0M0",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-11-10",
+          "description": "Klinické stadium cT2N0M0 potvrzeno",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-12-02",
+          "description": "Patologické stadium pT2 (23 mm) pN0(i−)(sn) M0",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-12-15",
+          "description": "Patologické stadium pT2N0M0",
+          "significance": "exact"
+        },
+        {
+          "date": "2023-03-01",
+          "description": "Patologické stadium pT2N0M0 potvrzeno",
+          "significance": "exact"
+        }
+      ],
+      "narrative": "Pacientka měla klinické stadium cT2N0M0 od 14. října 2022, které bylo následně potvrzeno patologicky na pT2N0M0 dne 2. prosince 2022 a opět 15. prosince 2022."
+    },
+    "receptors": {
+      "feature_name": "Hormone Receptors",
+      "events": [
+        {
+          "date": "2022-10-05",
+          "description": "ER = 100% pozitivních, PR = 10%, HER2 = negativní",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-10-14",
+          "description": "ER = 100%, PR = 10%, HER2 = negativní",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-10-18",
+          "description": "ER = 100%, PR = 10%, HER2 = 0",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-10-27",
+          "description": "ER = 100%, PR = 10%, HER2 = 0",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-12-02",
+          "description": "ER = 100%, PR = 10%, HER2 = 0",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-12-06",
+          "description": "ER = 100%, PR = 10%, HER2 = negativní",
+          "significance": "exact"
+        },
+        {
+          "date": "2022-12-15",
+          "description": "ER = 100%, PR = 10%, HER2 = 0",
+          "significance": "exact"
+        }
+      ],
+      "narrative": "Nádor byl hormonálně receptor-pozitivní s 100% ER, 10% PR a negativním HER2 při každé kontrole od 5. října 2022."
+    },
+    "treatment": {
+      "feature_name": "External Treatments",
+      "events": [
+        {
+          "date": "unknown",
+          "description": "Odeslána z dermatologické ambulance regionální nemocnice",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Pacientka dosud sledována v rámci domácí ošetřovatelské péče",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Paliativní radioterapie pro spinocelulární karcinom kalvy",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Pravidelné převazy defektu na hlavě a spolupráce s radioterapeutickou ambulancí",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Léčba opakovaně odložena",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Sledování v péči praktického lékaře a regionální onkologie",
+          "significance": "inferred"
+        }
+      ],
+      "narrative": "Pacientka byla léčena paliativní radioterapií pro spinocelulární karcinom kalvy, s pravidelnými převazy a spoluprací s radioterapeutickou ambulancí. Domácí péče zajišťovala sledování a praktičtí lékaři spolupracovali s regionální onkologií."
+    },
+    "progression": {
+      "feature_name": "Progressions",
+      "events": [
+        {
+          "date": "unknown",
+          "description": "Zvětšování a krvácení kožní léze",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Zhoršení soběstačnosti",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Lokální progrese",
+          "significance": "inferred"
+        }
+      ],
+      "narrative": "Během léčby došlo k progrese s lokální expanzí a zhoršením soběstačnosti pacientky."
+    },
+    "recurrence": {
+      "feature_name": "Recurrences",
+      "events": [],
+      "narrative": "Z dostupných dat nejsou žádné záznamy o recidivě nádorového onemocnění."
+    },
+    "metastases": {
+      "feature_name": "Metastases",
+      "events": [
+        {
+          "date": "unknown",
+          "description": "Metastázy na játrech",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Metastázy na plicích",
+          "significance": "inferred"
+        },
+        {
+          "date": "unknown",
+          "description": "Metastázy na kalvě",
+          "significance": "inferred"
+        }
+      ],
+      "narrative": "Přítomnost metastáz byla zaznamenána na játrech, plicích a kalvě v neznámém časovém rámci."
+    },
+    "overall_narrative": "Pacientka HACK01 byla diagnostikována s invazivním mucinózním karcinomem prsu 5. října 2022, s klinickým stadiem cT2N0M0. Hormonální receptory potvrdily, že nádor je ER pozitivní, PR mírně pozitivní a HER2 negativní. Dne 10. listopadu 2022 byla provedena parciální mastektomie. Patologicky byla klasifikována jako pT2N0M0, což bylo potvrzeno opakovaně. Pacientka také prodělala paliativní radioterapii s důrazem na domácí péči a podporu. Přestože byla sledována pro zhoršení soběstačnosti a progrese lézí, nebyla zaznamenána recidiva prsu. Metastázy byly hlášeny na játrech, plicích a kalvě, což si vyžádalo kontinuální monitoring a péči. Léčba se soustředila na zmírnění symptomů a kvalitu života pacientky."
+  }
+}
