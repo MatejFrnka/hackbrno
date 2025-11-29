@@ -20,27 +20,19 @@
     },
     {
       "question_id": 3,
-      "quoted_text": "ER: 100 % pozitivních nádorových buněk",
+      "quoted_text": "ER: 100 % pozitivních nádorových buněk se silnou jadernou reakcí.",
       "confidence": "high",
       "record_id": 1,
       "start_char": 559,
-      "end_char": 597
+      "end_char": 624
     },
     {
       "question_id": 3,
-      "quoted_text": "PR: cca 10 % nádorových buněk",
+      "quoted_text": "PR: cca 10 % nádorových buněk se slabou až střední jadernou reakcí.",
       "confidence": "high",
       "record_id": 1,
       "start_char": 625,
-      "end_char": 654
-    },
-    {
-      "question_id": 1,
-      "quoted_text": "PŘÍJEM: 5. 10. 2022",
-      "confidence": "high",
-      "record_id": 2,
-      "start_char": 478,
-      "end_char": 497
+      "end_char": 692
     },
     {
       "question_id": 3,
@@ -49,6 +41,14 @@
       "record_id": 2,
       "start_char": 331,
       "end_char": 355
+    },
+    {
+      "question_id": 1,
+      "quoted_text": "PŘÍJEM: 5. 10. 2022",
+      "confidence": "high",
+      "record_id": 2,
+      "start_char": 478,
+      "end_char": 497
     },
     {
       "question_id": 1,
@@ -83,6 +83,14 @@
       "end_char": 565
     },
     {
+      "question_id": 7,
+      "quoted_text": "Bez průkazu vzdálených metastáz.",
+      "confidence": "high",
+      "record_id": 5,
+      "start_char": 392,
+      "end_char": 424
+    },
+    {
       "question_id": 1,
       "quoted_text": "Známá malignita pravého prsu – invazivní mucinózní karcinom G2",
       "confidence": "medium",
@@ -97,14 +105,6 @@
       "record_id": 5,
       "start_char": 497,
       "end_char": 521
-    },
-    {
-      "question_id": 7,
-      "quoted_text": "Bez průkazu vzdálených metastáz.",
-      "confidence": "high",
-      "record_id": 5,
-      "start_char": 392,
-      "end_char": 424
     },
     {
       "question_id": 3,
@@ -131,14 +131,6 @@
       "end_char": 1622
     },
     {
-      "question_id": 1,
-      "quoted_text": "invazivní mucinózní karcinom pravého prsu, stav po parciální mastektomii",
-      "confidence": "medium",
-      "record_id": 10,
-      "start_char": 990,
-      "end_char": 1062
-    },
-    {
       "question_id": 5,
       "quoted_text": "Na kalvě přetrvává rozsáhlý defekt s ulcerací a sekrecí, velikost bez jednoznačné regrese",
       "confidence": "high",
@@ -147,28 +139,20 @@
       "end_char": 708
     },
     {
+      "question_id": 1,
+      "quoted_text": "invazivní mucinózní karcinom pravého prsu, stav po parciální mastektomii",
+      "confidence": "medium",
+      "record_id": 10,
+      "start_char": 990,
+      "end_char": 1062
+    },
+    {
       "question_id": 4,
       "quoted_text": "ošetřeno v regionální nemocnici",
       "confidence": "high",
       "record_id": 11,
       "start_char": 202,
       "end_char": 233
-    },
-    {
-      "question_id": 1,
-      "quoted_text": "PŘÍJEM: 11. 11. 2022",
-      "confidence": "medium",
-      "record_id": 12,
-      "start_char": 1733,
-      "end_char": 1753
-    },
-    {
-      "question_id": 2,
-      "quoted_text": "pTNM (8. vydání): pT2 (23 mm) pN0(i−)(sn) M0",
-      "confidence": "high",
-      "record_id": 12,
-      "start_char": 1675,
-      "end_char": 1719
     },
     {
       "question_id": 3,
@@ -180,11 +164,19 @@
     },
     {
       "question_id": 2,
-      "quoted_text": "Sentinelová uzlina bez metastáz (0/1)",
+      "quoted_text": "pTNM (8. vydání): pT2 (23 mm) pN0(i−)(sn) M0, L0, V0, R0",
       "confidence": "high",
-      "record_id": 13,
-      "start_char": 349,
-      "end_char": 386
+      "record_id": 12,
+      "start_char": 1675,
+      "end_char": 1731
+    },
+    {
+      "question_id": 1,
+      "quoted_text": "PŘÍJEM: 11. 11. 2022",
+      "confidence": "medium",
+      "record_id": 12,
+      "start_char": 1733,
+      "end_char": 1753
     },
     {
       "question_id": 3,
@@ -193,6 +185,14 @@
       "record_id": 13,
       "start_char": 210,
       "end_char": 243
+    },
+    {
+      "question_id": 2,
+      "quoted_text": "Sentinelová uzlina bez metastáz (0/1)",
+      "confidence": "high",
+      "record_id": 13,
+      "start_char": 349,
+      "end_char": 386
     },
     {
       "question_id": 5,
@@ -227,6 +227,14 @@
       "end_char": 966
     },
     {
+      "question_id": 5,
+      "quoted_text": "rozsah spíše mírně progreduje",
+      "confidence": "high",
+      "record_id": 15,
+      "start_char": 626,
+      "end_char": 655
+    },
+    {
       "question_id": 1,
       "quoted_text": "Ca mammae pravého prsu – stav po parciální mastektomii a SNB, pT2N0M0",
       "confidence": "medium",
@@ -257,14 +265,6 @@
       "record_id": 15,
       "start_char": 1638,
       "end_char": 1702
-    },
-    {
-      "question_id": 5,
-      "quoted_text": "rozsah spíše mírně progreduje",
-      "confidence": "high",
-      "record_id": 15,
-      "start_char": 626,
-      "end_char": 655
     }
   ]
 }

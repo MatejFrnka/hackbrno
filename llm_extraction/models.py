@@ -54,3 +54,34 @@ class ExtractionCitationWithSpan(BaseModel):
     record_id: int                                  # ID of the medical record
     start_char: int                                 # Start character index in record text
     end_char: int                                   # End character index in record text
+
+
+class HighlightCitation(BaseModel):
+    """Single highlight from LLM (before span matching)"""
+    quoted_text: str      # Exact citation from record
+    note: str            # LLM explanation of importance
+
+
+class HighlightCitationWithSpan(BaseModel):
+    """Single highlight with character positions"""
+    quoted_text: str
+    note: str
+    record_id: int
+    start_char: int
+    end_char: int
+
+
+class ExtractionResult(BaseModel):
+    """LLM response structure for feature extraction"""
+    citations: List[ExtractionCitation]
+
+
+class HighlightExtractionResult(BaseModel):
+    """LLM response for Stage 1 highlight extraction"""
+    highlights: List[HighlightCitation]
+
+
+class FilteredHighlightsResult(BaseModel):
+    """LLM response for Stage 2 highlight filtering"""
+    selected_highlights: List[int]  # Indices of highlights to keep
+    reasoning: str                  # Explanation of selection logic
