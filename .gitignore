@@ -8,3 +8,6 @@ node_modules
 .python-version
 __pycache__/
 .DS_Store
+.vite
+*.db
+.idea
