@@ -85,7 +85,6 @@ def seed_question(name: str, desc: str, color: str):
 with app.app_context():
     DATA_DIR = 'data'
     db.create_all()
-
     if Question.query.count() == 0:
         for i, (_, qn, qd) in enumerate(mock_questions):
             seed_question(qn, qd, questions_colors[i])
@@ -97,6 +96,16 @@ with app.app_context():
                 continue
             files.append(os.path.join(DATA_DIR, filename))
         run.add_batch(files, Question.query.all())
+
+
+# Enable CORS only for API routes
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 
 
 @app.route("/")
