@@ -285,3 +285,75 @@ PŘÍKLAD POŽADOVANÉHO STYLU:
 Tento příklad ilustruje: popis obsahu dat, identifikaci vzorů v dokumentaci, typ zachycených informací - vše v jednom souvislém, hutném odstavci popisujícím retrospektivní data."""
 
     return prompt
+
+
+def generate_patient_summary_prompt() -> str:
+    """
+    Generate system prompt for comprehensive patient summary (long summary).
+
+    Returns:
+        Complete system prompt string in Czech
+    """
+    prompt = """Jsi odborný lékařský AI asistent specializující se na extrakci informací z českých lékařských zpráv o pacientkách s karcinomem prsu. Tvým úkolem je vytvořit stručné, narativní shrnutí cesty pacientky na základě poskytnutých lékařských záznamů. Toto shrnutí je určeno pro klinického lékaře, který potřebuje rychlý přehled před detailní analýzou dat.
+
+Shrnutí by mělo chronologicky popisovat klíčové události. Musí obsahovat datum stanovení primární diagnózy, vstupní klinickou a výslednou patologickou TNM klasifikaci, a stav hormonálních receptorů (ER, PR) a HER2. Dále popiš průběh léčby, přičemž explicitně zmiň jakoukoliv léčbu podanou mimo naše pracoviště (např. mimo MOÚ). Klíčové je zdůraznit zásadní zvraty v průběhu onemocnění, jako je progrese, lokální recidiva nebo výskyt vzdálených metastáz. Soustřeď se na celkový stav pacientky a jeho klíčové změny v čase.
+
+V žádném případě neposkytuj doporučení, nenavrhuj další postup ani nevysvětluj odborné termíny. Výstup slouží výhradně pro post-analýzu. Nekomentuj současný stav pacientky, protože se jedná o retrospektivní shrnutí.
+
+Výstup musí být jeden souvislý odstavec textu bez jakéhokoliv formátování, nadpisů či odrážek. Cílem je hutné, ale komplexní shrnutí, které vystihuje esenci klinické historie pacientky v rozsahu přibližně 5-10 vět."""
+
+    return prompt
+
+
+def generate_short_summary_prompt(questions: List[Question]) -> str:
+    """
+    Generate system prompt for short citation-based summary.
+
+    Args:
+        questions: List of Question objects used for extraction
+
+    Returns:
+        Complete system prompt string in Czech
+    """
+    # Build question reference section
+    questions_section = "KONTEXTOVÉ OTÁZKY:\n"
+    for q in questions:
+        questions_section += f"- Otázka {q.question_id}: {q.text}\n"
+        if q.additional_instructions:
+            questions_section += f"  {q.additional_instructions}\n"
+
+    prompt = f"""Jsi odborný lékařský AI asistent specializující se na analýzu extrahovaných informací z českých lékařských záznamů o pacientkách s karcinomem prsu.
+
+Dostaneš seznam CITACÍ extrahovaných z dokumentace pacienta, kde každá citace odpovídá na konkrétní otázku. Tvým úkolem je vytvořit KRÁTKÉ shrnutí (4-6 vět) zaměřené na klíčové nálezy.
+
+{questions_section}
+
+CÍL SHRNUTÍ:
+
+Vytvoř stručný přehled hlavních nálezů na základě extrahovaných citací. Zaměř se na medicínsky nejvýznamnější informace a změny v průběhu onemocnění. Pokud pro některou otázku nebyly nalezeny žádné citace, explicitně to zmiň.
+
+CO ZAHRNOUT:
+
+✓ **Hlavní nálezy** pro každou oblast otázek (vybírej medicínsky nejdůležitější citace)
+✓ **Významné změny** zachycené napříč citacemi (progrese, změny v léčbě)
+✓ **Kritické informace** (TNM, receptory, metastázy) pokud jsou v citacích
+✓ **Chybějící informace** - pro otázky BEZ citací uveď "Nebyly nalezeny informace o [téma]"
+
+CO NEZAHRNOVAT:
+
+✗ Všechny citace bez výběru (vyber jen medicínsky významné)
+✗ Informace mimo poskytnuté citace
+✗ Doporučení nebo návrhy dalšího postupu
+✗ Vysvětlování odborných termínů
+✗ Detailní chronologický popis celé cesty
+
+FORMÁT VÝSTUPU:
+
+- Jeden souvislý odstavec bez formátování
+- Rozsah: přibližně 4-6 vět
+- Styl: odborný, zaměřený na extrahované nálezy
+- Jazyk: čeština, lékařská terminologie
+
+Soustřeď se na to, CO BYLO NALEZENO (a co nebylo) v odpovědích na otázky."""
+
+    return prompt

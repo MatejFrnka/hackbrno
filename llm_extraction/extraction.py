@@ -12,6 +12,7 @@ from llm_extraction.models import (
     PatientData,
     Question,
     ExtractionResult,
+    ExtractionCitationWithSpan,
     HighlightCitationWithSpan,
     HighlightExtractionResult,
     FilteredHighlightsResult,
@@ -20,7 +21,10 @@ from llm_extraction.models import (
 from llm_extraction.prompts import (
     generate_extraction_prompt,
     generate_highlight_extraction_prompt,
-    generate_highlight_filter_prompt
+    generate_highlight_filter_prompt,
+    generate_patient_summary_prompt,
+    generate_short_summary_prompt,
+    generate_batch_summary_prompt
 )
 
 MAX_CONCURRENT_REQUESTS = 20  # Limit concurrent OpenAI requests
@@ -439,7 +443,7 @@ class PatientSummaryExtractor:
         Returns:
             String containing narrative summary of patient journey
         """
-        system_prompt = """Jsi odborný lékařský AI asistent specializující se na extrakci informací z českých lékařských zpráv o pacientkách s karcinomem prsu. Tvým úkolem je vytvořit stručné, narativní shrnutí cesty pacientky na základě poskytnutých lékařských záznamů. Toto shrnutí je určeno pro klinického lékaře, který potřebuje rychlý přehled před detailní analýzou dat.\nShrnutí by mělo chronologicky popisovat klíčové události. Musí obsahovat datum stanovení primární diagnózy, vstupní klinickou a výslednou patologickou TNM klasifikaci, a stav hormonálních receptorů (ER, PR) a HER2. Dále popiš průběh léčby, přičemž explicitně zmiň jakoukoliv léčbu podanou mimo naše pracoviště (např. mimo MOÚ). Klíčové je zdůraznit zásadní zvraty v průběhu onemocnění, jako je progrese, lokální recidiva nebo výskyt vzdálených metastáz. Soustřeď se na celkový stav pacientky a jeho klíčové změny v čase.\nV žádném případě neposkytuj doporučení, nenavrhuj další postup ani nevysvětluj odborné termíny. Výstup slouží výhradně pro post-analýzu. Nekomentuj současný stav pacientky, protože se jedná o retrospektivní shrnutí.\nVýstup musí být jeden souvislý odstavec textu bez jakéhokoliv formátování, nadpisů či odrážek. Cílem je hutné, ale komplexní shrnutí, které vystihuje esenci klinické historie pacientky v rozsahu přibližně 5-10 vět."""
+        system_prompt = generate_patient_summary_prompt()
 
         user_prompt = f"""Níže jsou lékařské záznamy pacienta s karcinomem prsu:\n\n{chr(10).join([f'Záznam ID: {record.record_id}\nDatum: {record.date}\nTyp záznamu: {record.record_type}\nText záznamu:\n{record.text}\n' for record in patient_data.records])}"""
 
@@ -455,6 +459,114 @@ class PatientSummaryExtractor:
         )
 
         return response.choices[0].message.content
+
+    async def summarize_citations_async(
+        self,
+        citations_with_spans: List[ExtractionCitationWithSpan],
+        questions: List[Question],
+        patient_data: PatientData
+    ) -> str:
+        """
+        Generate short summary based on extracted citations.
+
+        Creates a concise summary (4-6 sentences) focused on findings from
+        citation extraction. Returns empty string if no citations exist.
+
+        Args:
+            citations_with_spans: List of ExtractionCitationWithSpan objects
+            questions: List of Question objects used for extraction
+            patient_data: PatientData object (for record metadata)
+
+        Returns:
+            String containing concise summary, or empty string if no citations
+        """
+        # Early return if no citations (skip LLM call)
+        if not citations_with_spans:
+            print("  No citations to summarize, returning empty string")
+            return ""
+
+        # Generate system prompt with questions
+        system_prompt = generate_short_summary_prompt(questions)
+
+        # Build record lookup for metadata
+        record_lookup = {r.record_id: r for r in patient_data.records}
+
+        # Group citations by question_id
+        citations_by_question = {}
+        for citation in citations_with_spans:
+            qid = citation.question_id
+            if qid not in citations_by_question:
+                citations_by_question[qid] = []
+            citations_by_question[qid].append(citation)
+
+        # Build question lookup
+        question_lookup = {q.question_id: q for q in questions}
+
+        # Format citations for LLM
+        user_message_lines = ["Zde jsou extrahované citace z dokumentace pacientky:\n"]
+
+        # Add citations grouped by question
+        for qid in sorted(citations_by_question.keys()):
+            question = question_lookup.get(qid)
+            citations = citations_by_question[qid]
+
+            if question:
+                user_message_lines.append(f"\n**Otázka {qid}: {question.text}**")
+                user_message_lines.append(f"Počet citací: {len(citations)}\n")
+
+            for idx, citation in enumerate(citations, 1):
+                record = record_lookup.get(citation.record_id)
+                if record:
+                    user_message_lines.append(
+                        f"  [{idx}] Datum: {record.date} | Record ID: {citation.record_id} | Confidence: {citation.confidence}"
+                    )
+                user_message_lines.append(f"      Citace: \"{citation.quoted_text}\"\n")
+
+        # Add questions without citations
+        questions_with_citations = set(citations_by_question.keys())
+        all_question_ids = {q.question_id for q in questions}
+        missing_question_ids = all_question_ids - questions_with_citations
+
+        if missing_question_ids:
+            user_message_lines.append("\n**Otázky BEZ citací (žádné nálezy):**")
+            for qid in sorted(missing_question_ids):
+                question = question_lookup.get(qid)
+                if question:
+                    user_message_lines.append(f"- Otázka {qid}: {question.text}")
+
+        user_message_lines.append(f"\n\nCelkem: {len(citations_with_spans)} citací pro {len(citations_by_question)}/{len(questions)} otázek")
+        user_message_lines.append("Vytvoř krátké shrnutí (4-6 vět) se zaměřením na medicínsky nejdůležitější nálezy. Zmiň také otázky bez nálezů.")
+
+        user_message = "\n".join(user_message_lines)
+
+        print("Generating short summary from citations...")
+
+        # Retry logic (consistent with other methods)
+        max_retries = 3
+        base_delay = 1.0
+
+        for attempt in range(max_retries):
+            try:
+                response = await self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_message}
+                    ],
+                    temperature=0.1,
+                )
+
+                return response.choices[0].message.content
+
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    delay = base_delay * (2 ** attempt)
+                    print(f"  WARNING: Attempt {attempt + 1}/{max_retries} failed: {e}")
+                    print(f"  Retrying in {delay}s...")
+                    await asyncio.sleep(delay)
+                else:
+                    print(f"  ERROR: All {max_retries} attempts failed: {e}")
+                    raise
 
 
 class BatchSummaryExtractor:
@@ -481,8 +593,6 @@ class BatchSummaryExtractor:
         Returns:
             String containing narrative summary of entire patient cohort
         """
-        from llm_extraction.prompts import generate_batch_summary_prompt
-
         system_prompt = generate_batch_summary_prompt()
 
         # Format patient summaries for LLM

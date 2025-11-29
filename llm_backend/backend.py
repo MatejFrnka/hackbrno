@@ -144,14 +144,22 @@ class LLMBackendBase(LLMBackend):
         # Extract and process highlights
         sorted_highlights = asyncio.run(self._extract_highlights(patient_data))
 
-        # Generate patient summary
-        summary = asyncio.run(self._summarize_patient(patient_data))
+        # Generate patient summary (long)
+        summary_long = asyncio.run(self._summarize_patient(patient_data))
+
+        # Generate short summary from citations
+        summary_short = asyncio.run(self._summarize_citations(
+            sorted_citations,
+            questions_objects,
+            patient_data
+        ))
 
         # Format results as dictionary
         return {
             "patient_id": patient_data.patient_id,
             "total_citations": len(sorted_citations),
-            "summary_long": summary,
+            "summary_long": summary_long,
+            "summary_short": summary_short,
             "citations": [
                 {
                     "question_id": c.question_id,
@@ -251,6 +259,29 @@ class LLMBackendBase(LLMBackend):
         """
         # Generate summary using LLM (async)
         return await self.patient_summary_extractor.summarize_patient_async(patient_data)
+
+    async def _summarize_citations(
+        self,
+        citations_with_spans: typing.List,
+        questions: typing.List[Question],
+        patient_data: PatientData
+    ) -> str:
+        """
+        Generate short summary from citations asynchronously.
+
+        Args:
+            citations_with_spans: List of ExtractionCitationWithSpan objects
+            questions: List of Question objects
+            patient_data: Patient data with medical records
+
+        Returns:
+            String containing concise summary (or empty string if no citations)
+        """
+        return await self.patient_summary_extractor.summarize_citations_async(
+            citations_with_spans,
+            questions,
+            patient_data
+        )
 
     def summarize_patient(self, patient: pd.DataFrame) -> str:
         """
