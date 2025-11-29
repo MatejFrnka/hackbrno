@@ -74,6 +74,27 @@ class PatientRecord(db.Model):
 
     findings = db.relationship('Finding', lazy=True)
     highlights = db.relationship('Highlight', lazy=True)
+    duplicates = db.relationship('TextDuplicate', lazy=True)
+
+
+class TextDuplicate(db.Model):
+    __tablename__ = 'text_duplicates'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    patient_record_id = db.Column(
+        db.Integer,
+        db.ForeignKey('patient_records.id'),
+        nullable=False
+    )
+    was_at = db.Column(db.Integer, nullable=False)
+    duplicate_of = db.Column(
+        db.Integer,
+        db.ForeignKey('patient_records.id'),
+        nullable=False
+    )
+    offset_start = db.Column(db.Integer, nullable=False) # offsets in the duplicate_of
+    offset_end = db.Column(db.Integer, nullable=False)
+
 
 
 class Finding(db.Model):
