@@ -273,16 +273,16 @@ Jedná se o RETROSPEKTIVNÍ analýzu existující dokumentace. Nespekuluj o sou�
 
 FORMÁT VÝSTUPU:
 
-- Jeden souvislý narativní odstavec bez nadpisů, odrážek nebo formátování
-- Rozsah: přibližně 5-12 vět
+- Markdown formát s následujícími prvky:
+  - Používej **tučný text** pro zdůraznění sekcí nebo klíčových charakteristik (ne skutečné nadpisy s #)
+  - Používej odrážky (- nebo *) pro statistické přehledy nebo seznamy charakteristik
+  - Používej `inline kód` pro číselné údaje, klasifikace, časová období
+  - Kombinuj narativní odstavce s odrážkami pro strukturovaný přehled
+  - NEPOUŽÍVAJ nadpisy s # (pouze tučný text)
+- Rozsah: přibližně 5-12 vět nebo ekvivalentní obsah s markdown formátováním
 - Styl: odborný, hutný, zaměřený na popis obsahu dokumentace
 - Jazyk: čeština, lékařská terminologie
-
-PŘÍKLAD POŽADOVANÉHO STYLU:
-
-"Skupina 8 pacientek s karcinomem prsu, dokumentace pokrývá období 3-7 let od stanovení diagnózy. V datech převažují pokročilá stádia s metastatickou diseminací (5 případů), zejména do skeletu a jater. Většina dokumentovaných případů má hormonálně dependentní tumory (ER+/PR+), u 3 případů zaznamenána HER2 pozitivita. Dokumentace zahrnuje záznamy z paliativní systémové léčby (4 případy), adjuvantní léčby (2 případy) a data dokumentující progresi vyžadující změnu terapie (2 případy). Společným rysem v datech je komplexní průběh s opakovanými liniemi léčby a postupnou progresí onemocnění. V dokumentaci zaznamenány komplikace včetně hyperkalcémie a kostní fragility u 2 pacientek."
-
-Tento příklad ilustruje: popis obsahu dat, identifikaci vzorů v dokumentaci, typ zachycených informací - vše v jednom souvislém, hutném odstavci popisujícím retrospektivní data."""
+"""
 
     return prompt
 
@@ -300,7 +300,17 @@ Shrnutí by mělo chronologicky popisovat klíčové události. Musí obsahovat 
 
 V žádném případě neposkytuj doporučení, nenavrhuj další postup ani nevysvětluj odborné termíny. Výstup slouží výhradně pro post-analýzu. Nekomentuj současný stav pacientky, protože se jedná o retrospektivní shrnutí.
 
-Výstup musí být jeden souvislý odstavec textu bez jakéhokoliv formátování, nadpisů či odrážek. Cílem je hutné, ale komplexní shrnutí, které vystihuje esenci klinické historie pacientky v rozsahu přibližně 5-10 vět."""
+FORMÁT VÝSTUPU:
+
+Výstup musí být ve formátu markdown s následujícími pravidly:
+- Používej **tučný text** pro zdůraznění důležitých událostí nebo sekcí (ne skutečné nadpisy s #)
+- Používej odrážky (- nebo *) pro seznamy klíčových událostí
+- Používej `inline kód` pro medicínské klasifikace (TNM, receptory), data léčby
+- Kombinuj narativní odstavce s odrážkami pro lepší strukturu
+- NEPOUŽÍVAJ nadpisy s # (pouze tučný text)
+- Rozsah: přibližně 5-10 vět nebo ekvivalentní obsah s markdown formátováním
+
+Cílem je hutné, ale komplexní shrnutí, které vystihuje esenci klinické historie pacientky."""
 
     return prompt
 
@@ -349,8 +359,13 @@ CO NEZAHRNOVAT:
 
 FORMÁT VÝSTUPU:
 
-- Jeden souvislý odstavec bez formátování
-- Rozsah: přibližně 4-6 vět
+- Markdown formát s následujícími prvky:
+  - Používej **tučný text** pro zdůraznění klíčových nálezů nebo sekcí (ne skutečné nadpisy s #)
+  - Používej odrážky (- nebo *) pro seznamy
+  - Používej `inline kód` pro medicínské termíny, klasifikace (např. TNM, ER+/PR+)
+  - Kombinuj odstavce, odrážky a formátování pro snadnou čitelnost
+  - NEPOUŽÍVEJ nadpisy s # (pouze tučný text pro sekce)
+- Rozsah: přibližně 4-6 vět nebo ekvivalentní obsah s odrážkami
 - Styl: odborný, zaměřený na extrahované nálezy
 - Jazyk: čeština, lékařská terminologie
 
