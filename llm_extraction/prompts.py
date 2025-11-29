@@ -108,10 +108,10 @@ FORMÁT KAŽDÉHO HIGHLIGHT:
    - Cituj konkrétní část textu, kde se informace nachází
    - Musí být doslovná citace (copy-paste)
 
-2. **note**: Tvoje vysvětlení (20-200 znaků)
-   - Proč je toto důležité?
-   - Co to znamená pro pacienta?
-   - Stručně, jasně, odborně
+2. **note**: Tvoje velmi stručná poznámka (MAXIMÁLNĚ 5 SLOV)
+   - MUSÍ být extrémně stručné - pouze klíčová slova nebo krátká fráze
+   - Pouze rámcový popis změny nebo nálezu
+   - NIKDY nepřesahuj 5 slov
 
 DŮLEŽITÉ POZNÁMKY:
 
@@ -124,7 +124,7 @@ PŘÍKLADY:
 Záznam: "První onkologická konzultace pro nově diagnostikovaný karcinom levého prsu..."
 → Highlight:
   quoted_text: "nově diagnostikovaný karcinom levého prsu"
-  note: "První diagnóza karcinomu prsu, zahájení onkologické péče"
+  note: "nová diagnóza karcinomu"
 
 Záznam: "Onkologická kontrola v průběhu paliativní systémové léčby... Fyzikálně celkově kardiopulmonálně kompenzovaná, lokálně v prsu stacionární rozsah tumoru..."
 → BEZ HIGHLIGHT (rutinní kontrola bez změn)
@@ -132,7 +132,7 @@ Záznam: "Onkologická kontrola v průběhu paliativní systémové léčby... F
 Záznam: "Provedena hydratace intravenózními infuzemi, podán redukovaný bolus bisfosfonátu vzhledem k monoledvině. Kalcémie po terapii klesá..."
 → Highlight:
   quoted_text: "asymptomatickou hyperkalcémii... Kalcémie po terapii klesá"
-  note: "Akutní léčba hyperkalcémie s pozitivní odpovědí"
+  note: "léčba hyperkalcémie"
 
 VÝSTUP:
 
