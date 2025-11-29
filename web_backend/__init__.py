@@ -206,8 +206,8 @@ def dashboard_api():
 
 @app.route('/api/patient/<int:patient_id>')
 def patient_api(patient_id: int):
-    # bt = current_batch()
-    patient = BatchPatient.query.where(BatchPatient.id == patient_id).first()
+    bt = current_batch()
+    patient = BatchPatient.query.where(BatchPatient.id == patient_id and BatchPatient.batch_id == bt.id).first()
     if patient is None:
         return jsonify({}), 404
 
