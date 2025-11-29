@@ -58,9 +58,9 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
 
     return (
         <aside className="hidden lg:flex w-24 sticky top-24 h-[calc(100vh-8rem)]">
-            <div className="relative flex-1 flex flex-col pt-8">
+            <div className="relative flex-1 flex flex-col">
                 {/* Start date at top */}
-                <div className="text-center mb-2">
+                <div className="text-center pt-8 pb-2">
                     <p className="text-[10px] text-slate-500 font-medium">
                         {formatDate(startDate)}
                     </p>
@@ -87,7 +87,10 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                         <div
                             key={point.date}
                             className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-                            style={{ top: `${point.position}%` }}
+                            style={{
+                                top: `${point.position}%`,
+                                transform: 'translateX(-50%) translateY(-50%)'
+                            }}
                         >
                             {point.colors.map((color) => {
                                 const docId = point.docIds[color];
@@ -116,7 +119,10 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                             {/* Diamond at original position */}
                             <div
                                 className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
-                                style={{ top: `${event.position}%` }}
+                                style={{
+                                    top: `${event.position}%`,
+                                    transform: 'translateX(-50%) translateY(-50%)'
+                                }}
                             >
                                 <div
                                     className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 ${event.isActive ? getColorBgClass(event.color) : 'bg-slate-300'
@@ -140,13 +146,13 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                             <div
                                 className="absolute"
                                 style={{
-                                    left: 'calc(50% + 8px)',
+                                    left: 'calc(50% + 13px)',
                                     top: `${event.position}%`,
                                     transform: 'translateY(-50%)'
                                 }}
                             >
-                                <div className="text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
-                                    <div className="text-xs">{event.description}</div>
+                                <div className="text-sm text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
+                                    {event.description}
                                 </div>
                             </div>
                         </div>
@@ -154,7 +160,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                 </div>
 
                 {/* End date at bottom */}
-                <div className="text-center mt-2">
+                <div className="text-center pt-2 pb-8">
                     <p className="text-[10px] text-slate-500 font-medium">
                         {formatDate(endDate)}
                     </p>
