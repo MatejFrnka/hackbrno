@@ -19,7 +19,7 @@ import argparse
 
 from data.mock_data import mock_questions
 from llm_extraction.models import Question, MedicalRecord, PatientData
-from llm_extraction.extraction import FeatureExtractor
+from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter
 from llm_extraction.span_matcher import SpanMatcher
 
 
@@ -111,6 +111,8 @@ async def main():
     client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     extractor = FeatureExtractor(client, model="gpt-4o")
     span_matcher = SpanMatcher(similarity_threshold=0.9)
+    highlight_extractor = HighlightExtractor(client, model="gpt-4o")
+    highlight_filter = HighlightFilter(client, model="gpt-4o")
     print("✓ Components initialized")
     print()
 
@@ -141,11 +143,44 @@ async def main():
     )
     print()
 
+    # ============ TWO-STAGE HIGHLIGHT EXTRACTION ============
+    print("=" * 80)
+    print("Highlight Extraction")
+    print("=" * 80)
+    print()
+
+    # Stage 1: Extract highlights per-record
+    highlight_results = await highlight_extractor.extract_highlights(patient_data)
+    print()
+
+    # Stage 1b: Add span information to highlights
+    highlights_with_spans = span_matcher.match_highlight_citations(
+        highlight_results,
+        patient_data
+    )
+    print()
+
+    # Stage 2: Filter to most important highlights
+    filtered_highlights = await highlight_filter.filter_highlights(
+        highlights_with_spans,
+        patient_data
+    )
+    print()
+
+    # Sort filtered highlights by record_id, then start_char
+    sorted_highlights = sorted(
+        filtered_highlights,
+        key=lambda h: (h.record_id, h.start_char)
+    )
+
+    # =========================================================
+
     # Print summary
     print("=" * 80)
     print("Extraction Summary")
     print("=" * 80)
     print(f"Total citations with spans: {len(sorted_citations)}")
+    print(f"Total highlights (filtered): {len(sorted_highlights)}")
     print()
 
     # Group by question
@@ -173,6 +208,20 @@ async def main():
         print(f"      Confidence: {citation.confidence}")
         print()
 
+    # Show all highlights
+    print("=" * 80)
+    print(f"Highlights ({len(sorted_highlights)} total):")
+    print("=" * 80)
+    for i, highlight in enumerate(sorted_highlights):
+        record = next((r for r in patient_data.records if r.record_id == highlight.record_id), None)
+        record_date = record.date if record else "Unknown"
+        record_type = record.record_type if record else "Unknown"
+        print(f"  [{i+1}] Record {highlight.record_id} ({record_date} - {record_type})")
+        print(f"      Text: '{highlight.quoted_text}'")
+        print(f"      Note: {highlight.note}")
+        print(f"      Span: chars {highlight.start_char}-{highlight.end_char}")
+        print()
+
     # Save results to JSON
     output_path = f"output/{args.patient}_simple_extractions.json"
     os.makedirs("output", exist_ok=True)
@@ -190,6 +239,16 @@ async def main():
                 "end_char": c.end_char
             }
             for c in sorted_citations
+        ],
+        "highlights": [
+            {
+                "quoted_text": h.quoted_text,
+                "note": h.note,
+                "record_id": h.record_id,
+                "start_char": h.start_char,
+                "end_char": h.end_char
+            }
+            for h in sorted_highlights
         ]
     }
 
