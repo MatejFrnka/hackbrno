@@ -5,7 +5,7 @@ import pandas as pd
 
 from . import db
 from .models import *
-from llm_backend import LLMBackend
+from llm_backend import LLMBackend, LLMBackendBase
 
 
 def add_batch(patients: list[str], questions: list[Question]):
@@ -42,7 +42,7 @@ def add_batch(patients: list[str], questions: list[Question]):
 
 
 def process_batches():
-    backend = LLMBackend()
+    backend = LLMBackendBase()
     batches = Batch.query.where(Batch.done.is_(None)).all()
     for bt in batches:
         process_batch(bt, backend)
