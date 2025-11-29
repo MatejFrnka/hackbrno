@@ -1,7 +1,6 @@
-import { getColorBgClass } from '../utils/colorUtils';
 import { formatDate } from '../utils/dateUtils';
 
-const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = [], significantEvents = [] }) => {
+const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds = [], significantEvents = [] }) => {
     // Get all dates from documents and events
     const allDates = [
         ...documents.map(doc => doc.date),
@@ -24,16 +23,18 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
         : null;
 
-    // Group documents by date with their colors and document IDs
+    // Group documents by date with their question IDs, colors, and document IDs
     const documentsByDate = {};
     documents.forEach((doc) => {
         if (!documentsByDate[doc.date]) {
-            documentsByDate[doc.date] = { colors: {}, docIds: {} };
+            documentsByDate[doc.date] = { questionIds: {}, colors: {}, docIds: {} };
         }
         doc.highlights.forEach((h) => {
-            if (!documentsByDate[doc.date].colors[h.color]) {
-                documentsByDate[doc.date].colors[h.color] = true;
-                documentsByDate[doc.date].docIds[h.color] = doc.id;
+            const questionId = h.question_id;
+            if (questionId && !documentsByDate[doc.date].questionIds[questionId]) {
+                documentsByDate[doc.date].questionIds[questionId] = true;
+                documentsByDate[doc.date].colors[questionId] = h.color;
+                documentsByDate[doc.date].docIds[questionId] = doc.id;
             }
         });
     });
@@ -42,17 +43,20 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
     const timelinePoints = sortedDates.map((date) => {
         const dateTime = new Date(date).getTime();
         const position = totalTime > 0 ? ((dateTime - startTime) / totalTime) * 100 : 0;
-        const dateData = documentsByDate[date] || { colors: {}, docIds: {} };
-        const colors = Object.keys(dateData.colors);
+        const dateData = documentsByDate[date] || { questionIds: {}, colors: {}, docIds: {} };
+        const questionIds = Object.keys(dateData.questionIds);
+        const colors = dateData.colors;
         const docIds = dateData.docIds;
-        return { date, position, colors, docIds };
+        return { date, position, questionIds, colors, docIds };
     });
 
     // Calculate positions for significant events
     const eventPoints = significantEvents.map((event) => {
         const eventTime = new Date(event.date).getTime();
         const position = totalTime > 0 ? ((eventTime - startTime) / totalTime) * 100 : 0;
-        const isActive = selectedColors.length === 0 || selectedColors.includes(event.color);
+        // Check by question_id if available, otherwise show all if no filter is active
+        const isActive = selectedQuestionIds.length === 0 ||
+            (event.question_id && selectedQuestionIds.includes(event.question_id));
         return { ...event, position, isActive };
     });
 
@@ -92,16 +96,17 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                                 transform: 'translateX(-50%) translateY(-50%)'
                             }}
                         >
-                            {point.colors.map((color) => {
-                                const docId = point.docIds[color];
-                                const isActive = selectedColors.length === 0 || selectedColors.includes(color);
+                            {point.questionIds.map((questionId) => {
+                                const color = point.colors[questionId];
+                                const docId = point.docIds[questionId];
+                                const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(questionId);
                                 return (
-                                    <div key={`${point.date}-${color}`} className="relative group">
+                                    <div key={`${point.date}-${questionId}`} className="relative group">
                                         <button
                                             type="button"
                                             onClick={() => onDocumentClick && onDocumentClick(docId)}
-                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer ${isActive ? getColorBgClass(color) : 'bg-slate-300'
-                                                }`}
+                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer`}
+                                            style={{ backgroundColor: color }}
                                         />
                                         {/* Hover tooltip for date */}
                                         <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
@@ -125,8 +130,8 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                                 }}
                             >
                                 <div
-                                    className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 ${event.isActive ? getColorBgClass(event.color) : 'bg-slate-300'
-                                        }`}
+                                    className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10`}
+                                    style={{ backgroundColor: event.color }}
                                 />
                             </div>
                             {/* Connecting line from diamond to bubble */}

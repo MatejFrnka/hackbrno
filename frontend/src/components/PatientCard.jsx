@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDateRange } from '../utils/dateUtils';
-import { getColorBgClass } from '../utils/colorUtils';
 import DifficultyRating from './DifficultyRating';
 
 const PatientCard = ({ patient }) => {
@@ -27,7 +26,8 @@ const PatientCard = ({ patient }) => {
     const ColorChip = ({ item, value, label }) => (
         <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 bg-white/80">
             <span
-                className={`w-2.5 h-2.5 rounded-full ${getColorBgClass(item.color)}`}
+                className={`w-2.5 h-2.5 rounded-full`}
+                style={{ backgroundColor: item.color }}
                 aria-hidden="true"
             />
             <span className="text-slate-900 font-medium">{item.text}</span>

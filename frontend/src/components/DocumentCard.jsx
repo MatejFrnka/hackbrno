@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { formatDate, getDaysBetween } from '../utils/dateUtils';
-import { getColorClass } from '../utils/colorUtils';
 
-const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) => {
+const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [] }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const daysBetween = previousDate ? getDaysBetween(previousDate, document.date) : null;
 
@@ -58,14 +57,15 @@ const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) =>
                     <div className="text-sm leading-relaxed text-slate-700 whitespace-pre-line mb-3">
                         {document.highlightedText.map((part, idx) => {
                             if (part.type === 'highlight') {
-                                const shouldHighlight = selectedColors.length === 0 || selectedColors.includes(part.color);
+                                const shouldHighlight = selectedQuestionIds.length === 0 || (part.questionId && selectedQuestionIds.includes(part.questionId));
                                 return (
                                     <span
                                         key={`${document.id}-${idx}`}
                                         className={`px-1.5 py-0.5 rounded-full border font-medium ${shouldHighlight
-                                            ? getColorClass(part.color)
+                                            ? ''
                                             : 'bg-slate-100 text-slate-500 border-slate-200'
                                             }`}
+                                        style={shouldHighlight ? { backgroundColor: part.color } : undefined}
                                     >
                                         {part.content}
                                     </span>
@@ -75,7 +75,7 @@ const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) =>
                         })}
                     </div>
                 </div>
-            </article>
+            </article >
         </>
     );
 };
