@@ -1,0 +1,458 @@
+{
+  "patient_id": "HACK03",
+  "total_citations": 43,
+  "summary_long": "Primární diagnóza karcinomu levého prsu byla na našem pracovišti poprvé řešena 4. 10. 2022 při onkologické konzultaci pro nádor v horním zevním kvadrantu s kožní infiltrací a hmatnými axilárními uzlinami, suspektní lokálně pokročilý nález; vstupní staging byl následně doplněn a onemocnění bylo klasifikováno jako generalizovaný HER2 pozitivní karcinom levého prsu s bifokálním postižením a kožní infiltrací, mnohočetnými kostními a jaterními metastázami (klinicky odpovídající cT4, cN1, cM1, bez dostupné definitivní patologické TNM). Informace o ER/PR statutu v dostupné dokumentaci chybí, HER2 je opakovaně uváděno jako pozitivní. Již v říjnu 2022 byla pacientka přijata pro asymptomatickou hyperkalcémii v souvislosti s kostním postižením, zaléčena hydratací a redukovanou dávkou bisfosfonátu s následným poklesem kalcémie, a od počátku byla vedena paliativní systémová léčba kombinací taxanu a dvojité anti-HER2 blokády s kostně cílenou terapií, přičemž chirurgická léčba prsu nebyla indikována. V průběhu podávání anti-HER2 léčby byla opakovaně monitorována kardiální funkce echokardiograficky (11/2022, 1/2023, 3/2023, 5/2023, 8/2023) s nálezem zachované systolické funkce levé komory bez kontraindikace pokračování léčby; současně byl implantován centrální žilní port pro dlouhodobé podávání systémové terapie. Od podzimu 2022 do jara 2023 probíhaly pravidelné onkologické kontroly, při nichž byla nemoc hodnocena jako metastatická se stacionárním lokálním nálezem v prsu, přetrvávající diseminací do skeletu a jater, s významným omezením mobility pro bolesti páteře a pánevního skeletu, ale bez zásadních známek systémové toxicity léčby; interní a farmaceutická konzilia opakovaně řešila komorbidity (monoledvina po nefrektomii, revmatoidní artritida, osteoporóza) a úpravy chronické medikace. V lednu 2023 spondylo-onkologická komise popsala mnohočetná osteolytická ložiska s kompresivními frakturami obratlů a rizikem patologické fraktury proximálního femuru a doporučila šetrné zatěžování, ortopedické pomůcky, event. stabilizační výkon či radioterapii a pokračování kostně cílené léčby. V květnu 2023 došlo k zásadnímu zvratu – onko-hematologické vyšetření po zobrazení mozku a skeletu potvrdilo další diseminaci s postižením mozkového parenchymu a mnohočetnými kostními metastázami, přičemž bylo doporučeno zachovat stávající systémovou léčbu a zaměřit se na symptomatickou kontrolu bolesti a neurologických obtíží; následně byla indikována a plánována paliativní radioterapie bolestivých kostních ložisek páteře a pánevního skeletu (a event. prsu) v krátkém frakcionovaném schématu. Od května 2023 byla intenzivně zapojena paliativní péče (paliativní tým, ambulance paliativní medicíny) s důrazem na optimalizaci analgezie, prevenci pádů a dekubitů, podporu rodiny a organizaci domácí péče, přičemž ambulantní kontroly po úpravě analgetik popisují mírné zlepšení zvládání denních aktivit při přetrvávající únavě a omezené chůzi. V závěrečném shrnutí 5. 9. 2023 je pacientka hodnocena jako dlouhodobě paliativně léčená pro metastatický HER2 pozitivní karcinom prsu s kostním, jaterním a mozkovým postižením, s adaptací systémové léčby výkonostnímu stavu, trvající závislostí na pomoci druhé osoby v některých denních činnostech a kontinuálním sledováním v onkologické ambulanci s možností kontaktu při zhoršení stavu.",
+  "citations": [
+    {
+      "question_id": 1,
+      "quoted_text": "První onkologická konzultace pro nově diagnostikovaný karcinom levého prsu",
+      "confidence": "medium",
+      "record_id": 0,
+      "start_char": 0,
+      "end_char": 74
+    },
+    {
+      "question_id": 2,
+      "quoted_text": "Závěr: suspektně lokálně pokročilý nádor prsu",
+      "confidence": "low",
+      "record_id": 0,
+      "start_char": 387,
+      "end_char": 432
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "asymptomatickou hyperkalcémii u pacientky s metastatickým karcinomem prsu a suspektním kostním postižením",
+      "confidence": "high",
+      "record_id": 2,
+      "start_char": 73,
+      "end_char": 178
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 3,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 3,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 4,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 4,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 3,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu",
+      "confidence": "high",
+      "record_id": 6,
+      "start_char": 95,
+      "end_char": 130
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "mnohočetné kostní a jaterní metastázy",
+      "confidence": "high",
+      "record_id": 6,
+      "start_char": 172,
+      "end_char": 209
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 7,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 7,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "Stav hodnocen jako generalizovaný karcinom prsu",
+      "confidence": "high",
+      "record_id": 9,
+      "start_char": 227,
+      "end_char": 274
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "generalizovaný karcinom prsu s kostními a jaterními metastázami",
+      "confidence": "high",
+      "record_id": 9,
+      "start_char": 246,
+      "end_char": 309
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 10,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 10,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 3,
+      "quoted_text": "paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu",
+      "confidence": "high",
+      "record_id": 12,
+      "start_char": 31,
+      "end_char": 97
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 12,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 12,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 13,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 13,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 3,
+      "quoted_text": "paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu",
+      "confidence": "high",
+      "record_id": 15,
+      "start_char": 31,
+      "end_char": 97
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 15,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "mnohočetná osteolytická ložiska s kompresivními frakturami obratlových těl a rizikem patologické fraktury proximálního femuru",
+      "confidence": "high",
+      "record_id": 16,
+      "start_char": 112,
+      "end_char": 237
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 18,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 18,
+      "start_char": 100,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 18,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 19,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 19,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 3,
+      "quoted_text": "paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu",
+      "confidence": "high",
+      "record_id": 21,
+      "start_char": 31,
+      "end_char": 97
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "HER2 pozitivní karcinom levého prsu s diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 21,
+      "start_char": 62,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 21,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 4,
+      "quoted_text": "Interní konzilium u pacientky léčené pro metastatický karcinom prsu.",
+      "confidence": "medium",
+      "record_id": 23,
+      "start_char": 0,
+      "end_char": 68
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "léčené pro metastatický karcinom prsu",
+      "confidence": "medium",
+      "record_id": 23,
+      "start_char": 30,
+      "end_char": 67
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "léčené pro metastatický karcinom prsu",
+      "confidence": "high",
+      "record_id": 23,
+      "start_char": 30,
+      "end_char": 67
+    },
+    {
+      "question_id": 3,
+      "quoted_text": "paliativní systémové léčby pro HER2 pozitivní karcinom levého prsu",
+      "confidence": "high",
+      "record_id": 24,
+      "start_char": 31,
+      "end_char": 97
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "diseminací do skeletu a jater",
+      "confidence": "high",
+      "record_id": 24,
+      "start_char": 100,
+      "end_char": 129
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "lokálně v prsu stacionární rozsah tumoru",
+      "confidence": "high",
+      "record_id": 24,
+      "start_char": 409,
+      "end_char": 449
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "Potvrzena diseminace onemocnění s postižím mozkového parenchymu a mnohačetnými kostními metastázami.",
+      "confidence": "high",
+      "record_id": 25,
+      "start_char": 74,
+      "end_char": 174
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "postižím mozkového parenchymu a mnohačetnými kostními metastázami",
+      "confidence": "high",
+      "record_id": 25,
+      "start_char": 108,
+      "end_char": 173
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "paliativní ozáření bolestivých kostních ložisek v oblasti páteře a pánevního skeletu",
+      "confidence": "high",
+      "record_id": 27,
+      "start_char": 40,
+      "end_char": 124
+    },
+    {
+      "question_id": 7,
+      "quoted_text": "paliativní ozáření bolestivých kostních ložisek v oblasti páteře a pánevního skeletu",
+      "confidence": "high",
+      "record_id": 32,
+      "start_char": 40,
+      "end_char": 124
+    },
+    {
+      "question_id": 1,
+      "quoted_text": "První onkologická konzultace pro nově diagnostikovaný karcinom levého prsu",
+      "confidence": "medium",
+      "record_id": 34,
+      "start_char": 0,
+      "end_char": 74
+    },
+    {
+      "question_id": 5,
+      "quoted_text": "Závěr: suspektně lokálně pokročilý nádor prsu, nutné dovyšetření",
+      "confidence": "medium",
+      "record_id": 34,
+      "start_char": 387,
+      "end_char": 451
+    }
+  ],
+  "highlights": [
+    {
+      "quoted_text": "První onkologická konzultace pro nově diagnostikovaný karcinom levého prsu",
+      "note": "První stanovení diagnózy karcinomu prsu, zahájení onkologické péče a plánování léčby",
+      "record_id": 0,
+      "start_char": 0,
+      "end_char": 74
+    },
+    {
+      "quoted_text": "Upozornění na sníženou funkci jediné ledviny a zvýšenou hodnotu kalcia",
+      "note": "Významné komorbidity – monoledvina se sníženou funkcí a hyperkalcémie ovlivňují volbu a dávkování protinádorové i podpůrné léčby, vyžadují pečlivé sledování",
+      "record_id": 1,
+      "start_char": 137,
+      "end_char": 207
+    },
+    {
+      "quoted_text": "asymptomatickou hyperkalcémii u pacientky s metastatickým karcinomem prsu a suspektním kostním postižením",
+      "note": "Nově řešená hyperkalcémie u metastatického karcinomu prsu, pravděpodobně v souvislosti s kostním postižením, vyžaduje akutní intervenci a další sledování",
+      "record_id": 2,
+      "start_char": 73,
+      "end_char": 178
+    },
+    {
+      "quoted_text": "Provedena hydratace intravenózními infuzemi, podán redukovaný bolus bisfosfonátu vzhledem k monoledvině",
+      "note": "Akutní léčba hyperkalcémie s úpravou dávky bisfosfonátu kvůli monoledvině – důležité pro další plánování antiresorpční terapie",
+      "record_id": 2,
+      "start_char": 180,
+      "end_char": 283
+    },
+    {
+      "quoted_text": "Pacientka přichází na vozíku, mobilita omezena bolestmi v páteři a v oblasti pánevního skeletu",
+      "note": "Nově či výrazně omezená mobilita kvůli kostním bolestem, svědčí pro pokročilé kostní postižení a zhoršení funkčního stavu",
+      "record_id": 3,
+      "start_char": 131,
+      "end_char": 225
+    },
+    {
+      "quoted_text": "HER2 pozitivní karcinom levého prsu, bifokální postižení s kožní infiltrací, mnohočetné kostní a jaterní metastázy",
+      "note": "Popis pokročilého, metastatického HER2+ karcinomu prsu včetně kožní infiltrace a mnohočetných kostních a jaterních metastáz – zásadní pro staging a prognózu.",
+      "record_id": 6,
+      "start_char": 95,
+      "end_char": 209
+    },
+    {
+      "quoted_text": "Komise se shoduje na paliativní systémové terapii kombinací taxanu a dvojité blokády HER2, doplněné kostně cílenou léčbou",
+      "note": "Stanovení léčebného plánu: paliativní systémová léčba (taxan + duální HER2 blokáda) a kostně cílená terapie pro kontrolu metastatického onemocnění.",
+      "record_id": 6,
+      "start_char": 337,
+      "end_char": 458
+    },
+    {
+      "quoted_text": "Stav hodnocen jako generalizovaný karcinom prsu s kostními a jaterními metastázami",
+      "note": "Potvrzení pokročilého, generalizovaného stadia onemocnění s metastázami do kostí a jater – zásadní pro prognózu a volbu paliativní léčby.",
+      "record_id": 9,
+      "start_char": 227,
+      "end_char": 309
+    },
+    {
+      "quoted_text": "Port ponechán k dlouhodobému používání pro systémovou léčbu.",
+      "note": "Zaveden a zkontrolován centrální žilní port, připraven k dlouhodobému podávání systémové onkologické léčby bez známek komplikací.",
+      "record_id": 11,
+      "start_char": 311,
+      "end_char": 371
+    },
+    {
+      "quoted_text": "kardiologicky bez kontraindikace pokračování v současném režimu léčby",
+      "note": "Echokardiografický nález umožňuje bezpečně pokračovat v anti‑HER2 terapii, bez známek kardiální toxicity",
+      "record_id": 14,
+      "start_char": 343,
+      "end_char": 412
+    },
+    {
+      "quoted_text": "mnohočetná osteolytická ložiska s kompresivními frakturami obratlových těl a rizikem patologické fraktury proximálního femuru",
+      "note": "Významná kostní infiltrace s již přítomnými kompresivními frakturami páteře a hrozící patologickou frakturou femuru, zásadní pro mobilitu a riziko akutních komplikací.",
+      "record_id": 16,
+      "start_char": 112,
+      "end_char": 237
+    },
+    {
+      "quoted_text": "Potvrzena diseminace onemocnění s postižím mozkového parenchymu a mnohačetnými kostními metastázami",
+      "note": "Nově potvrzená generalizace onemocnění do mozku a skeletu, zásadní pro prognózu a další léčebnou strategii",
+      "record_id": 25,
+      "start_char": 74,
+      "end_char": 173
+    },
+    {
+      "quoted_text": "paliativní ozáření bolestivých kostních ložisek v oblasti páteře a pánevního skeletu",
+      "note": "Nově indikovaná paliativní radioterapie kostních metastáz páteře a pánve pro bolestivost a riziko komplikací.",
+      "record_id": 27,
+      "start_char": 40,
+      "end_char": 124
+    },
+    {
+      "quoted_text": "Hlavními obtížemi jsou bolesti kostí, únava a obavy z dalšího průběhu onemocnění",
+      "note": "Nově akcentované symptomy (kostní bolest, únava) a výrazná psychická zátěž, důležité pro úpravu paliativní léčby a podpory",
+      "record_id": 28,
+      "start_char": 168,
+      "end_char": 248
+    },
+    {
+      "quoted_text": "Onemocnění je hodnoceno jako stabilizované, avšak s vysokým rizikem komplikací při pádu nebo infekci.",
+      "note": "Důležité zhodnocení aktuálního stavu – nemoc je nyní stabilní, ale pacientka je křehká a ohrožená závažnými komplikacemi při pádu či infekci.",
+      "record_id": 31,
+      "start_char": 101,
+      "end_char": 202
+    }
+  ]
+}

@@ -6,16 +6,15 @@ import asyncio
 import random
 from typing import List
 from openai import AsyncOpenAI
-from pydantic import BaseModel
 
 from llm_extraction.models import (
     PatientData,
     Question,
-    ExtractionCitation,
-    HighlightCitation,
+    ExtractionResult,
     HighlightCitationWithSpan,
     HighlightExtractionResult,
-    FilteredHighlightsResult
+    FilteredHighlightsResult,
+    MedicalRecord
 )
 from llm_extraction.prompts import (
     generate_extraction_prompt,
@@ -24,10 +23,6 @@ from llm_extraction.prompts import (
 )
 
 MAX_CONCURRENT_REQUESTS = 20  # Limit concurrent OpenAI requests
-
-class ExtractionResult(BaseModel):
-    """LLM response structure"""
-    citations: List[ExtractionCitation]
 
 
 class FeatureExtractor:
@@ -44,7 +39,7 @@ class FeatureExtractor:
 
     async def _extract_single_record(
         self,
-        record,
+        record: MedicalRecord,
         system_prompt: str,
         idx: int,
         total: int,
@@ -170,7 +165,7 @@ class HighlightExtractor:
 
     async def _extract_single_record(
         self,
-        record,
+        record: MedicalRecord,
         system_prompt: str,
         idx: int,
         total: int,
@@ -417,3 +412,45 @@ class HighlightFilter:
         lines.append("\nVyber indexy highlights, které jsou skutečně důležité.")
 
         return "\n".join(lines)
+
+
+class PatientSummaryExtractor:
+    """
+    Extracts a comprehensive narrative summary of a patient's medical journey.
+    """
+
+    def __init__(self, client: AsyncOpenAI, model: str = "gpt-5.1"):
+        """
+        Args:
+            client: AsyncOpenAI client instance
+            model: OpenAI model to use for summarization
+        """
+        self.client = client
+        self.model = model
+
+    async def summarize_patient_async(self, patient_data: PatientData) -> str:
+        """
+        Generate patient summary asynchronously using LLM.
+
+        Args:
+            patient_data: PatientData object containing medical records
+
+        Returns:
+            String containing narrative summary of patient journey
+        """
+        system_prompt = """Jsi odborný lékařský AI asistent specializující se na extrakci informací z českých lékařských zpráv o pacientkách s karcinomem prsu. Tvým úkolem je vytvořit stručné, narativní shrnutí cesty pacientky na základě poskytnutých lékařských záznamů. Toto shrnutí je určeno pro klinického lékaře, který potřebuje rychlý přehled před detailní analýzou dat.\nShrnutí by mělo chronologicky popisovat klíčové události. Musí obsahovat datum stanovení primární diagnózy, vstupní klinickou a výslednou patologickou TNM klasifikaci, a stav hormonálních receptorů (ER, PR) a HER2. Dále popiš průběh léčby, přičemž explicitně zmiň jakoukoliv léčbu podanou mimo naše pracoviště (např. mimo MOÚ). Klíčové je zdůraznit zásadní zvraty v průběhu onemocnění, jako je progrese, lokální recidiva nebo výskyt vzdálených metastáz. Soustřeď se na celkový stav pacientky a jeho klíčové změny v čase.\nV žádném případě neposkytuj doporučení, nenavrhuj další postup ani nevysvětluj odborné termíny. Výstup slouží výhradně pro post-analýzu. Nekomentuj současný stav pacientky, protože se jedná o retrospektivní shrnutí.\nVýstup musí být jeden souvislý odstavec textu bez jakéhokoliv formátování, nadpisů či odrážek. Cílem je hutné, ale komplexní shrnutí, které vystihuje esenci klinické historie pacientky v rozsahu přibližně 5-10 vět."""
+
+        user_prompt = f"""Níže jsou lékařské záznamy pacienta s karcinomem prsu:\n\n{chr(10).join([f'Záznam ID: {record.record_id}\nDatum: {record.date}\nTyp záznamu: {record.record_type}\nText záznamu:\n{record.text}\n' for record in patient_data.records])}"""
+
+        print("Generating patient summary...")
+
+        response = await self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            temperature=0.1,
+        )
+
+        return response.choices[0].message.content

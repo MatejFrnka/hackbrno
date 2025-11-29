@@ -6,7 +6,7 @@ import typing
 from openai import AsyncOpenAI
 
 from llm_extraction.models import Question, MedicalRecord, PatientData
-from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter
+from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter, PatientSummaryExtractor
 from llm_extraction.span_matcher import SpanMatcher
 
 
@@ -15,7 +15,7 @@ class LLMBackend:
         # TODO
         return {'input': [patient, questions]}
 
-    def summarize_patient(self, patient: pd.DataFrame, processed_data) -> str:
+    def summarize_patient(self, patient: pd.DataFrame) -> str:
         # TODO
         return 'Patient is ...'
 
@@ -58,6 +58,54 @@ class LLMBackendBase(LLMBackend):
         self.highlight_extractor = HighlightExtractor(self.client, model=self.model)
         self.highlight_filter = HighlightFilter(self.client, model=self.model)
 
+        # Initialize patient summary extractor
+        self.patient_summary_extractor = PatientSummaryExtractor(self.client, model=self.model)
+
+    def prepare_patient_data(self, patient: pd.DataFrame) -> PatientData:
+        """
+        Prepare PatientData object from a DataFrame.
+
+        Args:
+            patient: DataFrame with columns [patient_id, record_id, date, type, text]
+
+        Returns:
+            PatientData object with MedicalRecord objects
+        """
+        patient_id = str(patient.iloc[0]['patient_id'])
+
+        records = [
+            MedicalRecord(
+                record_id=row['record_id'],
+                patient_id=patient_id,
+                date=str(row['date']),
+                record_type=str(row['type']),
+                text=str(row['text']),
+                text_hash=hashlib.sha256(str(row['text']).encode('utf-8')).hexdigest()
+            )
+            for _, row in patient.iterrows()
+        ]
+
+        return PatientData(patient_id=patient_id, records=records)
+
+    def prepare_questions(self, questions: typing.List[typing.Tuple[int, str, str]]) -> typing.List[Question]:
+        """
+        Convert list of question tuples to Question objects.
+
+        Args:
+            questions: List of (question_id, question_text, additional_instructions) tuples
+
+        Returns:
+            List of Question objects
+        """
+        return [
+            Question(
+                question_id=qid,
+                text=text,
+                additional_instructions=instructions
+            )
+            for qid, text, instructions in questions
+        ]
+
     def process_patient(self, patient: pd.DataFrame, questions: typing.List[typing.Tuple[int, str, str]]):
         """
         Extract medical information from patient records (synchronous wrapper).
@@ -69,7 +117,46 @@ class LLMBackendBase(LLMBackend):
         Returns:
             Dictionary with patient_id, total_citations, and list of citations with spans
         """
-        return asyncio.run(self._process_patient_async(patient, questions))
+        # Prepare patient data
+        patient_data = self.prepare_patient_data(patient)
+        questions_objects = self.prepare_questions(questions)
+
+        # Extract and process citations
+        sorted_citations = asyncio.run(self._extract_citations(patient_data, questions_objects))
+
+        # Extract and process highlights
+        sorted_highlights = asyncio.run(self._extract_highlights(patient_data))
+
+        # Generate patient summary
+        summary = asyncio.run(self._summarize_patient(patient_data))
+
+        # Format results as dictionary
+        return {
+            "patient_id": patient_data.patient_id,
+            "total_citations": len(sorted_citations),
+            "summary_long": summary,
+            "citations": [
+                {
+                    "question_id": c.question_id,
+                    "quoted_text": c.quoted_text,
+                    "confidence": c.confidence,
+                    "record_id": c.record_id,
+                    "start_char": c.start_char,
+                    "end_char": c.end_char
+                }
+                for c in sorted_citations
+            ],
+            "highlights": [
+                {
+                    "quoted_text": h.quoted_text,
+                    "note": h.note,
+                    "record_id": h.record_id,
+                    "start_char": h.start_char,
+                    "end_char": h.end_char
+                }
+                for h in sorted_highlights
+            ]
+        }
 
     async def _process_patient_async(self, patient: pd.DataFrame, questions: typing.List[typing.Tuple[int, str, str]]):
         """
@@ -134,10 +221,14 @@ class LLMBackendBase(LLMBackend):
         # Extract and process highlights
         sorted_highlights = await self._extract_highlights(patient_data)
 
+        # Generate patient summary
+        summary = await self._summarize_patient_async(patient)
+
         # Format results as dictionary
         return {
             "patient_id": patient_id,
             "total_citations": len(sorted_citations),
+            "summary_long": summary,
             "citations": [
                 {
                     "question_id": c.question_id,
@@ -224,9 +315,34 @@ class LLMBackendBase(LLMBackend):
             key=lambda h: (h.record_id, h.start_char)
         )
 
-    def summarize_patient(self, patient: pd.DataFrame, processed_data) -> str:
-        """Not currently used."""
-        raise NotImplementedError("summarize_patient is not currently used")
+    async def _summarize_patient(self, patient_data: PatientData) -> str:
+        """
+        Generate patient summary asynchronously.
+
+        Args:
+            patient_data: Patient data with medical records
+
+        Returns:
+            String containing narrative summary of patient journey
+        """
+        # Generate summary using LLM (async)
+        return await self.patient_summary_extractor.summarize_patient_async(patient_data)
+
+    def summarize_patient(self, patient: pd.DataFrame) -> str:
+        """
+        Generate a comprehensive narrative summary of patient's medical journey.
+
+        Args:
+            patient: DataFrame with columns [patient_id, record_id, date, type, text]
+
+        Returns:
+            String containing narrative summary of patient journey
+        """
+        # Prepare patient data
+        patient_data = self.prepare_patient_data(patient)
+
+        # Generate patient summary
+        return asyncio.run(self._summarize_patient(patient_data))
 
     def summarize_batch(self, patients: typing.List[typing.Tuple[pd.DataFrame, typing.Any, str]]) -> str:
         """Not currently used."""

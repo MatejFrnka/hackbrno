@@ -71,6 +71,11 @@ class HighlightCitationWithSpan(BaseModel):
     end_char: int
 
 
+class ExtractionResult(BaseModel):
+    """LLM response structure for feature extraction"""
+    citations: List[ExtractionCitation]
+
+
 class HighlightExtractionResult(BaseModel):
     """LLM response for Stage 1 highlight extraction"""
     highlights: List[HighlightCitation]
