@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000';
+const API_BASE_URL = 'http://localhost:5001';
 
 // Lighten a hex color by blending it with white
 const lightenHexColor = (hex, factor = 0.6) => {
