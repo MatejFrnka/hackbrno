@@ -176,7 +176,6 @@ export const fetchPatient = async (patientId) => {
         };
     });
 
-    console.log(documents);
 
     return {
         id: patientId,

@@ -24,7 +24,6 @@ const PatientInformation = () => {
             try {
                 setLoading(true);
                 const data = await fetchPatient(decodedId);
-                console.log(data);
                 if (data) {
                     // Calculate start and end dates from documents if not provided
                     if (data.documents && data.documents.length > 0) {

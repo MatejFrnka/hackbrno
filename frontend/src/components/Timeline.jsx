@@ -22,6 +22,8 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
         : null;
 
+    console.log(currentPosition);
+
     // Group documents by date with their question IDs, colors, and document IDs
     const documentsByDate = {};
     documents.forEach((doc) => {
@@ -86,36 +88,60 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                         </div>
                     )}
 
-                    {timelinePoints.map((point) => (
-                        <div
-                            key={point.date}
-                            className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-                            style={{
-                                top: `${point.position}%`,
-                                transform: 'translateX(-50%) translateY(-50%)'
-                            }}
-                        >
-                            {point.questionIds.map((questionId) => {
-                                const color = point.colors[questionId];
-                                const docId = point.docIds[questionId];
-                                const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(questionId));
-                                return (
-                                    <div key={`${point.date}-${questionId}`} className="relative group">
-                                        <button
-                                            type="button"
-                                            onClick={() => onDocumentClick && onDocumentClick(docId)}
-                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer`}
-                                            style={isActive ? { backgroundColor: color } : { backgroundColor: '#cbd5e1' }}
-                                        />
-                                        {/* Hover tooltip for date */}
-                                        <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
-                                            {formatDate(point.date)}
-                                        </span>
+                    {timelinePoints.map((point) => {
+                        // Group highlights by document ID, ensuring each questionId appears only once per document
+                        const highlightsByDoc = {};
+
+                        point.questionIds.forEach((questionId) => {
+                            const docId = point.docIds[questionId];
+                            if (!highlightsByDoc[docId]) {
+                                highlightsByDoc[docId] = new Map();
+                            }
+                            // Use Map to ensure each questionId appears only once per document
+                            if (!highlightsByDoc[docId].has(questionId)) {
+                                highlightsByDoc[docId].set(questionId, {
+                                    questionId,
+                                    color: point.colors[questionId],
+                                    docId,
+                                });
+                            }
+                        });
+
+                        const documentGroups = Object.values(highlightsByDoc).map(map => Array.from(map.values()));
+
+                        return (
+                            <div
+                                key={point.date}
+                                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+                                style={{
+                                    top: `${point.position}%`,
+                                    transform: 'translateX(-50%) translateY(-50%)'
+                                }}
+                            >
+                                {documentGroups.map((highlights, docIndex) => (
+                                    <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1">
+                                        {highlights.map((highlight) => {
+                                            const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(highlight.questionId));
+                                            return (
+                                                <div key={`${point.date}-${highlight.questionId}`} className="relative group pointer-events-none inline-flex items-center justify-center w-3 h-3">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => onDocumentClick && onDocumentClick(highlight.docId)}
+                                                        className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto`}
+                                                        style={isActive ? { backgroundColor: highlight.color } : { backgroundColor: '#cbd5e1' }}
+                                                    />
+                                                    {/* Hover tooltip for date */}
+                                                    <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
+                                                        {formatDate(point.date)}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                                ))}
+                            </div>
+                        );
+                    })}
 
                     {/* Significant events - diamonds with bubbles */}
                     {eventPoints.map((event) => (
