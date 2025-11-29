@@ -10,7 +10,7 @@ const DifficultyRating = ({ rating }) => {
                     />
                 ))}
             </div>
-            <span className="text-xs font-medium text-slate-500">Difficulty {rating}/5</span>
+            <span className="text-xs font-medium text-slate-500">Completness {rating}/5</span>
         </div>
     );
 };

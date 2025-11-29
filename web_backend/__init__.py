@@ -135,7 +135,10 @@ def dashboard_api():
             } for q in batch_questions 
             if q.id not in answered_question_ids
         ]
-        
+
+        difficulty = len(answered_questions) / (len(answered_questions) + len(unanswered_questions))
+        difficulty = round(5 * difficulty)
+
         patients.append({
             'id': p.id,
             'name': p.patient_id,
@@ -144,7 +147,7 @@ def dashboard_api():
             'relevant_documents_total': sum(1 for r in p.records if len(r.findings) > 0),
             'documents_start_date': min(r.date for r in p.records),
             'documents_end_date': max(r.date for r in p.records),
-            'difficulty': 2, # todo: compute difficulty
+            'difficulty': difficulty,
             'answered_questions': answered_questions,
             'unanswered_questions': unanswered_questions,
         })
