@@ -56,7 +56,7 @@ def patient_data(patient: BatchPatient):
     records_dict = dict()
     for rec in patient.records:
         records.append({
-            'patent_id': patient.id,
+            'patient_id': patient.id,
             'record_id': rec.id,
             'date': rec.date,
             'type': rec.type,
@@ -77,19 +77,21 @@ def process_batch(batch: Batch, backend: LLMBackend):
         output = backend.process_patient(input_data, questions)
         for c in output['citations']:
             finding = Finding(
-                patient_record_id=patient.id,
+                patient_record_id=c['record_id'],
+                question_id=c['question_id'],
                 confidence=c['confidence'],
-                record_id=c['record_id'],
                 offset_start=c['start_char'],
                 offset_end=c['end_char'],
             )
             db.session.add(finding)
 
         print(output)
-        summary = backend.summarize_patient(input_data, output)
-        print(summary)
+        # TODO
+        # summary = backend.summarize_patient(input_data, output)
+        # print(summary)
+        summary = ''
         patients.append((input_data, output, summary))
 
-    batch.summary = backend.summarize_batch(patients)
+    # batch.summary = backend.summarize_batch(patients)
     batch.done = datetime.now()
     db.session.commit()
