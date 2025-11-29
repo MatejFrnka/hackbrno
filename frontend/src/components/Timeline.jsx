@@ -1,11 +1,17 @@
 import { getColorBgClass } from '../utils/colorUtils';
 import { formatDate } from '../utils/dateUtils';
 
-const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = [] }) => {
-    if (documents.length === 0) return null;
+const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = [], significantEvents = [] }) => {
+    // Get all dates from documents and events
+    const allDates = [
+        ...documents.map(doc => doc.date),
+        ...significantEvents.map(event => event.date)
+    ];
+
+    if (allDates.length === 0) return null;
 
     // Get all unique dates and sort them
-    const sortedDates = [...new Set(documents.map(doc => doc.date))].sort((a, b) => new Date(a) - new Date(b));
+    const sortedDates = [...new Set(allDates)].sort((a, b) => new Date(a) - new Date(b));
     const startDate = sortedDates[0];
     const endDate = sortedDates[sortedDates.length - 1];
 
@@ -40,6 +46,14 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
         const colors = Object.keys(dateData.colors);
         const docIds = dateData.docIds;
         return { date, position, colors, docIds };
+    });
+
+    // Calculate positions for significant events
+    const eventPoints = significantEvents.map((event) => {
+        const eventTime = new Date(event.date).getTime();
+        const position = totalTime > 0 ? ((eventTime - startTime) / totalTime) * 100 : 0;
+        const isActive = selectedColors.length === 0 || selectedColors.includes(event.color);
+        return { ...event, position, isActive };
     });
 
     return (
@@ -93,6 +107,48 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                                     </div>
                                 );
                             })}
+                        </div>
+                    ))}
+
+                    {/* Significant events - diamonds with bubbles */}
+                    {eventPoints.map((event) => (
+                        <div key={event.id}>
+                            {/* Diamond at original position */}
+                            <div
+                                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
+                                style={{ top: `${event.position}%` }}
+                            >
+                                <div
+                                    className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 ${event.isActive ? getColorBgClass(event.color) : 'bg-slate-300'
+                                        }`}
+                                />
+                            </div>
+                            {/* Connecting line from diamond to bubble */}
+                            <div
+                                className="absolute"
+                                style={{
+                                    left: '50%',
+                                    top: `${event.position}%`,
+                                    width: '8px',
+                                    height: '1px',
+                                    backgroundColor: 'rgba(148, 163, 184, 0.3)',
+                                    transform: 'translateY(-50%)',
+                                    zIndex: 5,
+                                }}
+                            />
+                            {/* Bubble with description - always visible to the right */}
+                            <div
+                                className="absolute"
+                                style={{
+                                    left: 'calc(50% + 8px)',
+                                    top: `${event.position}%`,
+                                    transform: 'translateY(-50%)'
+                                }}
+                            >
+                                <div className="text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
+                                    <div className="text-xs">{event.description}</div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
