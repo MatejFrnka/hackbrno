@@ -58,9 +58,9 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
 
     return (
         <aside className="hidden lg:flex w-24 sticky top-24 h-[calc(100vh-8rem)]">
-            <div className="relative flex-1 flex flex-col pt-8">
+            <div className="relative flex-1 flex flex-col">
                 {/* Start date at top */}
-                <div className="text-center mb-2">
+                <div className="text-center pt-8 pb-2">
                     <p className="text-[10px] text-slate-500 font-medium">
                         {formatDate(startDate)}
                     </p>
@@ -160,7 +160,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                 </div>
 
                 {/* End date at bottom */}
-                <div className="text-center mt-2">
+                <div className="text-center pt-2 pb-8">
                     <p className="text-[10px] text-slate-500 font-medium">
                         {formatDate(endDate)}
                     </p>
