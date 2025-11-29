@@ -199,7 +199,7 @@ def dashboard_api():
     data = {
         'summary': bt.summary,
         'patients': patients,
-        'documents_total': sum(p.documents_total for p in patients),
+        'documents_total': sum(p['documents_total'] for p in patients),
     }
     return jsonify(data)
 
