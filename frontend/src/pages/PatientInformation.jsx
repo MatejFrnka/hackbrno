@@ -237,7 +237,7 @@ const PatientInformation = () => {
             <main className="max-w-6xl mx-auto px-4 py-8">
                 <div className="flex flex-col lg:flex-row gap-8">
                     <div className="hidden lg:block lg:w-48 flex-shrink-0">
-                        <div className="sticky top-32 space-y-4">
+                        <div className="sticky top-32 space-y-4 max-h-[calc(100vh-10rem)] overflow-y-auto custom-scrollbar">
                             <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
                                 <ColorFilter
                                     items={patient.questions?.map(q => ({ id: q.id, label: q.text, color: q.color })) || []}
