@@ -4,6 +4,7 @@ import hashlib
 import pandas as pd
 import typing
 from openai import AsyncOpenAI
+import markdown2
 
 from llm_extraction.models import Question, MedicalRecord, PatientData
 from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter, PatientSummaryExtractor, BatchSummaryExtractor
@@ -63,6 +64,30 @@ class LLMBackendBase(LLMBackend):
 
         # Initialize batch summary extractor
         self.batch_summary_extractor = BatchSummaryExtractor(self.client, model=self.model)
+
+    def _convert_markdown_to_html(self, markdown_text: str) -> str:
+        """
+        Convert markdown text to HTML.
+
+        Args:
+            markdown_text: Markdown formatted string
+
+        Returns:
+            HTML string
+        """
+        if not markdown_text or markdown_text.strip() == "":
+            return ""
+
+        html = markdown2.markdown(
+            markdown_text,
+            extras=[
+                "fenced-code-blocks",
+                "code-friendly",
+                "cuddled-lists",
+            ]
+        )
+
+        return html
 
     def prepare_patient_data(self, patient: pd.DataFrame) -> PatientData:
         """
@@ -144,15 +169,19 @@ class LLMBackendBase(LLMBackend):
         # Extract and process highlights
         sorted_highlights = asyncio.run(self._extract_highlights(patient_data))
 
-        # Generate patient summary (long)
-        summary_long = asyncio.run(self._summarize_patient(patient_data))
+        # Generate patient summary (long) - returns markdown
+        summary_long_markdown = asyncio.run(self._summarize_patient(patient_data))
 
-        # Generate short summary from citations
-        summary_short = asyncio.run(self._summarize_citations(
+        # Generate short summary from citations - returns markdown
+        summary_short_markdown = asyncio.run(self._summarize_citations(
             sorted_citations,
             questions_objects,
             patient_data
         ))
+
+        # Convert markdown to HTML
+        summary_long = self._convert_markdown_to_html(summary_long_markdown)
+        summary_short = self._convert_markdown_to_html(summary_short_markdown)
 
         # Format results as dictionary
         return {
@@ -331,5 +360,10 @@ class LLMBackendBase(LLMBackend):
             ... ]
             >>> batch_summary = backend.summarize_batch(patient_summaries)
         """
-        # Generate batch summary
-        return asyncio.run(self._summarize_batch(patient_summaries))
+        # Generate batch summary - returns markdown
+        batch_summary_markdown = asyncio.run(self._summarize_batch(patient_summaries))
+
+        # Convert markdown to HTML
+        batch_summary_html = self._convert_markdown_to_html(batch_summary_markdown)
+
+        return batch_summary_html
