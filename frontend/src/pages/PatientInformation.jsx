@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { patients } from '../data/mockData';
 import { formatDateRange } from '../utils/dateUtils';
@@ -10,6 +10,8 @@ const PatientInformation = () => {
     const { id: encodedId } = useParams();
     const navigate = useNavigate();
     const [selectedColors, setSelectedColors] = useState([]);
+    const [currentDocumentDate, setCurrentDocumentDate] = useState(null);
+    const documentRefs = useRef({});
 
     const decodedId = encodedId ? decodeURIComponent(encodedId) : '';
     const patient = patients.find((p) => p.id === decodedId);
@@ -29,6 +31,42 @@ const PatientInformation = () => {
             prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color],
         );
     };
+
+    // Track which document is currently in view
+    useEffect(() => {
+        if (filteredDocuments.length === 0) return;
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0,
+        };
+
+        const observerCallback = (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const docId = entry.target.getAttribute('data-doc-id');
+                    const document = filteredDocuments.find(d => d.id === docId);
+                    if (document) {
+                        setCurrentDocumentDate(document.date);
+                    }
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        // Observe all document elements
+        Object.values(documentRefs.current).forEach((ref) => {
+            if (ref) observer.observe(ref);
+        });
+
+        return () => {
+            Object.values(documentRefs.current).forEach((ref) => {
+                if (ref) observer.unobserve(ref);
+            });
+        };
+    }, [filteredDocuments]);
 
     if (!patient) {
         return (
@@ -139,12 +177,17 @@ const PatientInformation = () => {
                                 filteredDocuments.map((doc, index) => {
                                     const previousDoc = index > 0 ? filteredDocuments[index - 1] : null;
                                     return (
-                                        <DocumentCard
+                                        <div
                                             key={doc.id}
-                                            document={doc}
-                                            index={index + 1}
-                                            previousDate={previousDoc?.date}
-                                        />
+                                            ref={(el) => (documentRefs.current[doc.id] = el)}
+                                            data-doc-id={doc.id}
+                                        >
+                                            <DocumentCard
+                                                document={doc}
+                                                index={index + 1}
+                                                previousDate={previousDoc?.date}
+                                            />
+                                        </div>
                                     );
                                 })
                             ) : (
@@ -162,6 +205,7 @@ const PatientInformation = () => {
                             documents={filteredDocuments}
                             questions={patient.questions}
                             onColorClick={handleToggleColor}
+                            currentDate={currentDocumentDate}
                         />
                     </div>
                 </div>

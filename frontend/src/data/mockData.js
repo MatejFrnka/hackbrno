@@ -73,10 +73,10 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
             // Find a phrase to highlight (Czech medical terms from hack01)
             const phrases = {
                 blue: ['cT2N0M0', 'pT2N0M0', 'pTNM', 'TNM', 'klasifikace'],
-                red: ['diagnóza', 'Diagnóza', 'karcinom', 'invazivní karcinom', 'malignita'],
+                red: ['diagnóza', 'prsu', 'karcinom', 'invazivní karcinom', 'malignita'],
                 green: ['léčba', 'Léčba', 'radioterapie', 'operace', 'mastektomie', 'léčebná rozvaha'],
                 yellow: ['potíže', 'Potíže', 'bolesti', 'bolest', 'únavu', 'symptomy'],
-                purple: ['prognóza', 'Prognóza', 'příznivé', 'pozitivní'],
+                purple: ['prognóza', 'Prognóza', 'příznivé', 'pozitivní', 'CT', 'Osobní'],
                 orange: ['medikace', 'Medikace', 'léky', 'léčiv', 'farmakologická anamnéza'],
                 pink: ['vyšetření', 'Vyšetření', 'výsledky', 'laboratorní', 'CT', 'RTG', 'UZ'],
                 cyan: ['anamnéza', 'Anamnéza', 'osobní anamnéza', 'rodinná anamnéza', 'historie'],

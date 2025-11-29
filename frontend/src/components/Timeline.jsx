@@ -1,63 +1,104 @@
 import { getColorBgClass } from '../utils/colorUtils';
 import { formatDate } from '../utils/dateUtils';
 
-const Timeline = ({ documents, questions, onColorClick }) => {
-    const timelineData = [];
+const Timeline = ({ documents, questions, onColorClick, currentDate }) => {
+    if (documents.length === 0) return null;
+
+    // Get all unique dates and sort them
+    const sortedDates = [...new Set(documents.map(doc => doc.date))].sort((a, b) => new Date(a) - new Date(b));
+    const startDate = sortedDates[0];
+    const endDate = sortedDates[sortedDates.length - 1];
+
+    const startTime = new Date(startDate).getTime();
+    const endTime = new Date(endDate).getTime();
+    const totalTime = endTime - startTime;
+
+    // Calculate position of current date
+    const currentPosition = currentDate && totalTime > 0
+        ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
+        : null;
+
+    // Group documents by date with their colors
+    const documentsByDate = {};
     documents.forEach((doc) => {
+        if (!documentsByDate[doc.date]) {
+            documentsByDate[doc.date] = [];
+        }
         const colors = [...new Set(doc.highlights.map((h) => h.color))];
         if (colors.length > 0) {
-            timelineData.push({
-                date: doc.date,
-                colors,
-            });
+            documentsByDate[doc.date].push(...colors);
         }
     });
 
-    const groupedByDate = {};
-    timelineData.forEach((item) => {
-        if (!groupedByDate[item.date]) {
-            groupedByDate[item.date] = [];
-        }
-        item.colors.forEach((color) => {
-            if (!groupedByDate[item.date].includes(color)) {
-                groupedByDate[item.date].push(color);
-            }
-        });
+    // Calculate positions for each date
+    const timelinePoints = sortedDates.map((date) => {
+        const dateTime = new Date(date).getTime();
+        const position = totalTime > 0 ? ((dateTime - startTime) / totalTime) * 100 : 0;
+        const colors = [...new Set(documentsByDate[date] || [])];
+        return { date, position, colors };
     });
-
-    const sortedDates = Object.keys(groupedByDate).sort((a, b) => new Date(a) - new Date(b));
 
     return (
         <aside className="hidden lg:flex w-24 sticky top-24 h-[calc(100vh-8rem)]">
-            <div className="relative flex-1">
-                <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-slate-200 rounded-full" />
-                <div className="flex flex-col items-center gap-6 pt-4">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-slate-400">
-                        Timeline
+            <div className="relative flex-1 flex flex-col pt-8">
+                {/* Start date at top */}
+                <div className="text-center mb-2">
+                    <p className="text-[10px] text-slate-500 font-medium">
+                        {formatDate(startDate)}
                     </p>
-                    {sortedDates.map((date) => (
-                        <div key={date} className="flex flex-col items-center gap-2">
-                            <div className="flex flex-col items-center gap-1.5">
-                                {groupedByDate[date].map((color) => {
-                                    const question = questions.find((q) => q.color === color);
-                                    return (
+                </div>
+
+                {/* Timeline line and dots */}
+                <div className="relative flex-1 flex justify-center">
+                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-slate-200" />
+
+                    {/* Black line indicating current position */}
+                    {currentPosition !== null && (
+                        <div
+                            className="absolute left-1/2 -translate-x-1/2 z-30 flex items-center transition-all duration-300 ease-in-out"
+                            style={{
+                                top: `${currentPosition}%`,
+                                transform: 'translateX(-50%) translateY(-50%)'
+                            }}
+                        >
+                            <div className="w-8 h-0.5 bg-slate-500"></div>
+                        </div>
+                    )}
+
+                    {timelinePoints.map((point) => (
+                        <div
+                            key={point.date}
+                            className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
+                            style={{ top: `${point.position}%` }}
+                        >
+                            {point.colors.map((color) => {
+                                const question = questions.find((q) => q.color === color);
+                                return (
+                                    <div key={`${point.date}-${color}`} className="relative group">
                                         <button
-                                            key={`${date}-${color}`}
                                             type="button"
                                             onClick={() => onColorClick && onColorClick(color)}
-                                            className={`w-4 h-4 rounded-full ${getColorBgClass(
+                                            className={`w-3 h-3 rounded-full ${getColorBgClass(
                                                 color,
-                                            )} border-2 border-white shadow-sm hover:scale-125 transition-transform`}
+                                            )} border-2 border-white shadow-sm hover:scale-125 transition-transform relative z-10`}
                                             title={question ? question.text : color}
                                         />
-                                    );
-                                })}
-                            </div>
-                            <span className="text-[10px] text-slate-500 -rotate-90 origin-center inline-block">
-                                {formatDate(date)}
-                            </span>
+                                        {/* Hover tooltip for date */}
+                                        <span className="absolute left-full ml-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
+                                            {formatDate(point.date)}
+                                        </span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     ))}
+                </div>
+
+                {/* End date at bottom */}
+                <div className="text-center mt-2">
+                    <p className="text-[10px] text-slate-500 font-medium">
+                        {formatDate(endDate)}
+                    </p>
                 </div>
             </div>
         </aside>
