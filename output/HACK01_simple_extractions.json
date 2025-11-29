@@ -1,28 +1,28 @@
 {
   "patient_id": "HACK01",
-  "total_citations": 36,
+  "total_citations": 33,
   "citations": [
     {
       "question_id": 4,
       "quoted_text": "Odeslána z dermatologické ambulance regionální nemocnice",
       "confidence": "high",
-      "record_id": "HACK01_0",
+      "record_id": 0,
       "start_char": 47,
       "end_char": 103
     },
     {
-      "question_id": 4,
-      "quoted_text": "Pacientka dosud sledována v rámci domácí ošetřovatelské péče",
+      "question_id": 5,
+      "quoted_text": "V posledním roce pozoruje zvětšování a krvácení kožní léze",
       "confidence": "high",
-      "record_id": "HACK01_0",
-      "start_char": 1260,
-      "end_char": 1320
+      "record_id": 0,
+      "start_char": 261,
+      "end_char": 319
     },
     {
       "question_id": 3,
       "quoted_text": "ER: 100 % pozitivních nádorových buněk",
       "confidence": "high",
-      "record_id": "HACK01_1",
+      "record_id": 1,
       "start_char": 559,
       "end_char": 597
     },
@@ -30,7 +30,7 @@
       "question_id": 3,
       "quoted_text": "PR: cca 10 % nádorových buněk",
       "confidence": "high",
-      "record_id": "HACK01_1",
+      "record_id": 1,
       "start_char": 625,
       "end_char": 654
     },
@@ -38,7 +38,7 @@
       "question_id": 1,
       "quoted_text": "PŘÍJEM: 5. 10. 2022",
       "confidence": "high",
-      "record_id": "HACK01_2",
+      "record_id": 2,
       "start_char": 478,
       "end_char": 497
     },
@@ -46,31 +46,31 @@
       "question_id": 3,
       "quoted_text": "IHC skóre: 0 (negativní)",
       "confidence": "high",
-      "record_id": "HACK01_2",
+      "record_id": 2,
       "start_char": 331,
       "end_char": 355
     },
     {
       "question_id": 1,
-      "quoted_text": "první vyšetření pro nově diagnostikovaný nádor prsu",
+      "quoted_text": "Chirurgická mamární ambulance – první vyšetření pro nově diagnostikovaný nádor prsu.",
       "confidence": "high",
-      "record_id": "HACK01_3",
-      "start_char": 32,
-      "end_char": 83
+      "record_id": 3,
+      "start_char": 0,
+      "end_char": 84
     },
     {
       "question_id": 2,
       "quoted_text": "klinicky cT2N0",
       "confidence": "high",
-      "record_id": "HACK01_3",
+      "record_id": 3,
       "start_char": 1186,
       "end_char": 1200
     },
     {
       "question_id": 1,
       "quoted_text": "Během léčby nově diagnostikován: Invazivní mucinózní karcinom pravého prsu",
-      "confidence": "medium",
-      "record_id": "HACK01_4",
+      "confidence": "high",
+      "record_id": 4,
       "start_char": 464,
       "end_char": 538
     },
@@ -78,7 +78,7 @@
       "question_id": 3,
       "quoted_text": "ER 100 %, PR 10 %, HER2 0",
       "confidence": "high",
-      "record_id": "HACK01_4",
+      "record_id": 4,
       "start_char": 540,
       "end_char": 565
     },
@@ -86,7 +86,7 @@
       "question_id": 1,
       "quoted_text": "Známá malignita pravého prsu – invazivní mucinózní karcinom G2",
       "confidence": "medium",
-      "record_id": "HACK01_5",
+      "record_id": 5,
       "start_char": 433,
       "end_char": 495
     },
@@ -94,7 +94,7 @@
       "question_id": 2,
       "quoted_text": "klinické stadium cT2N0M0",
       "confidence": "high",
-      "record_id": "HACK01_5",
+      "record_id": 5,
       "start_char": 497,
       "end_char": 521
     },
@@ -102,7 +102,7 @@
       "question_id": 7,
       "quoted_text": "Bez průkazu vzdálených metastáz.",
       "confidence": "high",
-      "record_id": "HACK01_5",
+      "record_id": 5,
       "start_char": 392,
       "end_char": 424
     },
@@ -110,23 +110,15 @@
       "question_id": 3,
       "quoted_text": "ER 100 %, PR 10 %, HER2 0",
       "confidence": "high",
-      "record_id": "HACK01_6",
+      "record_id": 6,
       "start_char": 401,
       "end_char": 426
     },
     {
       "question_id": 1,
-      "quoted_text": "Karcinom pravého prsu – plánovaná parciální mastektomie + SNB.",
-      "confidence": "high",
-      "record_id": "HACK01_7",
-      "start_char": 61,
-      "end_char": 123
-    },
-    {
-      "question_id": 1,
       "quoted_text": "Dne 10. 11. 2022 provedena parciální mastektomie pravého prsu",
       "confidence": "high",
-      "record_id": "HACK01_9",
+      "record_id": 9,
       "start_char": 1204,
       "end_char": 1265
     },
@@ -134,7 +126,7 @@
       "question_id": 2,
       "quoted_text": "klinicky cT2N0M0",
       "confidence": "high",
-      "record_id": "HACK01_9",
+      "record_id": 9,
       "start_char": 1606,
       "end_char": 1622
     },
@@ -142,23 +134,23 @@
       "question_id": 1,
       "quoted_text": "invazivní mucinózní karcinom pravého prsu, stav po parciální mastektomii",
       "confidence": "medium",
-      "record_id": "HACK01_10",
+      "record_id": 10,
       "start_char": 990,
       "end_char": 1062
     },
     {
-      "question_id": 6,
-      "quoted_text": "bez známek recidivy",
+      "question_id": 5,
+      "quoted_text": "Na kalvě přetrvává rozsáhlý defekt s ulcerací a sekrecí, velikost bez jednoznačné regrese",
       "confidence": "high",
-      "record_id": "HACK01_10",
-      "start_char": 792,
-      "end_char": 811
+      "record_id": 10,
+      "start_char": 619,
+      "end_char": 708
     },
     {
       "question_id": 4,
       "quoted_text": "ošetřeno v regionální nemocnici",
       "confidence": "high",
-      "record_id": "HACK01_11",
+      "record_id": 11,
       "start_char": 202,
       "end_char": 233
     },
@@ -166,7 +158,7 @@
       "question_id": 1,
       "quoted_text": "PŘÍJEM: 11. 11. 2022",
       "confidence": "medium",
-      "record_id": "HACK01_12",
+      "record_id": 12,
       "start_char": 1733,
       "end_char": 1753
     },
@@ -174,7 +166,7 @@
       "question_id": 2,
       "quoted_text": "pTNM (8. vydání): pT2 (23 mm) pN0(i−)(sn) M0",
       "confidence": "high",
-      "record_id": "HACK01_12",
+      "record_id": 12,
       "start_char": 1675,
       "end_char": 1719
     },
@@ -182,55 +174,47 @@
       "question_id": 3,
       "quoted_text": "ER 100 %, PR 10 %, HER2 0",
       "confidence": "high",
-      "record_id": "HACK01_12",
+      "record_id": 12,
       "start_char": 1246,
       "end_char": 1271
     },
     {
-      "question_id": 1,
-      "quoted_text": "po parciální mastektomii a SNB",
-      "confidence": "medium",
-      "record_id": "HACK01_13",
-      "start_char": 82,
-      "end_char": 112
-    },
-    {
       "question_id": 2,
-      "quoted_text": "R0 resekce pro invazivní komponentu, mikrofokus DCIS G1",
+      "quoted_text": "Sentinelová uzlina bez metastáz (0/1)",
       "confidence": "high",
-      "record_id": "HACK01_13",
-      "start_char": 255,
-      "end_char": 310
+      "record_id": 13,
+      "start_char": 349,
+      "end_char": 386
     },
     {
       "question_id": 3,
       "quoted_text": "ER 100 %, PR 10 %, HER2 negativní",
       "confidence": "high",
-      "record_id": "HACK01_13",
+      "record_id": 13,
       "start_char": 210,
       "end_char": 243
     },
     {
       "question_id": 5,
-      "quoted_text": "pokročilou malignitou kalvy",
-      "confidence": "high",
-      "record_id": "HACK01_13",
+      "quoted_text": "pokročilou malignitou kalvy, po paliativní radioterapii",
+      "confidence": "medium",
+      "record_id": 13,
       "start_char": 435,
-      "end_char": 462
+      "end_char": 490
     },
     {
       "question_id": 1,
-      "quoted_text": "2) Invazivní mucinózní karcinom pravého prsu – stav po par",
-      "confidence": "high",
-      "record_id": "HACK01_14",
-      "start_char": 848,
-      "end_char": 906
+      "quoted_text": "Invazivní mucinózní karcinom pravého prsu – stav po parciální mastektomii",
+      "confidence": "medium",
+      "record_id": 14,
+      "start_char": 851,
+      "end_char": 924
     },
     {
       "question_id": 2,
       "quoted_text": "pT2N0M0",
       "confidence": "high",
-      "record_id": "HACK01_14",
+      "record_id": 14,
       "start_char": 932,
       "end_char": 939
     },
@@ -238,55 +222,47 @@
       "question_id": 3,
       "quoted_text": "ER 100 %, PR 10 %, HER2 0",
       "confidence": "high",
-      "record_id": "HACK01_14",
+      "record_id": 14,
       "start_char": 941,
       "end_char": 966
     },
     {
       "question_id": 1,
-      "quoted_text": "Ca mammae pravého prsu – stav po parciální mastektomii",
-      "confidence": "low",
-      "record_id": "HACK01_15",
+      "quoted_text": "Ca mammae pravého prsu – stav po parciální mastektomii a SNB, pT2N0M0",
+      "confidence": "medium",
+      "record_id": 15,
       "start_char": 1002,
-      "end_char": 1056
+      "end_char": 1071
     },
     {
       "question_id": 2,
       "quoted_text": "pT2N0M0",
       "confidence": "high",
-      "record_id": "HACK01_15",
+      "record_id": 15,
       "start_char": 1064,
       "end_char": 1071
     },
     {
       "question_id": 3,
       "quoted_text": "hormonálně senzitivní nádor",
-      "confidence": "medium",
-      "record_id": "HACK01_15",
+      "confidence": "high",
+      "record_id": 15,
       "start_char": 1073,
       "end_char": 1100
     },
     {
       "question_id": 4,
-      "quoted_text": "domácí ošetřovatelské péče",
-      "confidence": "high",
-      "record_id": "HACK01_15",
-      "start_char": 1270,
-      "end_char": 1296
-    },
-    {
-      "question_id": 4,
       "quoted_text": "Další sledování v péči praktického lékaře a regionální onkologie",
-      "confidence": "high",
-      "record_id": "HACK01_15",
+      "confidence": "medium",
+      "record_id": 15,
       "start_char": 1638,
       "end_char": 1702
     },
     {
       "question_id": 5,
       "quoted_text": "rozsah spíše mírně progreduje",
-      "confidence": "medium",
-      "record_id": "HACK01_15",
+      "confidence": "high",
+      "record_id": 15,
       "start_char": 626,
       "end_char": 655
     }

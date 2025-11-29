@@ -63,7 +63,7 @@ def load_patient_from_csv(patient_id: str, csv_path: str = "data/records.csv") -
         seen_hashes.add(text_hash)
 
         record = MedicalRecord(
-            record_id=f"{patient_id}_{len(records)}",
+            record_id=row['record_id'],
             patient_id=patient_id,
             date=str(row['date']),
             record_type=str(row['type']),

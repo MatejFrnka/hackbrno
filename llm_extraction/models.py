@@ -16,8 +16,8 @@ from dataclasses import dataclass
 @dataclass
 class MedicalRecord:
     """Single medical record from XML"""
-    record_id: str               # "HACK01_0", "HACK01_1", etc.
-    patient_id: str
+    record_id: int               # integer for now
+    patient_id: str              # Patient identifier eg "HACK01"
     date: str                    # YYYY-MM-DD
     record_type: str             # "typ" field from XML
     text: str                    # Full record text
@@ -51,6 +51,6 @@ class ExtractionCitationWithSpan(BaseModel):
     question_id: int                                # ID of the question this citation answers
     quoted_text: str                                # Exact quoted text from record
     confidence: Literal["high", "medium", "low"]    # Confidence level
-    record_id: str                                  # ID of the medical record
+    record_id: int                                  # ID of the medical record
     start_char: int                                 # Start character index in record text
     end_char: int                                   # End character index in record text

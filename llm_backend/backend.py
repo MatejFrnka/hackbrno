@@ -53,7 +53,7 @@ class LLMBackendBase(LLMBackend):
         Extract medical information from patient records.
 
         Args:
-            patient: DataFrame with columns [patient_id, date, type, text]
+            patient: DataFrame with columns [patient_id, record_id, date, type, text]
             questions: List of (question_id, question_text, additional_instructions) tuples
 
         Returns:
@@ -83,7 +83,7 @@ class LLMBackendBase(LLMBackend):
             # seen_hashes.add(text_hash)
 
             record = MedicalRecord(
-                record_id=f"{patient_id}_{len(records)}",
+                record_id=row['record_id'],
                 patient_id=patient_id,
                 date=str(row['date']),
                 record_type=str(row['type']),
