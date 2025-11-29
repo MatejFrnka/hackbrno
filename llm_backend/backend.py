@@ -33,16 +33,21 @@ class LLMBackendBase(LLMBackend):
     and map them to exact character positions.
     """
 
-    def __init__(self, model: str = "gpt-4o"):
+    def __init__(self):
         """
         Initialize the backend with OpenAI client and extraction components.
 
-        Args:
-            model: OpenAI model to use for extraction (default: gpt-4o)
+        Configuration is loaded from environment variables:
+        - OPENAI_API_KEY: API key for authentication (required)
+        - OPENAI_URL: Base URL for API (default: https://api.openai.com/v1)
+        - OPENAI_MODEL: Model to use for extraction (default: gpt-4o)
         """
         # Initialize OpenAI client from environment
-        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-        self.model = model
+        self.client = OpenAI(
+            api_key=os.getenv("OPENAI_API_KEY"),
+            base_url=os.getenv("OPENAI_URL", "https://api.openai.com/v1")
+        )
+        self.model = os.getenv("OPENAI_MODEL", "gpt-4o")
 
         # Initialize extraction components
         self.extractor = FeatureExtractor(self.client, model=self.model)
