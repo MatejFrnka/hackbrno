@@ -73,6 +73,28 @@ class PatientRecord(db.Model):
     text = db.Column(db.Text, nullable=False)
 
     findings = db.relationship('Finding', lazy=True)
+    highlights = db.relationship('Highlight', lazy=True)
+    duplicates = db.relationship('TextDuplicate', lazy=True, foreign_keys='TextDuplicate.patient_record_id')
+
+
+class TextDuplicate(db.Model):
+    __tablename__ = 'text_duplicates'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    patient_record_id = db.Column(
+        db.Integer,
+        db.ForeignKey('patient_records.id'),
+        nullable=False
+    )
+    was_at = db.Column(db.Integer, nullable=False)
+    duplicate_of = db.Column(
+        db.Integer,
+        db.ForeignKey('patient_records.id'),
+        nullable=False
+    )
+    offset_start = db.Column(db.Integer, nullable=False) # offsets in the duplicate_of
+    offset_end = db.Column(db.Integer, nullable=False)
+
 
 
 class Finding(db.Model):
@@ -92,3 +114,17 @@ class Finding(db.Model):
     confidence = db.Column(db.String, nullable=False)
     offset_start = db.Column(db.Integer, nullable=False)
     offset_end = db.Column(db.Integer, nullable=False)
+
+
+class Highlight(db.Model):
+    __tablename__ = 'highlights'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    patient_record_id = db.Column(
+        db.Integer,
+        db.ForeignKey('patient_records.id'),
+        nullable=False
+    )
+    offset_start = db.Column(db.Integer, nullable=False)
+    offset_end = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String, nullable=False)

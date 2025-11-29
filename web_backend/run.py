@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 import xml.etree.ElementTree as ET
+import difflib
+import bisect
 
 import pandas as pd
 
@@ -8,7 +10,25 @@ from .models import *
 from llm_backend import LLMBackend, LLMBackendBase
 
 
-def add_batch(patients: list[str], questions: list[Question]):
+def find_duplicates(value_text: str, ref_text: str, min_len=20):
+    matcher = difflib.SequenceMatcher(None, value_text, ref_text)
+    matches = matcher.get_matching_blocks()
+
+    # Filter out trivial matches
+    matches = [m for m in matches if m.size >= min_len]
+
+    result = []
+    for m in matches:
+        result.append({
+            'offset': m.a,
+            'size': m.size,
+            'offset_ref': m.b,
+        })
+    result.sort(key=lambda x: x['offset'])
+    return result
+
+
+def add_batch(patients: list[str], questions: list[Question], remove_duplicates=False):
     bt = Batch(schedule=datetime.now()+timedelta(minutes=30), done=None)
     db.session.add(bt)
     db.session.flush()
@@ -20,6 +40,8 @@ def add_batch(patients: list[str], questions: list[Question]):
         if pacient is not None:
             patient_id = pacient.get('id')
 
+            records = []
+
             bt_patient = BatchPatient(batch_id=bt.id, patient_id=patient_id)
             db.session.add(bt_patient)
             db.session.flush()
@@ -30,9 +52,44 @@ def add_batch(patients: list[str], questions: list[Question]):
                 ptext = zaznam.find('text')
                 if pdate is None or ptype is None or ptext is None:
                     continue
-                pdate = datetime.strptime(pdate.text, '%Y-%m-%d')
-                patient_record = PatientRecord(batch_patient_id=bt_patient.id, date=pdate, type=ptype.text, text=ptext.text)
+                patient_record = PatientRecord(
+                    batch_patient_id=bt_patient.id,
+                    date=datetime.strptime(pdate.text, '%Y-%m-%d'),
+                    type=ptype.text,
+                    text=ptext.text
+                )
+                records.append(patient_record)
                 db.session.add(patient_record)
+            db.session.flush()
+
+            if remove_duplicates:
+                records.sort(key=lambda x: x.date) # asc
+                for i, record in enumerate(records):
+                    all_text = ''
+                    dividers = []
+                    for cmp in records[:i]:
+                        dividers.append(len(all_text))
+                        all_text += cmp.text
+
+                    removed = 0
+                    for dup in find_duplicates(record.text, all_text):
+                        offset_start = dup['offset'] - removed
+                        size = dup['size']
+                        record.text = record.text[:offset_start] + record.text[offset_start + size:]
+                        removed += size
+                        ref_i = bisect.bisect_left(dividers, dup['offset_ref']) - 1
+                        ref_offset = dup['offset_ref'] - dividers[ref_i]
+
+                        td = TextDuplicate(
+                            patient_record_id=record.id,
+                            was_at=offset_start,
+                            duplicate_of=records[ref_i].id,
+                            offset_start=ref_offset,
+                            offset_end=ref_offset + size
+                        )
+                        db.session.add(td)
+
+            db.session.flush()
 
     for q in questions:
         btq = BatchQuestion(batch_id=bt.id, question_id=q.id)
@@ -84,13 +141,9 @@ def process_batch(batch: Batch, backend: LLMBackend):
                 offset_end=c['end_char'],
             )
             db.session.add(finding)
-
-        print(output)
-        # TODO
+        # TODO: process highlights
         # summary = backend.summarize_patient(input_data, output)
-        # print(summary)
-        summary = ''
-        patients.append((input_data, output, summary))
+        patients.append((input_data, output, '', ''))
 
     # batch.summary = backend.summarize_batch(patients)
     batch.done = datetime.now()
