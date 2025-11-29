@@ -8,7 +8,7 @@ const PatientSelection = () => {
 
     const highlights = [
         { label: 'Patients today', value: summary.totalPatients, caption: 'ready for review' },
-        { label: 'Total pages', value: summary.totalPages, caption: 'all documents collected' },
+        { label: 'Total pages', value: summary.totalPages, caption: 'documents for review' },
         { label: 'Relevant pages', value: summary.relevantPages, caption: 'flagged for findings' },
         { label: 'Unanswered questions', value: summary.totalMissing, caption: 'pending clarity' },
     ];
@@ -18,9 +18,6 @@ const PatientSelection = () => {
             <div className="max-w-6xl mx-auto space-y-10">
                 <header>
                     <Greeting />
-                    <p className="text-base text-slate-500">
-                        Your day is curated below—ten patients, their timelines, and the answers we traced.
-                    </p>
                 </header>
 
                 <section className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 space-y-8">
@@ -30,13 +27,8 @@ const PatientSelection = () => {
                                 Executive summary
                             </p>
                             <h2 className="text-3xl font-semibold text-slate-900 mt-2">
-                                Summary of the work to be done
+                                Summary of your day
                             </h2>
-                        </div>
-                        <div className="text-sm text-slate-500">
-                            <p>{large} patients with a large volume of data</p>
-                            <p>{medium} with a medium amount</p>
-                            <p>{small} with a concise record</p>
                         </div>
                     </div>
 
@@ -57,12 +49,17 @@ const PatientSelection = () => {
                         ))}
                     </div>
 
-                    <div className="text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-6 space-y-2">
+                    <div className="text-base text-slate-700 leading-relaxed border-t border-slate-100 pt-6 space-y-4">
                         <p>
-                            You have {summary.totalPatients} patients to review today. Total pages to review is{' '}
-                            {summary.totalPages}, out of which {summary.relevantPages} contain relevant information.
+                            You have {summary.totalPatients} patients to review today. Each patient record represents
+                            a comprehensive medical history spanning multiple years, with detailed documentation of
+                            diagnoses, treatments, medications, clinical observations, and procedural notes. The total
+                            pages to review is {summary.totalPages}, out of which {summary.relevantPages} contain
+                            relevant information that directly addresses the key questions we need answered. These
+                            relevant pages have been flagged based on their content matching the specific medical
+                            queries we're investigating, including diagnostic codes, treatment protocols, symptom
+                            documentation, and prognostic assessments.
                         </p>
-                        <p>We did not find answers to {summary.totalMissing} questions.</p>
                     </div>
                 </section>
 
@@ -75,7 +72,7 @@ const PatientSelection = () => {
                             List of patients
                         </h2>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 gap-6">
                         {patients.map((patient) => (
                             <PatientCard key={patient.id} patient={patient} />
                         ))}

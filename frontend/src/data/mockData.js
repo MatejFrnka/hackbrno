@@ -1,4 +1,5 @@
 // Mock data for the patient management system
+import { hack01 } from './hack01.js';
 
 // Common medical questions with assigned colors
 export const questions = [
@@ -51,13 +52,8 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
     const documentCount = Math.floor(Math.random() * 30) + 10;
     const documents = [];
 
-    const sampleTexts = [
-        `Patient ${patientId} presents with symptoms consistent with the primary diagnosis. The TNM staging indicates T2N1M0, suggesting regional lymph node involvement. Treatment plan includes surgical intervention followed by adjuvant chemotherapy. Prognosis is favorable with early intervention.`,
-        `Follow-up examination reveals improvement in patient condition. Current medications include metformin 500mg twice daily and lisinopril 10mg once daily. Laboratory results show normal ranges for most parameters. Patient history indicates previous episodes of similar symptoms.`,
-        `Radiological assessment completed. CT scan shows no evidence of metastasis. Diagnosis confirmed as stage II adenocarcinoma. Symptoms have been managed effectively with current treatment regimen. Prognosis remains positive.`,
-        `Pathology report indicates malignant cells present. TNM classification: T3N0M0. Treatment protocol initiated with combination therapy. Patient experiencing mild side effects from medications. Test results pending further analysis.`,
-        `Clinical evaluation demonstrates stable condition. Diagnosis remains unchanged. Treatment plan modified based on patient response. Symptoms are well-controlled. Prognosis assessment scheduled for next visit.`,
-    ];
+    // Extract texts from hack01 data
+    const sampleTexts = hack01.dokumentace.pacient.zaznam.map(record => record.text);
 
     for (let i = 0; i < documentCount; i++) {
         const date = randomDate(startDate, endDate);
@@ -74,16 +70,16 @@ const generateDocuments = (patientId, startDate, endDate, questionColors) => {
             const color = availableColors[colorIndex];
             availableColors.splice(colorIndex, 1);
 
-            // Find a phrase to highlight
+            // Find a phrase to highlight (Czech medical terms from hack01)
             const phrases = {
-                blue: ['T2N1M0', 'T3N0M0', 'TNM staging', 'TNM classification'],
-                red: ['diagnosis', 'Diagnosis', 'malignant cells', 'adenocarcinoma'],
-                green: ['Treatment plan', 'treatment protocol', 'Treatment protocol', 'surgical intervention'],
-                yellow: ['symptoms', 'Symptoms', 'side effects'],
-                purple: ['Prognosis', 'prognosis', 'favorable', 'positive'],
-                orange: ['metformin', 'lisinopril', 'medications', 'Medications'],
-                pink: ['CT scan', 'test results', 'Test results', 'Laboratory results'],
-                cyan: ['patient history', 'Patient history', 'previous episodes'],
+                blue: ['cT2N0M0', 'pT2N0M0', 'pTNM', 'TNM', 'klasifikace'],
+                red: ['diagnóza', 'Diagnóza', 'karcinom', 'invazivní karcinom', 'malignita'],
+                green: ['léčba', 'Léčba', 'radioterapie', 'operace', 'mastektomie', 'léčebná rozvaha'],
+                yellow: ['potíže', 'Potíže', 'bolesti', 'bolest', 'únavu', 'symptomy'],
+                purple: ['prognóza', 'Prognóza', 'příznivé', 'pozitivní'],
+                orange: ['medikace', 'Medikace', 'léky', 'léčiv', 'farmakologická anamnéza'],
+                pink: ['vyšetření', 'Vyšetření', 'výsledky', 'laboratorní', 'CT', 'RTG', 'UZ'],
+                cyan: ['anamnéza', 'Anamnéza', 'osobní anamnéza', 'rodinná anamnéza', 'historie'],
             };
 
             const colorPhrases = phrases[color] || [];
@@ -129,7 +125,7 @@ export const generatePatients = () => {
     ];
 
     const summaries = [
-        'Patient with chronic condition requiring ongoing monitoring and medication management.',
+        'Patient with a complex chronic condition that necessitates continuous monitoring, frequent adjustments to treatment regimens, and a comprehensive approach to care involving multiple healthcare professionals. This patient has a longstanding medical history characterized by episodic symptom flare-ups, laboratory findings that require careful interpretation, and a medication regimen that includes both mainstay and adjunctive therapies. ',
         'Post-operative follow-up case with regular check-ups and imaging studies.',
         'Oncology patient undergoing treatment with multiple specialists involved.',
         'Cardiac patient with history of interventions, stable on current regimen.',

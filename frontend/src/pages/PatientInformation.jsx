@@ -136,9 +136,17 @@ const PatientInformation = () => {
                             </div>
 
                             {filteredDocuments.length > 0 ? (
-                                filteredDocuments.map((doc) => (
-                                    <DocumentCard key={doc.id} document={doc} />
-                                ))
+                                filteredDocuments.map((doc, index) => {
+                                    const previousDoc = index > 0 ? filteredDocuments[index - 1] : null;
+                                    return (
+                                        <DocumentCard
+                                            key={doc.id}
+                                            document={doc}
+                                            index={index + 1}
+                                            previousDate={previousDoc?.date}
+                                        />
+                                    );
+                                })
                             ) : (
                                 <div className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-10 text-center">
                                     <p className="text-slate-500">

@@ -19,15 +19,9 @@ const PatientCard = ({ patient }) => {
     const locatedQuestions = questionMeta.filter((item) => item.located > 0);
     const missingQuestions = questionMeta.filter((item) => item.missing > 0);
 
-    const handleClick = () => {
+    const handleReview = (e) => {
+        e.stopPropagation();
         navigate(`/patient/${encodeURIComponent(patient.id)}`);
-    };
-
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            handleClick();
-        }
     };
 
     const ColorChip = ({ item, value, label }) => (
@@ -44,13 +38,7 @@ const PatientCard = ({ patient }) => {
     );
 
     return (
-        <article
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            role="button"
-            tabIndex={0}
-            className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 cursor-pointer hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900/10 flex flex-col gap-5"
-        >
+        <article className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 flex flex-col gap-5">
             <div className="flex items-start justify-between gap-4">
                 <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-slate-400 mb-2">
@@ -72,8 +60,8 @@ const PatientCard = ({ patient }) => {
                         Documents
                     </p>
                     <p className="text-lg font-semibold text-slate-900 mt-2">
-                        {patient.totalDocuments}
-                        <span className="text-sm text-slate-500"> / {patient.relevantDocuments} relevant</span>
+                        {patient.relevantDocuments} relevant
+                        <span className="text-sm text-slate-500">, {patient.totalDocuments} total</span>
                     </p>
                 </div>
                 <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100">
@@ -82,10 +70,7 @@ const PatientCard = ({ patient }) => {
                     </p>
                     <p className="text-lg font-semibold text-slate-900 mt-2">
                         {patient.totalLocated}
-                        <span className="text-sm text-slate-500"> located</span>
-                    </p>
-                    <p className="text-sm text-slate-500">
-                        {patient.totalMissing} still missing
+                        <span className="text-sm text-slate-500"> out of {patient.totalMissing} found</span>
                     </p>
                 </div>
             </div>
@@ -135,6 +120,16 @@ const PatientCard = ({ patient }) => {
             <p className="text-sm text-slate-600 leading-relaxed">
                 {patient.summary}
             </p>
+
+            <div className="pt-2 flex justify-end">
+                <button
+                    onClick={handleReview}
+                    className="inline-flex items-center gap-2 bg-slate-900 text-white rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-slate-800 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
+                >
+                    Review
+                    <span>→</span>
+                </button>
+            </div>
         </article>
     );
 };
