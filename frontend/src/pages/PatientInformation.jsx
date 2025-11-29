@@ -56,6 +56,40 @@ const PatientInformation = () => {
     useEffect(() => {
         if (filteredDocuments.length === 0) return;
 
+        const updateCurrentDocument = () => {
+            const viewportTop = window.scrollY + window.innerHeight * 0.2; // 20% from top
+            const viewportBottom = window.scrollY + window.innerHeight * 0.6; // 60% from top
+            
+            // Find the document that is most centered in the viewport
+            let bestMatch = null;
+            let bestDistance = Infinity;
+
+            filteredDocuments.forEach((doc) => {
+                const ref = documentRefs.current[doc.id];
+                if (!ref) return;
+
+                const rect = ref.getBoundingClientRect();
+                const elementTop = rect.top + window.scrollY;
+                const elementBottom = rect.bottom + window.scrollY;
+                const elementCenter = (elementTop + elementBottom) / 2;
+                const viewportCenter = (viewportTop + viewportBottom) / 2;
+
+                // Check if element is in viewport
+                if (elementTop <= viewportBottom && elementBottom >= viewportTop) {
+                    const distance = Math.abs(elementCenter - viewportCenter);
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        bestMatch = doc;
+                    }
+                }
+            });
+
+            if (bestMatch) {
+                setCurrentDocumentDate(bestMatch.date);
+            }
+        };
+
+        // Use IntersectionObserver for initial tracking
         const observerOptions = {
             root: null,
             rootMargin: '-20% 0px -60% 0px',
@@ -81,10 +115,30 @@ const PatientInformation = () => {
             if (ref) observer.observe(ref);
         });
 
+        // Also listen to scroll events to update position when heights change
+        const handleScroll = () => {
+            updateCurrentDocument();
+        };
+
+        // Use ResizeObserver to detect when document heights change (e.g., when collapsed)
+        const resizeObserver = new ResizeObserver(() => {
+            updateCurrentDocument();
+        });
+
+        Object.values(documentRefs.current).forEach((ref) => {
+            if (ref) resizeObserver.observe(ref);
+        });
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
         return () => {
             Object.values(documentRefs.current).forEach((ref) => {
-                if (ref) observer.unobserve(ref);
+                if (ref) {
+                    observer.unobserve(ref);
+                    resizeObserver.unobserve(ref);
+                }
             });
+            window.removeEventListener('scroll', handleScroll);
         };
     }, [filteredDocuments]);
 
