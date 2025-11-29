@@ -1,7 +1,7 @@
 import { getColorBgClass } from '../utils/colorUtils';
 import { formatDate } from '../utils/dateUtils';
 
-const Timeline = ({ documents, questions, onDocumentClick, currentDate }) => {
+const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = [] }) => {
     if (documents.length === 0) return null;
 
     // Get all unique dates and sort them
@@ -72,24 +72,22 @@ const Timeline = ({ documents, questions, onDocumentClick, currentDate }) => {
                     {timelinePoints.map((point) => (
                         <div
                             key={point.date}
-                            className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
+                            className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
                             style={{ top: `${point.position}%` }}
                         >
                             {point.colors.map((color) => {
-                                const question = questions.find((q) => q.color === color);
                                 const docId = point.docIds[color];
+                                const isActive = selectedColors.length === 0 || selectedColors.includes(color);
                                 return (
                                     <div key={`${point.date}-${color}`} className="relative group">
                                         <button
                                             type="button"
                                             onClick={() => onDocumentClick && onDocumentClick(docId)}
-                                            className={`w-3 h-3 rounded-full ${getColorBgClass(
-                                                color,
-                                            )} border-2 border-white shadow-sm hover:scale-125 transition-transform relative z-10 cursor-pointer`}
-                                            title={question ? question.text : color}
+                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer ${isActive ? getColorBgClass(color) : 'bg-slate-300'
+                                                }`}
                                         />
                                         {/* Hover tooltip for date */}
-                                        <span className="absolute left-full ml-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
+                                        <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
                                             {formatDate(point.date)}
                                         </span>
                                     </div>

@@ -242,9 +242,9 @@ const PatientInformation = () => {
                     <div className="lg:w-24 lg:block flex-shrink-0">
                         <Timeline
                             documents={filteredDocuments}
-                            questions={patient.questions}
                             onDocumentClick={handleDocumentClick}
                             currentDate={currentDocumentDate}
+                            selectedColors={selectedColors}
                         />
                     </div>
                 </div>
