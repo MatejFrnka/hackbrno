@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { formatDate, getDaysBetween } from '../utils/dateUtils';
-import { getColorClass } from '../utils/colorUtils';
 
-const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) => {
+const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [], onHoverQuestion }) => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
     const daysBetween = previousDate ? getDaysBetween(previousDate, document.date) : null;
 
     return (
@@ -19,8 +20,11 @@ const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) =>
                     <div className="w-px h-8 bg-slate-200"></div>
                 </div>
             )}
-            <article className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 mb-4">
-                <div className="flex justify-between items-start mb-4">
+            <article className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 mb-3 pb-3">
+                <button
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    className="w-full flex justify-between items-start mb-4 text-left hover:opacity-80 transition-opacity"
+                >
                     <div>
                         {document.typ && (
                             <p className="text-sm text-slate-500 mt-0.5">
@@ -31,31 +35,49 @@ const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) =>
                             Medical document ({index})
                         </h4>
                     </div>
-                    <span className="text-sm text-slate-500">
-                        {formatDate(document.date)}
-                    </span>
-                </div>
+                    <div className="flex items-center gap-3">
+                        <span className="text-sm text-slate-500">
+                            {formatDate(document.date)}
+                        </span>
+                        <svg
+                            className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isCollapsed ? '' : 'rotate-180'}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </button>
 
-                <div className="text-sm leading-relaxed text-slate-700 whitespace-pre-line">
-                    {document.highlightedText.map((part, idx) => {
-                        if (part.type === 'highlight') {
-                            const shouldHighlight = selectedColors.length === 0 || selectedColors.includes(part.color);
-                            return (
-                                <span
-                                    key={`${document.id}-${idx}`}
-                                    className={`px-1.5 py-0.5 rounded-full border font-medium ${shouldHighlight
-                                        ? getColorClass(part.color)
-                                        : 'bg-slate-100 text-slate-500 border-slate-200'
-                                        }`}
-                                >
-                                    {part.content}
-                                </span>
-                            );
-                        }
-                        return <span key={`${document.id}-${idx}`}>{part.content}</span>;
-                    })}
+                <div
+                    className={`overflow-hidden transition-all duration-300 ease-in-out ${isCollapsed ? 'max-h-0 opacity-0' : 'max-h-[5000px] opacity-100'
+                        }`}
+                >
+                    <div className="text-sm leading-relaxed text-slate-700 whitespace-pre-line mb-3">
+                        {document.highlightedText.map((part, idx) => {
+                            if (part.type === 'highlight') {
+                                const shouldHighlight = selectedQuestionIds.length === 0 || (part.questionId && selectedQuestionIds.includes(part.questionId));
+                                return (
+                                    <span
+                                        key={`${document.id}-${idx}`}
+                                        className={`px-1.5 py-0.5 rounded-full border font-medium ${shouldHighlight
+                                            ? ''
+                                            : 'bg-slate-100 text-slate-500 border-slate-200'
+                                            }`}
+                                        style={shouldHighlight ? { backgroundColor: part.color } : undefined}
+                                        onMouseEnter={() => onHoverQuestion && onHoverQuestion(part.questionId)}
+                                        onMouseLeave={() => onHoverQuestion && onHoverQuestion(null)}
+                                    >
+                                        {part.content}
+                                    </span>
+                                );
+                            }
+                            return <span key={`${document.id}-${idx}`}>{part.content}</span>;
+                        })}
+                    </div>
                 </div>
-            </article>
+            </article >
         </>
     );
 };

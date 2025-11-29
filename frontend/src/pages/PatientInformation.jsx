@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { patients } from '../data/mockData';
+import { fetchPatient } from '../services/api';
 import { formatDateRange } from '../utils/dateUtils';
 import DocumentCard from '../components/DocumentCard';
 import Timeline from '../components/Timeline';
@@ -9,39 +9,73 @@ import ColorFilter from '../components/ColorFilter';
 const PatientInformation = () => {
     const { id: encodedId } = useParams();
     const navigate = useNavigate();
-    const [selectedColors, setSelectedColors] = useState([]);
-    const [selectedTypes, setSelectedTypes] = useState([]);
+    const [patient, setPatient] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
+    const [selectedTypeIds, setSelectedTypeIds] = useState([]);
     const [currentDocumentDate, setCurrentDocumentDate] = useState(null);
+    const [hoveredQuestionId, setHoveredQuestionId] = useState(null);
     const documentRefs = useRef({});
 
     const decodedId = encodedId ? decodeURIComponent(encodedId) : '';
-    const patient = patients.find((p) => p.id === decodedId);
 
-    // Get all unique document types
+    useEffect(() => {
+        const loadPatient = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchPatient(decodedId);
+                if (data) {
+                    // Calculate start and end dates from documents if not provided
+                    if (data.documents && data.documents.length > 0) {
+                        const dates = data.documents.map(d => d.date).filter(Boolean).sort();
+                        if (dates.length > 0) {
+                            data.startDate = dates[0];
+                            data.endDate = dates[dates.length - 1];
+                        }
+                    }
+                    setPatient(data);
+                } else {
+                    setError('Patient not found');
+                    console.error(err);
+                }
+            } catch (err) {
+                setError(err.message);
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (decodedId) {
+            loadPatient();
+        }
+    }, [decodedId]);
+
+    // Get all unique document types as array of objects
     const documentTypes = useMemo(() => {
         if (!patient) return [];
         const types = [...new Set(patient.documents.map(doc => doc.typ).filter(Boolean))];
-        return types.sort();
+        return types.sort().map(type => ({ id: type, label: type }));
     }, [patient]);
 
-    // Filter documents by type only (color filter just highlights, doesn't hide)
+    // Filter documents by type only (question filter just highlights, doesn't hide)
     const filteredDocuments = useMemo(() => {
         if (!patient) return [];
-        if (selectedTypes.length === 0) {
+        if (selectedTypeIds.length === 0) {
             return patient.documents;
         }
-        return patient.documents.filter((doc) => selectedTypes.includes(doc.typ));
-    }, [patient, selectedTypes]);
+        return patient.documents.filter((doc) => selectedTypeIds.includes(doc.typ));
+    }, [patient, selectedTypeIds]);
 
-    const handleToggleColor = (color) => {
-        setSelectedColors((prev) =>
-            prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color],
+    const handleToggleQuestion = (questionId) => {
+        setSelectedQuestionIds((prev) =>
+            prev.includes(questionId) ? prev.filter((id) => id !== questionId) : [...prev, questionId],
         );
     };
 
-    const handleToggleType = (type) => {
-        setSelectedTypes((prev) =>
-            prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
+    const handleToggleType = (typeId) => {
+        setSelectedTypeIds((prev) =>
+            prev.includes(typeId) ? prev.filter((id) => id !== typeId) : [...prev, typeId],
         );
     };
 
@@ -56,6 +90,40 @@ const PatientInformation = () => {
     useEffect(() => {
         if (filteredDocuments.length === 0) return;
 
+        const updateCurrentDocument = () => {
+            const viewportTop = window.scrollY + window.innerHeight * 0.2; // 20% from top
+            const viewportBottom = window.scrollY + window.innerHeight * 0.6; // 60% from top
+
+            // Find the document that is most centered in the viewport
+            let bestMatch = null;
+            let bestDistance = Infinity;
+
+            filteredDocuments.forEach((doc) => {
+                const ref = documentRefs.current[doc.id];
+                if (!ref) return;
+
+                const rect = ref.getBoundingClientRect();
+                const elementTop = rect.top + window.scrollY;
+                const elementBottom = rect.bottom + window.scrollY;
+                const elementCenter = (elementTop + elementBottom) / 2;
+                const viewportCenter = (viewportTop + viewportBottom) / 2;
+
+                // Check if element is in viewport
+                if (elementTop <= viewportBottom && elementBottom >= viewportTop) {
+                    const distance = Math.abs(elementCenter - viewportCenter);
+                    if (distance < bestDistance) {
+                        bestDistance = distance;
+                        bestMatch = doc;
+                    }
+                }
+            });
+
+            if (bestMatch) {
+                setCurrentDocumentDate(bestMatch.date);
+            }
+        };
+
+        // Use IntersectionObserver for initial tracking
         const observerOptions = {
             root: null,
             rootMargin: '-20% 0px -60% 0px',
@@ -81,19 +149,47 @@ const PatientInformation = () => {
             if (ref) observer.observe(ref);
         });
 
+        // Also listen to scroll events to update position when heights change
+        const handleScroll = () => {
+            updateCurrentDocument();
+        };
+
+        // Use ResizeObserver to detect when document heights change (e.g., when collapsed)
+        const resizeObserver = new ResizeObserver(() => {
+            updateCurrentDocument();
+        });
+
+        Object.values(documentRefs.current).forEach((ref) => {
+            if (ref) resizeObserver.observe(ref);
+        });
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
         return () => {
             Object.values(documentRefs.current).forEach((ref) => {
-                if (ref) observer.unobserve(ref);
+                if (ref) {
+                    observer.unobserve(ref);
+                    resizeObserver.unobserve(ref);
+                }
             });
+            window.removeEventListener('scroll', handleScroll);
         };
     }, [filteredDocuments]);
 
-    if (!patient) {
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center">
+                <div className="text-slate-500">Loading...</div>
+            </div>
+        );
+    }
+
+    if (error || !patient) {
         return (
             <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center px-4">
                 <div className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 text-center space-y-4">
                     <h1 className="text-2xl font-semibold text-slate-900">Patient not found</h1>
-                    <p className="text-slate-500">The identifier you followed does not exist.</p>
+                    <p className="text-slate-500">{error || 'The identifier you followed does not exist.'}</p>
                     <button
                         onClick={() => navigate('/')}
                         className="text-sm font-medium text-slate-900 underline underline-offset-4"
@@ -112,6 +208,7 @@ const PatientInformation = () => {
         { label: 'Missing answers', value: patient.totalMissing, caption: 'still pending' },
     ];
 
+    console.log(patient);
     return (
         <div className="min-h-screen bg-[#f5f5f7]">
             <header className="bg-white/80 backdrop-blur border-b border-slate-200 sticky top-0 z-20">
@@ -124,7 +221,7 @@ const PatientInformation = () => {
                             ← Back to patient list
                         </button>
                         <h1 className="text-3xl font-semibold text-slate-900">
-                            Patient {patient.id}
+                            Patient {patient.name}
                         </h1>
                         <p className="text-sm text-slate-500 mt-1">
                             {formatDateRange(patient.startDate, patient.endDate)}
@@ -143,22 +240,24 @@ const PatientInformation = () => {
                         <div className="sticky top-32 space-y-4">
                             <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
                                 <ColorFilter
-                                    questions={patient.questions}
-                                    selectedColors={selectedColors}
-                                    onToggleColor={handleToggleColor}
-                                    onClear={() => setSelectedColors([])}
+                                    items={patient.questions?.map(q => ({ id: q.id, label: q.text, color: q.color })) || []}
+                                    selectedIds={selectedQuestionIds}
+                                    onToggle={handleToggleQuestion}
+                                    onClear={() => setSelectedQuestionIds([])}
                                     compact
                                     label="Highlight"
+                                    showColorIndicator
+                                    hoveredId={hoveredQuestionId}
                                 />
                             </div>
                             <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
                                 <ColorFilter
-                                    documentTypes={documentTypes}
-                                    selectedTypes={selectedTypes}
-                                    onToggleType={handleToggleType}
-                                    onClearTypes={() => setSelectedTypes([])}
+                                    items={documentTypes}
+                                    selectedIds={selectedTypeIds}
+                                    onToggle={handleToggleType}
+                                    onClear={() => setSelectedTypeIds([])}
                                     compact
-                                    isTypeFilter
+                                    label="Document Type"
                                 />
                             </div>
                         </div>
@@ -203,7 +302,7 @@ const PatientInformation = () => {
                                         Timeline of notes
                                     </h3>
                                 </div>
-                                {selectedTypes.length > 0 && (
+                                {selectedTypeIds.length > 0 && (
                                     <span className="text-sm text-slate-500">
                                         Showing {filteredDocuments.length}{' '}
                                         {filteredDocuments.length === 1 ? 'document' : 'documents'}
@@ -224,7 +323,8 @@ const PatientInformation = () => {
                                                 document={doc}
                                                 index={index + 1}
                                                 previousDate={previousDoc?.date}
-                                                selectedColors={selectedColors}
+                                                selectedQuestionIds={selectedQuestionIds}
+                                                onHoverQuestion={setHoveredQuestionId}
                                             />
                                         </div>
                                     );
@@ -244,8 +344,8 @@ const PatientInformation = () => {
                             documents={filteredDocuments}
                             onDocumentClick={handleDocumentClick}
                             currentDate={currentDocumentDate}
-                            selectedColors={selectedColors}
-                            significantEvents={patient?.significantEvents || []}
+                            selectedQuestionIds={selectedQuestionIds}
+                            significantEvents={[]}
                         />
                     </div>
                 </div>

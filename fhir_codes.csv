@@ -1,0 +1,31 @@
+code,description,resource_type,category
+DIAGNOSIS,Primární diagnóza nádoru,Condition,diagnosis
+TNM_CLINICAL,Klinická TNM klasifikace (cTNM),Observation,staging
+TNM_PATHOLOGICAL,Patologická TNM klasifikace (pTNM),Observation,staging
+ER,Estrogenový receptor,Observation,biomarker
+PR,Progesteronový receptor,Observation,biomarker
+HER2,HER2/neu receptor,Observation,biomarker
+KI67,Ki-67 proliferační index,Observation,biomarker
+GRADE,Histologický grade (Nottingham),Observation,pathology
+EXTERNAL_TREATMENT,Léčba mimo MOÚ,Procedure,treatment
+SURGERY,Chirurgický výkon,Procedure,treatment
+CHEMOTHERAPY,Chemoterapie,Procedure,treatment
+RADIOTHERAPY,Radioterapie,Procedure,treatment
+HORMONAL_THERAPY,Hormonální terapie,Procedure,treatment
+IMMUNOTHERAPY,Imunoterapie,Procedure,treatment
+PROGRESSION,Progrese onemocnění,Observation,outcome
+RECURRENCE,Recidiva nádoru,Condition,outcome
+METASTASIS_LIVER,Metastáza v játrech,Condition,metastasis
+METASTASIS_BONE,Metastáza v kostech,Condition,metastasis
+METASTASIS_LUNG,Metastáza v plicích,Condition,metastasis
+METASTASIS_BRAIN,Metastáza v mozku,Condition,metastasis
+METASTASIS_LYMPH,Metastáza v lymfatických uzlinách,Condition,metastasis
+METASTASIS_OTHER,Metastáza jiné lokalizace,Condition,metastasis
+BIOPSY,Biopsie,Procedure,diagnostic
+IMAGING,Výsledek zobrazovacího vyšetření,Observation,diagnostic
+LAB_RESULT,Laboratorní výsledek,Observation,diagnostic
+GENETIC_MARKER,Genetický/molekulární marker,Observation,biomarker
+BRCA1,BRCA1 mutace,Observation,genetic
+BRCA2,BRCA2 mutace,Observation,genetic
+DEATH,Úmrtí pacienta,Observation,outcome
+REMISSION,Remise onemocnění,Observation,outcome

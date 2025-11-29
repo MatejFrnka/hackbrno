@@ -1,16 +1,58 @@
-import { patients, getExecutiveSummary } from '../data/mockData';
+import { useState, useEffect } from 'react';
+import { fetchDashboard } from '../services/api';
 import Greeting from '../components/Greeting';
 import PatientCard from '../components/PatientCard';
 
 const PatientSelection = () => {
-    const summary = getExecutiveSummary();
-    const { large, medium, small } = summary.dataAmountBreakdown;
+    const [dashboardData, setDashboardData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const loadDashboard = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchDashboard();
+                setDashboardData(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadDashboard();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center">
+                <div className="text-slate-500">Loading...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center">
+                <div className="text-red-500">Error: {error}</div>
+            </div>
+        );
+    }
+
+    if (!dashboardData) {
+        return (
+            <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center">
+                <div className="text-slate-500">No data available</div>
+            </div>
+        );
+    }
+    console.log(dashboardData);
 
     const highlights = [
-        { label: 'Patients today', value: summary.totalPatients, caption: 'ready for review' },
-        { label: 'Total pages', value: summary.totalPages, caption: 'documents for review' },
-        { label: 'Relevant pages', value: summary.relevantPages, caption: 'flagged for findings' },
-        { label: 'Unanswered questions', value: summary.totalMissing, caption: 'pending clarity' },
+        { label: 'Patients today', value: dashboardData.totalPatients, caption: 'ready for review' },
+        { label: 'Total pages', value: dashboardData.totalPages, caption: 'documents for review' },
+        { label: 'Relevant pages', value: dashboardData.relevantPages, caption: 'flagged for findings' },
+        { label: 'Unanswered questions', value: dashboardData.patients.reduce((sum, patient) => sum + patient.missingAnswers.length, 0), caption: 'pending clarity' },
     ];
 
     return (
@@ -50,16 +92,11 @@ const PatientSelection = () => {
                     </div>
 
                     <div className="text-base text-slate-700 leading-relaxed border-t border-slate-100 pt-6 space-y-4">
-                        <p>
-                            You have {summary.totalPatients} patients to review today. Each patient record represents
-                            a comprehensive medical history spanning multiple years, with detailed documentation of
-                            diagnoses, treatments, medications, clinical observations, and procedural notes. The total
-                            pages to review is {summary.totalPages}, out of which {summary.relevantPages} contain
-                            relevant information that directly addresses the key questions we need answered. These
-                            relevant pages have been flagged based on their content matching the specific medical
-                            queries we're investigating, including diagnostic codes, treatment protocols, symptom
-                            documentation, and prognostic assessments.
-                        </p>
+                        {dashboardData.summary && (
+                            <p>
+                                {dashboardData.summary}
+                            </p>
+                        )}
                     </div>
                 </section>
 
@@ -73,7 +110,7 @@ const PatientSelection = () => {
                         </h2>
                     </div>
                     <div className="grid grid-cols-1 gap-6">
-                        {patients.map((patient) => (
+                        {dashboardData.patients.map((patient) => (
                             <PatientCard key={patient.id} patient={patient} />
                         ))}
                     </div>

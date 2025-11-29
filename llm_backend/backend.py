@@ -22,7 +22,7 @@ class LLMBackend:
 
     # Each patient is a tuple of the original data, processed data (from process_patient())
     # and patient summary (from summarize_patient())
-    def summarize_batch(self, patients: typing.List[typing.Tuple[pd.DataFrame, typing.Any, str]]) -> str:
+    def summarize_batch(self, patients: typing.List[typing.Tuple[str, str]]) -> str:
         # TODO
         return 'You have 10 patients ...'
 

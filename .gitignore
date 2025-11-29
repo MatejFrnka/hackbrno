@@ -3,8 +3,12 @@ __pycache__/
 node_modules
 .vite
 *.db
-
+*.db-journal
 .env
 .python-version
 __pycache__/
 .DS_Store
+.vite
+*.db
+.idea
+package-lock.json

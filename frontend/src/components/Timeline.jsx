@@ -1,7 +1,10 @@
-import { getColorBgClass } from '../utils/colorUtils';
 import { formatDate } from '../utils/dateUtils';
+import { AlertCircle } from 'lucide-react';
+import { useState } from 'react';
 
-const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = [], significantEvents = [] }) => {
+const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds = [], significantEvents = [] }) => {
+    const [openPopupId, setOpenPopupId] = useState(null);
+
     // Get all dates from documents and events
     const allDates = [
         ...documents.map(doc => doc.date),
@@ -18,49 +21,63 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
     const startTime = new Date(startDate).getTime();
     const endTime = new Date(endDate).getTime();
     const totalTime = endTime - startTime;
-
     // Calculate position of current date
     const currentPosition = currentDate && totalTime > 0
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
         : null;
 
-    // Group documents by date with their colors and document IDs
+    // Group documents by date with their question IDs, colors, and document IDs
+    // Also include commented highlights
     const documentsByDate = {};
     documents.forEach((doc) => {
         if (!documentsByDate[doc.date]) {
-            documentsByDate[doc.date] = { colors: {}, docIds: {} };
+            documentsByDate[doc.date] = { questionIds: {}, colors: {}, docIds: {}, commentedHighlights: [] };
         }
         doc.highlights.forEach((h) => {
-            if (!documentsByDate[doc.date].colors[h.color]) {
-                documentsByDate[doc.date].colors[h.color] = true;
-                documentsByDate[doc.date].docIds[h.color] = doc.id;
+            const questionId = h.question_id;
+            if (questionId && !documentsByDate[doc.date].questionIds[questionId]) {
+                documentsByDate[doc.date].questionIds[questionId] = true;
+                documentsByDate[doc.date].colors[questionId] = h.color;
+                documentsByDate[doc.date].docIds[questionId] = doc.id;
             }
         });
+        // Add commented highlights for this document
+        if (doc.commentedHighlights && doc.commentedHighlights.length > 0) {
+            documentsByDate[doc.date].commentedHighlights.push({
+                docId: doc.id,
+                highlights: doc.commentedHighlights,
+            });
+        }
     });
 
     // Calculate positions for each date
     const timelinePoints = sortedDates.map((date) => {
         const dateTime = new Date(date).getTime();
         const position = totalTime > 0 ? ((dateTime - startTime) / totalTime) * 100 : 0;
-        const dateData = documentsByDate[date] || { colors: {}, docIds: {} };
-        const colors = Object.keys(dateData.colors);
+        const dateData = documentsByDate[date] || { questionIds: {}, colors: {}, docIds: {}, commentedHighlights: [] };
+        const questionIds = Object.keys(dateData.questionIds);
+        const colors = dateData.colors;
         const docIds = dateData.docIds;
-        return { date, position, colors, docIds };
+        const commentedHighlights = dateData.commentedHighlights || [];
+        return { date, position, questionIds, colors, docIds, commentedHighlights };
     });
 
     // Calculate positions for significant events
     const eventPoints = significantEvents.map((event) => {
         const eventTime = new Date(event.date).getTime();
         const position = totalTime > 0 ? ((eventTime - startTime) / totalTime) * 100 : 0;
-        const isActive = selectedColors.length === 0 || selectedColors.includes(event.color);
+        // Check by question_id if available, otherwise show all if no filter is active
+        const isActive = selectedQuestionIds.length === 0 ||
+            (event.question_id && selectedQuestionIds.includes(event.question_id));
         return { ...event, position, isActive };
     });
 
+
     return (
         <aside className="hidden lg:flex w-24 sticky top-24 h-[calc(100vh-8rem)]">
-            <div className="relative flex-1 flex flex-col pt-8">
+            <div className="relative flex-1 flex flex-col">
                 {/* Start date at top */}
-                <div className="text-center mb-2">
+                <div className="text-center pt-8 pb-2">
                     <p className="text-[10px] text-slate-500 font-medium">
                         {formatDate(startDate)}
                     </p>
@@ -70,45 +87,131 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                 <div className="relative flex-1 flex justify-center">
                     <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-slate-200" />
 
-                    {/* Black line indicating current position */}
+                    {/* White circle indicating current position */}
                     {currentPosition !== null && (
                         <div
-                            className="absolute left-1/2 -translate-x-1/2 z-30 flex items-center transition-all duration-300 ease-in-out"
+                            className="absolute left-1/2 -translate-x-1/2 z-0 flex items-center justify-center transition-all duration-300 ease-in-out"
                             style={{
                                 top: `${currentPosition}%`,
                                 transform: 'translateX(-50%) translateY(-50%)'
                             }}
                         >
-                            <div className="w-8 h-0.5 bg-slate-500"></div>
+                            <div className="w-6 h-6 rounded-full bg-white border-2 border-slate-400 shadow-md"></div>
                         </div>
                     )}
 
+                    {/* Small gray dashes on timeline for each document */}
                     {timelinePoints.map((point) => (
                         <div
-                            key={point.date}
-                            className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-                            style={{ top: `${point.position}%` }}
-                        >
-                            {point.colors.map((color) => {
-                                const docId = point.docIds[color];
-                                const isActive = selectedColors.length === 0 || selectedColors.includes(color);
-                                return (
-                                    <div key={`${point.date}-${color}`} className="relative group">
-                                        <button
-                                            type="button"
-                                            onClick={() => onDocumentClick && onDocumentClick(docId)}
-                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer ${isActive ? getColorBgClass(color) : 'bg-slate-300'
-                                                }`}
-                                        />
-                                        {/* Hover tooltip for date */}
-                                        <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
-                                            {formatDate(point.date)}
-                                        </span>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                            key={`dash-${point.date}`}
+                            className="absolute left-1/2 -translate-x-1/2 w-2 h-px bg-slate-300 z-0"
+                            style={{
+                                top: `${point.position}%`,
+                                transform: 'translateX(-50%) translateY(-50%)'
+                            }}
+                        />
                     ))}
+
+                    {timelinePoints.map((point) => {
+                        // Group highlights by document ID, ensuring each questionId appears only once per document
+                        const highlightsByDoc = {};
+
+                        point.questionIds.forEach((questionId) => {
+                            const docId = point.docIds[questionId];
+                            if (!highlightsByDoc[docId]) {
+                                highlightsByDoc[docId] = new Map();
+                            }
+                            // Use Map to ensure each questionId appears only once per document
+                            if (!highlightsByDoc[docId].has(questionId)) {
+                                highlightsByDoc[docId].set(questionId, {
+                                    questionId,
+                                    color: point.colors[questionId],
+                                    docId,
+                                });
+                            }
+                        });
+
+                        const documentGroups = Object.values(highlightsByDoc).map(map => Array.from(map.values()));
+
+                        return (
+                            <div
+                                key={point.date}
+                                className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
+                                style={{
+                                    top: `${point.position}%`,
+                                    transform: 'translateX(-50%) translateY(-50%)'
+                                }}
+                            >
+                                {documentGroups.map((highlights, docIndex) => {
+                                    // Find commented highlights for this document
+                                    const docId = highlights[0]?.docId;
+                                    const commentedHighlightsForDoc = point.commentedHighlights
+                                        .filter(({ docId: chDocId }) => chDocId === docId)
+                                        .flatMap(({ highlights: chHighlights }) => chHighlights);
+
+                                    return (
+                                        <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1">
+                                            {highlights.map((highlight) => {
+                                                const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(highlight.questionId));
+                                                return (
+                                                    <div key={`${point.date}-${highlight.questionId}`} className="relative group pointer-events-none inline-flex items-center justify-center w-3 h-3">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => onDocumentClick && onDocumentClick(highlight.docId)}
+                                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto`}
+                                                            style={{ backgroundColor: isActive ? highlight.color : '#cbd5e1' }}
+                                                        />
+                                                        {/* Hover tooltip for date */}
+                                                        <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
+                                                            {formatDate(point.date)}
+                                                        </span>
+                                                    </div>
+                                                );
+                                            })}
+                                            {/* Render commented highlights - AlertCircle icon with hover popup */}
+                                            {commentedHighlightsForDoc.length > 0 && (
+                                                <div className="relative group inline-flex items-center justify-center w-6 h-6 ml-4">
+                                                    {/* AlertCircle icon button */}
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            onDocumentClick && onDocumentClick(docId);
+                                                        }}
+                                                        onMouseEnter={() => setOpenPopupId(`commented-${docId}`)}
+                                                        onMouseLeave={() => setOpenPopupId(null)}
+                                                        className="w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all relative z-10 cursor-pointer flex items-center justify-center"
+                                                        style={{ backgroundColor: '#faac8bff' }}
+                                                    >
+                                                        <AlertCircle className="w-5 h-5 text-black-200" strokeWidth={2.5} />
+                                                    </button>
+                                                    
+                                                    {/* Hover popup above icon */}
+                                                    <div
+                                                        className={`absolute bottom-full mb-2 right-0 text-sm text-slate-600 bg-white border border-slate-200 rounded px-3 py-2 shadow-lg whitespace-normal max-w-md text-left transition-opacity duration-200 pointer-events-none ${
+                                                            openPopupId === `commented-${docId}` ? 'opacity-100 z-50' : 'opacity-0 z-0'
+                                                        }`}
+                                                        style={{ minWidth: '200px' }}
+                                                    >
+                                                        {commentedHighlightsForDoc.map((ch, idx) => (
+                                                            <div key={ch.id} className={idx < commentedHighlightsForDoc.length - 1 ? 'mb-2' : ''}>
+                                                                {ch.description}
+                                                            </div>
+                                                        ))}
+                                                        {/* Small pointer arrow at bottom */}
+                                                        <div className="absolute top-full right-2 -translate-y-px">
+                                                            <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-slate-200"></div>
+                                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-white"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })}
 
                     {/* Significant events - diamonds with bubbles */}
                     {eventPoints.map((event) => (
@@ -116,11 +219,14 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                             {/* Diamond at original position */}
                             <div
                                 className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
-                                style={{ top: `${event.position}%` }}
+                                style={{
+                                    top: `${event.position}%`,
+                                    transform: 'translateX(-50%) translateY(-50%)'
+                                }}
                             >
                                 <div
-                                    className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 ${event.isActive ? getColorBgClass(event.color) : 'bg-slate-300'
-                                        }`}
+                                    className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10`}
+                                    style={{ backgroundColor: event.isActive ? event.color : '#cbd5e1' }}
                                 />
                             </div>
                             {/* Connecting line from diamond to bubble */}
@@ -140,21 +246,22 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                             <div
                                 className="absolute"
                                 style={{
-                                    left: 'calc(50% + 8px)',
+                                    left: 'calc(50% + 13px)',
                                     top: `${event.position}%`,
                                     transform: 'translateY(-50%)'
                                 }}
                             >
-                                <div className="text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
-                                    <div className="text-xs">{event.description}</div>
+                                <div className="text-sm text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
+                                    {event.description}
                                 </div>
                             </div>
                         </div>
                     ))}
+
                 </div>
 
                 {/* End date at bottom */}
-                <div className="text-center mt-2">
+                <div className="text-center pt-2 pb-8">
                     <p className="text-[10px] text-slate-500 font-medium">
                         {formatDate(endDate)}
                     </p>
@@ -165,4 +272,5 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
 };
 
 export default Timeline;
+
 
