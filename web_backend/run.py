@@ -150,9 +150,9 @@ def process_batch(batch: Batch, backend: LLMBackend):
             )
             db.session.add(highlight)
         patient.long_summary = output['summary_long']
-        # summary = backend.summarize_patient(input_data, output)
-        patients.append((input_data, output, '', ''))
+        patient.short_summary = output['summary_short']
+        patients.append((patient.patient_id, output['summary_long']))
 
-    # batch.summary = backend.summarize_batch(patients)
+    batch.summary = backend.summarize_batch(patients)
     batch.done = datetime.now()
     db.session.commit()
