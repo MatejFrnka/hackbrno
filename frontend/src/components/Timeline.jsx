@@ -1,6 +1,10 @@
 import { formatDate } from '../utils/dateUtils';
+import { AlertCircle } from 'lucide-react';
+import { useState } from 'react';
 
 const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds = [], significantEvents = [] }) => {
+    const [openPopupId, setOpenPopupId] = useState(null);
+
     // Get all dates from documents and events
     const allDates = [
         ...documents.map(doc => doc.date),
@@ -164,45 +168,40 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                                     </div>
                                                 );
                                             })}
-                                            {/* Render commented highlights - one diamond with combined descriptions */}
+                                            {/* Render commented highlights - AlertCircle icon with hover popup */}
                                             {commentedHighlightsForDoc.length > 0 && (
-                                                <div className="relative inline-flex items-center justify-center w-3 h-3">
-                                                    {/* Single diamond */}
+                                                <div className="relative group inline-flex items-center justify-center w-6 h-6 ml-4">
+                                                    {/* AlertCircle icon button */}
                                                     <button
                                                         type="button"
-                                                        onClick={() => onDocumentClick && onDocumentClick(docId)}
-                                                        className="w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto"
-                                                        style={{ backgroundColor: '#cbd5e1' }}
-                                                    />
-                                                    {/* Connecting line from diamond to bubble */}
-                                                    <div
-                                                        className="absolute"
-                                                        style={{
-                                                            left: 'calc(50% + 6px)',
-                                                            top: '50%',
-                                                            width: '8px',
-                                                            height: '1px',
-                                                            backgroundColor: 'rgba(148, 163, 184, 0.3)',
-                                                            transform: 'translateY(-50%)',
-                                                            zIndex: 5,
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            onDocumentClick && onDocumentClick(docId);
                                                         }}
-                                                    />
-                                                    {/* Bubble with combined descriptions - always visible to the right */}
-                                                    <div
-                                                        className="absolute"
-                                                        style={{
-                                                            left: 'calc(50% + 14px)',
-                                                            top: '50%',
-                                                            transform: 'translateY(-50%)'
-                                                        }}
+                                                        onMouseEnter={() => setOpenPopupId(`commented-${docId}`)}
+                                                        onMouseLeave={() => setOpenPopupId(null)}
+                                                        className="w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all relative z-10 cursor-pointer flex items-center justify-center"
+                                                        style={{ backgroundColor: '#faac8bff' }}
                                                     >
-                                                        <div className="text-sm text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-normal z-20 max-w-[200px] text-left">
-                                                            {commentedHighlightsForDoc.map((ch, idx) => (
-                                                                <span key={ch.id}>
-                                                                    {ch.description}
-                                                                    {idx < commentedHighlightsForDoc.length - 1 && ' '}
-                                                                </span>
-                                                            ))}
+                                                        <AlertCircle className="w-5 h-5 text-black-200" strokeWidth={2.5} />
+                                                    </button>
+                                                    
+                                                    {/* Hover popup above icon */}
+                                                    <div
+                                                        className={`absolute bottom-full mb-2 right-0 text-sm text-slate-600 bg-white border border-slate-200 rounded px-3 py-2 shadow-lg whitespace-normal max-w-md text-left transition-opacity duration-200 pointer-events-none ${
+                                                            openPopupId === `commented-${docId}` ? 'opacity-100 z-50' : 'opacity-0 z-0'
+                                                        }`}
+                                                        style={{ minWidth: '200px' }}
+                                                    >
+                                                        {commentedHighlightsForDoc.map((ch, idx) => (
+                                                            <div key={ch.id} className={idx < commentedHighlightsForDoc.length - 1 ? 'mb-2' : ''}>
+                                                                {ch.description}
+                                                            </div>
+                                                        ))}
+                                                        {/* Small pointer arrow at bottom */}
+                                                        <div className="absolute top-full right-2 -translate-y-px">
+                                                            <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-slate-200"></div>
+                                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-white"></div>
                                                         </div>
                                                     </div>
                                                 </div>
