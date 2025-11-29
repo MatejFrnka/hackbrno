@@ -84,13 +84,9 @@ def process_batch(batch: Batch, backend: LLMBackend):
                 offset_end=c['end_char'],
             )
             db.session.add(finding)
-
-        print(output)
-        # TODO
+        # TODO: process highlights
         # summary = backend.summarize_patient(input_data, output)
-        # print(summary)
-        summary = ''
-        patients.append((input_data, output, summary))
+        patients.append((input_data, output, '', ''))
 
     # batch.summary = backend.summarize_batch(patients)
     batch.done = datetime.now()
