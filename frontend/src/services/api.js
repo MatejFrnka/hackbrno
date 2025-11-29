@@ -167,6 +167,10 @@ export const fetchPatient = async (patientId) => {
         };
     });
 
+    let answeredQuestionsIds = documents.reduce((set, d) => {
+        d.highlights.reduce((sett, h) => { sett.add(h.question_id); return sett; }, set);
+        return set;
+    }, new Set());
 
     return {
         id: patientId,
@@ -175,8 +179,9 @@ export const fetchPatient = async (patientId) => {
         documents,
         totalDocuments: documents.length,
         relevantDocuments: documents.filter(d => d.highlights.length > 0).length,
-        totalLocated: documents.reduce((sum, d) => sum + d.highlights.length, 0),
-        totalMissing: 0, // Calculate based on unanswered questions if needed
+        totalLocated: answeredQuestionsIds.size,
+        totalMissing: questions.length - answeredQuestionsIds.size,
+        answeredQuestions: answeredQuestionsIds,
     };
 };
 
