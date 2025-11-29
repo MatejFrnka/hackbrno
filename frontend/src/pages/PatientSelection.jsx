@@ -46,12 +46,13 @@ const PatientSelection = () => {
             </div>
         );
     }
+    console.log(dashboardData);
 
     const highlights = [
         { label: 'Patients today', value: dashboardData.totalPatients, caption: 'ready for review' },
         { label: 'Total pages', value: dashboardData.totalPages, caption: 'documents for review' },
         { label: 'Relevant pages', value: dashboardData.relevantPages, caption: 'flagged for findings' },
-        { label: 'Unanswered questions', value: dashboardData.totalMissing, caption: 'pending clarity' },
+        { label: 'Unanswered questions', value: dashboardData.patients.reduce((sum, patient) => sum + patient.missingAnswers.length, 0), caption: 'pending clarity' },
     ];
 
     return (
@@ -91,16 +92,6 @@ const PatientSelection = () => {
                     </div>
 
                     <div className="text-base text-slate-700 leading-relaxed border-t border-slate-100 pt-6 space-y-4">
-                        <p>
-                            You have {dashboardData.totalPatients} patients to review today. Each patient record represents
-                            a comprehensive medical history spanning multiple years, with detailed documentation of
-                            diagnoses, treatments, medications, clinical observations, and procedural notes. The total
-                            pages to review is {dashboardData.totalPages}, out of which {dashboardData.relevantPages} contain
-                            relevant information that directly addresses the key questions we need answered. These
-                            relevant pages have been flagged based on their content matching the specific medical
-                            queries we're investigating, including diagnostic codes, treatment protocols, symptom
-                            documentation, and prognostic assessments.
-                        </p>
                         {dashboardData.summary && (
                             <p>
                                 {dashboardData.summary}
