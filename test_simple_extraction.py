@@ -15,6 +15,7 @@ import hashlib
 import pandas as pd
 from openai import AsyncOpenAI
 from dotenv import load_dotenv
+import argparse
 
 from data.mock_data import mock_questions
 from llm_extraction.models import Question, MedicalRecord, PatientData
@@ -22,13 +23,28 @@ from llm_extraction.extraction import FeatureExtractor
 from llm_extraction.span_matcher import SpanMatcher
 
 
-def load_patient_from_csv(patient_id: str, csv_path: str = "data/records.csv") -> PatientData:
+def parse_arguments():
+    """
+    Parse command-line arguments.
+
+    Returns:
+        argparse.Namespace: Parsed arguments
+    """
+    parser = argparse.ArgumentParser(description="Simplified Medical Information Extraction Pipeline")
+    parser.add_argument("--csv", type=str, default="data/records.csv", help="Path to the CSV file (default: data/records.csv)")
+    parser.add_argument("--patient", type=str, required=True, help="Patient ID (e.g., HACK01)")
+    parser.add_argument("--skip-duplicates", action="store_true", help="Skip duplicate records (default: False)")
+    return parser.parse_args()
+
+
+def load_patient_from_csv(patient_id: str, csv_path: str = "data/records.csv", skip_duplicates: bool = True) -> PatientData:
     """
     Load patient data from records.csv.
 
     Args:
         patient_id: Patient ID (e.g., "HACK01")
         csv_path: Path to CSV file
+        skip_duplicates: Whether to skip duplicate records
 
     Returns:
         PatientData object
@@ -56,8 +72,8 @@ def load_patient_from_csv(patient_id: str, csv_path: str = "data/records.csv") -
         text = str(row['text'])
         text_hash = hashlib.sha256(text.encode('utf-8')).hexdigest()
 
-        # Skip duplicates
-        if text_hash in seen_hashes:
+        # Skip duplicates if the option is enabled
+        if skip_duplicates and text_hash in seen_hashes:
             duplicate_count += 1
             continue
 
@@ -79,6 +95,9 @@ def load_patient_from_csv(patient_id: str, csv_path: str = "data/records.csv") -
 
 
 async def main():
+    # Parse arguments
+    args = parse_arguments()
+
     # Load environment variables
     load_dotenv()
 
@@ -104,8 +123,7 @@ async def main():
     print()
 
     # Load patient data from CSV
-    patient_id = "HACK01"
-    patient_data = load_patient_from_csv(patient_id)
+    patient_data = load_patient_from_csv(args.patient, args.csv, skip_duplicates=args.skip_duplicates)
     print()
 
     # Extract citations (async)
@@ -116,16 +134,23 @@ async def main():
     citations_with_spans = span_matcher.match_all_citations(extraction_results, patient_data)
     print()
 
+    # Sort citations by record_id (ascending), then start_char (ascending)
+    sorted_citations = sorted(
+        citations_with_spans,
+        key=lambda c: (c.record_id, c.start_char)
+    )
+    print()
+
     # Print summary
     print("=" * 80)
     print("Extraction Summary")
     print("=" * 80)
-    print(f"Total citations with spans: {len(citations_with_spans)}")
+    print(f"Total citations with spans: {len(sorted_citations)}")
     print()
 
     # Group by question
     by_question = {}
-    for citation in citations_with_spans:
+    for citation in sorted_citations:
         qid = citation.question_id
         if qid not in by_question:
             by_question[qid] = []
@@ -139,7 +164,7 @@ async def main():
 
     # Show first 10 citations
     print("Sample citations (first 10):")
-    for i, citation in enumerate(citations_with_spans[:10]):
+    for i, citation in enumerate(sorted_citations[:10]):
         question_text = next((q.text for q in questions if q.question_id == citation.question_id), "Unknown")
         print(f"  [{i+1}] Q{citation.question_id} ({question_text})")
         print(f"      Text: '{citation.quoted_text[:60]}...'")
@@ -149,12 +174,12 @@ async def main():
         print()
 
     # Save results to JSON
-    output_path = "output/HACK01_simple_extractions.json"
+    output_path = f"output/{args.patient}_simple_extractions.json"
     os.makedirs("output", exist_ok=True)
 
     output_data = {
         "patient_id": patient_data.patient_id,
-        "total_citations": len(citations_with_spans),
+        "total_citations": len(sorted_citations),
         "citations": [
             {
                 "question_id": c.question_id,
@@ -164,7 +189,7 @@ async def main():
                 "start_char": c.start_char,
                 "end_char": c.end_char
             }
-            for c in citations_with_spans
+            for c in sorted_citations
         ]
     }
 
