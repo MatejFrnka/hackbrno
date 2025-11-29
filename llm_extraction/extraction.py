@@ -4,6 +4,7 @@ Feature extraction using OpenAI with dynamic questions.
 
 import asyncio
 import random
+import typing
 from typing import List
 from openai import AsyncOpenAI
 
@@ -454,3 +455,68 @@ class PatientSummaryExtractor:
         )
 
         return response.choices[0].message.content
+
+
+class BatchSummaryExtractor:
+    """
+    Extracts a comprehensive summary across multiple patients for cohort-level overview.
+    """
+
+    def __init__(self, client: AsyncOpenAI, model: str = "gpt-5.1"):
+        """
+        Args:
+            client: AsyncOpenAI client instance
+            model: OpenAI model to use for summarization
+        """
+        self.client = client
+        self.model = model
+
+    async def summarize_batch_async(self, patient_summaries: typing.List[typing.Tuple[str, str]]) -> str:
+        """
+        Generate batch summary asynchronously using LLM.
+
+        Args:
+            patient_summaries: List of (patient_id, summary) tuples
+
+        Returns:
+            String containing narrative summary of entire patient cohort
+        """
+        from llm_extraction.prompts import generate_batch_summary_prompt
+
+        system_prompt = generate_batch_summary_prompt()
+
+        # Format patient summaries for LLM
+        user_prompt_lines = ["Zde jsou individuální sumáře pacientek:\n"]
+        for idx, (patient_id, summary) in enumerate(patient_summaries, 1):
+            user_prompt_lines.append(f"{idx}. Pacientka {patient_id}:")
+            user_prompt_lines.append(f"{summary}\n")
+
+        user_prompt = "\n".join(user_prompt_lines)
+
+        print(f"Generating batch summary for {len(patient_summaries)} patients...")
+
+        max_retries = 3
+        base_delay = 1.0
+
+        for attempt in range(max_retries):
+            try:
+                response = await self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    temperature=0.1,
+                )
+
+                return response.choices[0].message.content
+
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    delay = base_delay * (2 ** attempt)
+                    print(f"  WARNING: Attempt {attempt + 1}/{max_retries} failed: {e}")
+                    print(f"  Retrying in {delay}s...")
+                    await asyncio.sleep(delay)
+                else:
+                    print(f"  ERROR: All {max_retries} attempts failed: {e}")
+                    raise
