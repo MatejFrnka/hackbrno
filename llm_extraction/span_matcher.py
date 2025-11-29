@@ -90,6 +90,11 @@ class SpanMatcher:
                 norm_end=end_pos
             )
 
+            # Check for invalid span (both start and end are 0)
+            if original_start == 0 and original_end == 0:
+                print(f"WARNING: Invalid span (start=0, end=0) for citation: '{citation.quoted_text}' in record {record.record_id}")
+                return None
+
             return ExtractionCitationWithSpan(
                 question_id=citation.question_id,
                 quoted_text=citation.quoted_text,
@@ -114,6 +119,11 @@ class SpanMatcher:
                 norm_start=fuzzy_match['start'],
                 norm_end=fuzzy_match['end']
             )
+
+            # Check for invalid span (both start and end are 0)
+            if original_start == 0 and original_end == 0:
+                print(f"WARNING: Invalid span (start=0, end=0) for citation: '{citation.quoted_text}' in record {record.record_id}")
+                return None
 
             return ExtractionCitationWithSpan(
                 question_id=citation.question_id,
