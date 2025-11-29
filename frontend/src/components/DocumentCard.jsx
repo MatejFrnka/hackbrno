@@ -7,16 +7,16 @@ const DocumentCard = ({ document, index, previousDate }) => {
     return (
         <>
             {daysBetween !== null && (
-                <div className="flex items-center justify-center gap-2 my-4">
-                    <div className="flex-1 h-px bg-slate-200"></div>
-                    <div className="flex items-center gap-2 px-3">
-                        <span className="text-xs text-slate-400">•</span>
+                <div className="flex flex-col items-center my-4">
+                    <div className="w-px h-8 bg-slate-200"></div>
+                    <div className="flex flex-col items-center gap-1 py-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                         <span className="text-xs font-medium text-slate-500">
                             {daysBetween} {daysBetween === 1 ? 'day' : 'days'}
                         </span>
-                        <span className="text-xs text-slate-400">•</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                     </div>
-                    <div className="flex-1 h-px bg-slate-200"></div>
+                    <div className="w-px h-8 bg-slate-200"></div>
                 </div>
             )}
             <article className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 mb-4">
