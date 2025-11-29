@@ -116,7 +116,10 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                             {/* Diamond at original position */}
                             <div
                                 className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center"
-                                style={{ top: `${event.position}%` }}
+                                style={{
+                                    top: `${event.position}%`,
+                                    transform: 'translateX(-50%) translateY(-50%)'
+                                }}
                             >
                                 <div
                                     className={`w-3 h-3 rotate-45 border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 ${event.isActive ? getColorBgClass(event.color) : 'bg-slate-300'
@@ -140,13 +143,13 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedColors = []
                             <div
                                 className="absolute"
                                 style={{
-                                    left: 'calc(50% + 8px)',
+                                    left: 'calc(50% + 13px)',
                                     top: `${event.position}%`,
                                     transform: 'translateY(-50%)'
                                 }}
                             >
-                                <div className="text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
-                                    <div className="text-xs">{event.description}</div>
+                                <div className="text-sm text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm pointer-events-none whitespace-nowrap z-20 max-w-[200px] text-left">
+                                    {event.description}
                                 </div>
                             </div>
                         </div>
