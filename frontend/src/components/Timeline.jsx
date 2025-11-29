@@ -88,6 +88,18 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                         </div>
                     )}
 
+                    {/* Small gray dashes on timeline for each document */}
+                    {timelinePoints.map((point) => (
+                        <div
+                            key={`dash-${point.date}`}
+                            className="absolute left-1/2 -translate-x-1/2 w-2 h-px bg-slate-300 z-0"
+                            style={{
+                                top: `${point.position}%`,
+                                transform: 'translateX(-50%) translateY(-50%)'
+                            }}
+                        />
+                    ))}
+
                     {timelinePoints.map((point) => {
                         // Group highlights by document ID, ensuring each questionId appears only once per document
                         const highlightsByDoc = {};
