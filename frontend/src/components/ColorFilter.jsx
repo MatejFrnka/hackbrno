@@ -6,7 +6,8 @@ const ColorFilter = ({
     onClear,
     compact = false,
     label = 'Filter',
-    showColorIndicator = false
+    showColorIndicator = false,
+    hoveredId = null
 }) => {
     if (compact) {
         return (
@@ -27,6 +28,7 @@ const ColorFilter = ({
                 <div className="flex flex-col gap-1.5">
                     {items?.map((item) => {
                         const isSelected = selectedIds?.includes(item.id);
+                        const isHovered = hoveredId !== null && Number(item.id) === Number(hoveredId);
                         return (
                             <button
                                 key={item.id}
@@ -51,8 +53,8 @@ const ColorFilter = ({
                                         aria-hidden="true"
                                     />
                                 )}
-                                <span className={`text-[11px] leading-tight ${isSelected ? 'text-white' : 'text-slate-600'
-                                    }`}>
+                                <span className={`text-[11px] leading-tight transition-[font-weight] duration-200 ${isSelected ? 'text-white' : 'text-slate-600'
+                                    } ${isHovered ? 'font-bold' : ''}`}>
                                     {item.label || item.text}
                                 </span>
                             </button>
@@ -87,6 +89,7 @@ const ColorFilter = ({
             <div className="flex flex-wrap gap-2">
                 {items.map((item) => {
                     const isSelected = selectedIds.includes(item.id);
+                    const isHovered = hoveredId !== null && item.id === hoveredId;
                     return (
                         <button
                             key={item.id}
@@ -104,7 +107,7 @@ const ColorFilter = ({
                                     aria-hidden="true"
                                 />
                             )}
-                            <span className="text-left">{item.label || item.text}</span>
+                            <span className={`text-left transition-[font-weight] duration-200 ${isHovered ? 'font-bold' : ''}`}>{item.label || item.text}</span>
                         </button>
                     );
                 })}

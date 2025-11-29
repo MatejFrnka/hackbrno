@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { formatDate, getDaysBetween } from '../utils/dateUtils';
 
-const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [] }) => {
+const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [], onHoverQuestion }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const daysBetween = previousDate ? getDaysBetween(previousDate, document.date) : null;
 
@@ -66,6 +66,8 @@ const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [] 
                                             : 'bg-slate-100 text-slate-500 border-slate-200'
                                             }`}
                                         style={shouldHighlight ? { backgroundColor: part.color } : undefined}
+                                        onMouseEnter={() => onHoverQuestion && onHoverQuestion(part.questionId)}
+                                        onMouseLeave={() => onHoverQuestion && onHoverQuestion(null)}
                                     >
                                         {part.content}
                                     </span>

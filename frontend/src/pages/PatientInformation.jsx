@@ -15,6 +15,7 @@ const PatientInformation = () => {
     const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
     const [selectedTypeIds, setSelectedTypeIds] = useState([]);
     const [currentDocumentDate, setCurrentDocumentDate] = useState(null);
+    const [hoveredQuestionId, setHoveredQuestionId] = useState(null);
     const documentRefs = useRef({});
 
     const decodedId = encodedId ? decodeURIComponent(encodedId) : '';
@@ -245,6 +246,7 @@ const PatientInformation = () => {
                                     compact
                                     label="Highlight"
                                     showColorIndicator
+                                    hoveredId={hoveredQuestionId}
                                 />
                             </div>
                             <div className="bg-white rounded-2xl border border-slate-200/70 shadow-sm p-4">
@@ -321,6 +323,7 @@ const PatientInformation = () => {
                                                 index={index + 1}
                                                 previousDate={previousDoc?.date}
                                                 selectedQuestionIds={selectedQuestionIds}
+                                                onHoverQuestion={setHoveredQuestionId}
                                             />
                                         </div>
                                     );
