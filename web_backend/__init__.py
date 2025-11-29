@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 from llm_backend import LLMBackend
@@ -14,10 +14,6 @@ from .models import *
 with app.app_context():
     db.create_all()
 
-with app.app_context():
-    bt = Batch()
-    db.session.add(bt)
-    db.session.commit()
 
 @app.route("/")
 def home():
@@ -29,3 +25,45 @@ def home():
             'schedule': bt.schedule
         })
     return jsonify(batches)
+
+
+def current_batch() -> Batch:
+    bt = Batch.query.where(Batch.done.isnot(None)).order_by(Batch.done.desc()).first()
+    return bt
+
+
+@app.route('/api/dashboard')
+def dashboard_api():
+    bt = current_batch()
+    if bt is None:
+        return jsonify({})
+    # TODO: patients
+    data = {
+        'summary': bt.summary,
+        'done': bt.done
+    }
+    return jsonify(data)
+
+
+@app.route('/api/patient/<string:patient_id>')
+def patient_api(patient_id: str):
+    bt = current_batch()
+    patient = BatchPatient.query.where(BatchPatient.batch_id == bt.id and BatchPatient.patient_id == patient_id).first()
+    if patient is None:
+        return jsonify({})
+    # TODO
+
+
+from .run import add_batch
+
+
+@app.route('/add')
+def _add_b():
+    import os
+    files = []
+    for filename in os.listdir('data'):
+        if '.xml' not in filename:
+            continue
+        files.append(os.path.join('data', filename))
+    add_batch(files)
+    return redirect('home')

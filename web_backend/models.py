@@ -8,19 +8,11 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    # TODO
-
-
-class Batch(db.Model):
-    __tablename__ = 'batches'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    schedule = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    done = db.Column(db.DateTime, nullable=True, default=datetime.now)
-    summary = db.Column(db.Text, nullable=True)
 
 
 class BatchQuestion(db.Model):
+    __tablename__ = 'batch_questions'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     batch_id = db.Column(
         db.Integer,
@@ -34,6 +26,21 @@ class BatchQuestion(db.Model):
     )
 
 
+class Batch(db.Model):
+    __tablename__ = 'batches'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    schedule = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    done = db.Column(db.DateTime, nullable=True, default=None)
+    summary = db.Column(db.Text, nullable=True)
+
+    questions = db.relationship(
+        'Question',
+        secondary='batch_questions'
+    )
+    patients = db.relationship('BatchPatient', lazy=True)
+
+
 class BatchPatient(db.Model):
     __tablename__ = 'batch_patients'
 
@@ -44,6 +51,7 @@ class BatchPatient(db.Model):
         nullable=False
     )
     patient_id = db.Column(db.String, nullable=False)
+
     short_summary = db.Column(db.Text, nullable=True)
     long_summary = db.Column(db.Text, nullable=True)
 
