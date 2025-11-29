@@ -37,10 +37,16 @@ def dashboard_api():
     bt = current_batch()
     if bt is None:
         return jsonify({})
-    # TODO: patients
+    patients = []
+    for p in bt.patients:
+        patients.append({
+            'short_summary': p.short_summary,
+            'long_summary': p.long_summary,
+        })
     data = {
         'summary': bt.summary,
-        'done': bt.done
+        'done': bt.done,
+        'patients': patients,
     }
     return jsonify(data)
 

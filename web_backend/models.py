@@ -55,6 +55,8 @@ class BatchPatient(db.Model):
     short_summary = db.Column(db.Text, nullable=True)
     long_summary = db.Column(db.Text, nullable=True)
 
+    records = db.relationship('PatientRecord', lazy=True)
+
 
 class PatientRecord(db.Model):
     __tablename__ = 'patient_records'
@@ -68,6 +70,8 @@ class PatientRecord(db.Model):
     date = db.Column(db.Date, nullable=False)
     type = db.Column(db.String, nullable=False)
     text = db.Column(db.Text, nullable=False)
+
+    findings = db.relationship('Finding', lazy=True)
 
 
 class Finding(db.Model):
