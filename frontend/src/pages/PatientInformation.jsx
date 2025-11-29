@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { patients } from '../data/mockData';
+import { fetchPatient } from '../services/api';
 import { formatDateRange } from '../utils/dateUtils';
 import DocumentCard from '../components/DocumentCard';
 import Timeline from '../components/Timeline';
@@ -9,13 +9,44 @@ import ColorFilter from '../components/ColorFilter';
 const PatientInformation = () => {
     const { id: encodedId } = useParams();
     const navigate = useNavigate();
+    const [patient, setPatient] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [selectedColors, setSelectedColors] = useState([]);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [currentDocumentDate, setCurrentDocumentDate] = useState(null);
     const documentRefs = useRef({});
 
     const decodedId = encodedId ? decodeURIComponent(encodedId) : '';
-    const patient = patients.find((p) => p.id === decodedId);
+
+    useEffect(() => {
+        const loadPatient = async () => {
+            try {
+                setLoading(true);
+                const data = await fetchPatient(decodedId);
+                if (data) {
+                    // Calculate start and end dates from documents if not provided
+                    if (data.documents && data.documents.length > 0) {
+                        const dates = data.documents.map(d => d.date).filter(Boolean).sort();
+                        if (dates.length > 0) {
+                            data.startDate = dates[0];
+                            data.endDate = dates[dates.length - 1];
+                        }
+                    }
+                    setPatient(data);
+                } else {
+                    setError('Patient not found');
+                }
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        if (decodedId) {
+            loadPatient();
+        }
+    }, [decodedId]);
 
     // Get all unique document types
     const documentTypes = useMemo(() => {
@@ -88,12 +119,20 @@ const PatientInformation = () => {
         };
     }, [filteredDocuments]);
 
-    if (!patient) {
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center">
+                <div className="text-slate-500">Loading...</div>
+            </div>
+        );
+    }
+
+    if (error || !patient) {
         return (
             <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center px-4">
                 <div className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 text-center space-y-4">
                     <h1 className="text-2xl font-semibold text-slate-900">Patient not found</h1>
-                    <p className="text-slate-500">The identifier you followed does not exist.</p>
+                    <p className="text-slate-500">{error || 'The identifier you followed does not exist.'}</p>
                     <button
                         onClick={() => navigate('/')}
                         className="text-sm font-medium text-slate-900 underline underline-offset-4"
@@ -245,7 +284,7 @@ const PatientInformation = () => {
                             onDocumentClick={handleDocumentClick}
                             currentDate={currentDocumentDate}
                             selectedColors={selectedColors}
-                            significantEvents={patient?.significantEvents || []}
+                            significantEvents={[]}
                         />
                     </div>
                 </div>

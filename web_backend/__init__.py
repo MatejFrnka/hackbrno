@@ -15,6 +15,15 @@ with app.app_context():
     db.create_all()
 
 
+# Enable CORS only for API routes
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
+
 @app.route("/")
 def home():
     batches = []
@@ -77,6 +86,7 @@ def dashboard_api():
         ]
         
         patients.append({
+            'id': p.id,
             'short_summary': p.short_summary,
             'documents_total': len(p.records),
             'relevant_documents_total': sum(1 for r in p.records if len(r.findings) > 0),
