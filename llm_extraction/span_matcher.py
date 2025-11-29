@@ -118,7 +118,7 @@ class SpanMatcher:
             )
 
         # No match found
-        print(f"WARNING: No match found for citation: '{citation.quoted_text[:50]}...' in record {record.record_id}")
+        print(f"WARNING: No match found for citation: '{citation.quoted_text}' in record {record.record_id}")
         return None
 
     def _fuzzy_find_first(

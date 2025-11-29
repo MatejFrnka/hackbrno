@@ -1,8 +1,9 @@
 import os
+import asyncio
 import hashlib
 import pandas as pd
 import typing
-from openai import OpenAI
+from openai import AsyncOpenAI
 
 from llm_extraction.models import Question, MedicalRecord, PatientData
 from llm_extraction.extraction import FeatureExtractor
@@ -42,8 +43,8 @@ class LLMBackendBase(LLMBackend):
         - OPENAI_URL: Base URL for API (default: https://api.openai.com/v1)
         - OPENAI_MODEL: Model to use for extraction (default: gpt-4o)
         """
-        # Initialize OpenAI client from environment
-        self.client = OpenAI(
+        # Initialize AsyncOpenAI client from environment
+        self.client = AsyncOpenAI(
             api_key=os.getenv("OPENAI_API_KEY"),
             base_url=os.getenv("OPENAI_URL", "https://api.openai.com/v1")
         )
@@ -55,7 +56,20 @@ class LLMBackendBase(LLMBackend):
 
     def process_patient(self, patient: pd.DataFrame, questions: typing.List[typing.Tuple[int, str, str]]):
         """
-        Extract medical information from patient records.
+        Extract medical information from patient records (synchronous wrapper).
+
+        Args:
+            patient: DataFrame with columns [patient_id, record_id, date, type, text]
+            questions: List of (question_id, question_text, additional_instructions) tuples
+
+        Returns:
+            Dictionary with patient_id, total_citations, and list of citations with spans
+        """
+        return asyncio.run(self._process_patient_async(patient, questions))
+
+    async def _process_patient_async(self, patient: pd.DataFrame, questions: typing.List[typing.Tuple[int, str, str]]):
+        """
+        Extract medical information from patient records asynchronously.
 
         Args:
             patient: DataFrame with columns [patient_id, record_id, date, type, text]
@@ -110,8 +124,8 @@ class LLMBackendBase(LLMBackend):
             for qid, text, instructions in questions
         ]
 
-        # Extract citations using LLM
-        extraction_results = self.extractor.extract_patient_features(
+        # Extract citations using LLM (async)
+        extraction_results = await self.extractor.extract_patient_features(
             patient_data,
             question_objects
         )
@@ -122,10 +136,16 @@ class LLMBackendBase(LLMBackend):
             patient_data
         )
 
+        # Sort citations by record_id (ascending), then start_char (ascending)
+        sorted_citations = sorted(
+            citations_with_spans,
+            key=lambda c: (c.record_id, c.start_char)
+        )
+
         # Format results as dictionary
         return {
             "patient_id": patient_id,
-            "total_citations": len(citations_with_spans),
+            "total_citations": len(sorted_citations),
             "citations": [
                 {
                     "question_id": c.question_id,
@@ -135,7 +155,7 @@ class LLMBackendBase(LLMBackend):
                     "start_char": c.start_char,
                     "end_char": c.end_char
                 }
-                for c in citations_with_spans
+                for c in sorted_citations
             ]
         }
 

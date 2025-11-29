@@ -9,10 +9,11 @@ Tests the simplified workflow using records.csv:
 """
 
 import os
+import asyncio
 import json
 import hashlib
 import pandas as pd
-from openai import OpenAI
+from openai import AsyncOpenAI
 from dotenv import load_dotenv
 
 from data.mock_data import mock_questions
@@ -77,7 +78,7 @@ def load_patient_from_csv(patient_id: str, csv_path: str = "data/records.csv") -
     return PatientData(patient_id=patient_id, records=records)
 
 
-def main():
+async def main():
     # Load environment variables
     load_dotenv()
 
@@ -88,7 +89,7 @@ def main():
 
     # Initialize components
     print("Initializing components...")
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     extractor = FeatureExtractor(client, model="gpt-4o")
     span_matcher = SpanMatcher(similarity_threshold=0.9)
     print("✓ Components initialized")
@@ -107,8 +108,8 @@ def main():
     patient_data = load_patient_from_csv(patient_id)
     print()
 
-    # Extract citations
-    extraction_results = extractor.extract_patient_features(patient_data, questions)
+    # Extract citations (async)
+    extraction_results = await extractor.extract_patient_features(patient_data, questions)
     print()
 
     # Match spans
@@ -179,4 +180,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
