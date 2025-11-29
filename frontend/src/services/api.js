@@ -65,49 +65,30 @@ export const fetchDashboard = async () => {
         throw new Error('Failed to fetch dashboard data');
     }
     const data = await response.json();
-
     // Transform data to match frontend expectations
     const transformedPatients = data.patients.map((p) => {
         // Combine answered and unanswered questions
         const allQuestions = [...p.answered_questions, ...p.unanswered_questions];
-
         // Create questions array with color names
         const questions = allQuestions.map((q) => ({
             id: q.id,
-            text: q.description,
+            text: q.name,
             color: q.rgb_color,
         }));
 
-        // Calculate located and missing answers
-        const locatedAnswers = {};
-        const missingAnswers = {};
-
-        p.answered_questions.forEach((q) => {
-            const color = q.rgb_color;
-            locatedAnswers[color] = q.documents_count || 0;
-        });
-
-        p.unanswered_questions.forEach((q) => {
-            const color = q.rgb_color;
-            missingAnswers[color] = 0;
-        });
-
-        const totalLocated = Object.values(locatedAnswers).reduce((a, b) => a + b, 0);
-        const totalMissing = p.unanswered_questions.length;
-
         // Use patient_id if available, otherwise use id as fallback
         // Note: patient_id is the string identifier, id is the database ID
-        const patientId = p.patient_id || String(p.id || '');
+        const patientId = p.patient_id
         return {
             id: patientId,
             startDate: p.documents_start_date,
             endDate: p.documents_end_date,
             totalDocuments: p.documents_total,
             relevantDocuments: p.relevant_documents_total,
-            locatedAnswers,
-            missingAnswers,
-            totalLocated,
-            totalMissing,
+            locatedAnswers: p.answered_questions,
+            missingAnswers: p.unanswered_questions,
+            totalLocated: 0,
+            totalMissing: 0,
             summary: p.short_summary || '',
             difficulty: p.difficulty || 1,
             questions,

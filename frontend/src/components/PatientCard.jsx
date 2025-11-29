@@ -4,38 +4,29 @@ import DifficultyRating from './DifficultyRating';
 
 const PatientCard = ({ patient }) => {
     const navigate = useNavigate();
-    const questionMeta = patient.questions.map((question) => {
-        const located = patient.locatedAnswers[question.color] || 0;
-        const missing = Math.max(patient.missingAnswers[question.color] || 0, 0);
 
-        return {
-            ...question,
-            located,
-            missing,
-        };
-    });
-
-    const locatedQuestions = questionMeta.filter((item) => item.located > 0);
-    const missingQuestions = questionMeta.filter((item) => item.missing > 0);
 
     const handleReview = (e) => {
         e.stopPropagation();
         navigate(`/patient/${encodeURIComponent(patient.id)}`);
     };
 
-    const ColorChip = ({ item, value, label }) => (
-        <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 bg-white/80">
-            <span
-                className={`w-2.5 h-2.5 rounded-full`}
-                style={{ backgroundColor: item.color }}
-                aria-hidden="true"
-            />
-            <span className="text-slate-900 font-medium">{item.text}</span>
-            <span className="text-slate-500">
-                {value} {label}
+    const ColorChip = ({ item, value, label }) => {
+        console.log(item);
+        return (
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 bg-white/80">
+                <span
+                    className={`w-2.5 h-2.5 rounded-full`}
+                    style={{ backgroundColor: item.rgb_color }}
+                    aria-hidden="true"
+                />
+                <span className="text-slate-900 font-medium">{item.name}</span>
+                <span className="text-slate-500">
+                    {value} {label}
+                </span>
             </span>
-        </span>
-    );
+        )
+    };
 
     return (
         <article className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-6 flex flex-col gap-5">
@@ -81,8 +72,8 @@ const PatientCard = ({ patient }) => {
                         Located answers
                     </p>
                     <div className="flex flex-wrap gap-2">
-                        {locatedQuestions.length > 0 ? (
-                            locatedQuestions.map((item) => (
+                        {patient.locatedAnswers.length > 0 ? (
+                            patient.locatedAnswers.map((item) => (
                                 <ColorChip
                                     key={`${patient.id}-${item.id}-located`}
                                     item={item}
@@ -101,12 +92,12 @@ const PatientCard = ({ patient }) => {
                         Missing answers
                     </p>
                     <div className="flex flex-wrap gap-2">
-                        {missingQuestions.length > 0 ? (
-                            missingQuestions.map((item) => (
+                        {patient.missingAnswers.length > 0 ? (
+                            patient.missingAnswers.map((item) => (
                                 <ColorChip
                                     key={`${patient.id}-${item.id}-missing`}
                                     item={item}
-                                    value={item.missing}
+                                    value={item.unanswered}
                                     label="pending"
                                 />
                             ))
