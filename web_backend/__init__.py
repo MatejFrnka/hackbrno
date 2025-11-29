@@ -12,6 +12,18 @@ db = SQLAlchemy(app)
 from .models import *
 from . import run
 
+questions_colors = [
+    "#FF6B6B",  # vibrant coral red
+    "#4ECDC4",  # teal / aquamarine
+    "#5567FF",  # strong periwinkle blue
+    "#FFD93D",  # warm golden yellow
+    "#6A4C93",  # purple grape
+    "#1A9E7D",  # emerald green
+    "#FF8E3C",  # vivid orange
+    "#00A8E8",  # bright sky blue
+    "#D7263D",  # crimson rose
+    "#3EC300"   # neon green
+]
 
 mock_questions = [
     (
@@ -66,7 +78,7 @@ mock_questions = [
 ]
 
 
-def seed_question(name: str, desc: str):
+def seed_question(name: str, desc: str, color: str):
     db.session.add(Question(name=name, description=desc))
 
 
@@ -75,8 +87,8 @@ with app.app_context():
     db.create_all()
 
     if Question.query.count() == 0:
-        for _, qn, qd in mock_questions:
-            seed_question(qn, qd)
+        for i, (_, qn, qd) in enumerate(mock_questions):
+            seed_question(qn, qd, questions_colors[i])
         db.session.commit()
         import os
         files = []
