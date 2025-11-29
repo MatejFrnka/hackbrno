@@ -6,7 +6,7 @@ import typing
 from openai import AsyncOpenAI
 
 from llm_extraction.models import Question, MedicalRecord, PatientData
-from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter, PatientSummaryExtractor
+from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter, PatientSummaryExtractor, BatchSummaryExtractor
 from llm_extraction.span_matcher import SpanMatcher
 
 
@@ -61,6 +61,9 @@ class LLMBackendBase(LLMBackend):
         # Initialize patient summary extractor
         self.patient_summary_extractor = PatientSummaryExtractor(self.client, model=self.model)
 
+        # Initialize batch summary extractor
+        self.batch_summary_extractor = BatchSummaryExtractor(self.client, model=self.model)
+
     def prepare_patient_data(self, patient: pd.DataFrame) -> PatientData:
         """
         Prepare PatientData object from a DataFrame.
@@ -73,17 +76,26 @@ class LLMBackendBase(LLMBackend):
         """
         patient_id = str(patient.iloc[0]['patient_id'])
 
-        records = [
-            MedicalRecord(
-                record_id=row['record_id'],
-                patient_id=patient_id,
-                date=str(row['date']),
-                record_type=str(row['type']),
-                text=str(row['text']),
-                text_hash=hashlib.sha256(str(row['text']).encode('utf-8')).hexdigest()
+        records = []
+        # seen_hashes = set()
+        for _, row in patient.iterrows():
+            text_hash = hashlib.sha256(str(row['text']).encode('utf-8')).hexdigest()
+
+            # Skip duplicates - For now, do not use duplicate removal
+            # if text_hash in seen_hashes:
+            #     continue
+
+            # seen_hashes.add(text_hash)
+            records.append(
+                MedicalRecord(
+                    record_id=row['record_id'],
+                    patient_id=patient_id,
+                    date=str(row['date']),
+                    record_type=str(row['type']),
+                    text=str(row['text']),
+                    text_hash=text_hash
+                )
             )
-            for _, row in patient.iterrows()
-        ]
 
         return PatientData(patient_id=patient_id, records=records)
 
@@ -117,6 +129,11 @@ class LLMBackendBase(LLMBackend):
         Returns:
             Dictionary with patient_id, total_citations, and list of citations with spans
         """
+        if patient.empty:
+            raise ValueError("Patient DataFrame is empty")
+        if not questions:
+            raise ValueError("Questions list is empty")
+
         # Prepare patient data
         patient_data = self.prepare_patient_data(patient)
         questions_objects = self.prepare_questions(questions)
@@ -127,14 +144,22 @@ class LLMBackendBase(LLMBackend):
         # Extract and process highlights
         sorted_highlights = asyncio.run(self._extract_highlights(patient_data))
 
-        # Generate patient summary
-        summary = asyncio.run(self._summarize_patient(patient_data))
+        # Generate patient summary (long)
+        summary_long = asyncio.run(self._summarize_patient(patient_data))
+
+        # Generate short summary from citations
+        summary_short = asyncio.run(self._summarize_citations(
+            sorted_citations,
+            questions_objects,
+            patient_data
+        ))
 
         # Format results as dictionary
         return {
             "patient_id": patient_data.patient_id,
             "total_citations": len(sorted_citations),
-            "summary_long": summary,
+            "summary_long": summary_long,
+            "summary_short": summary_short,
             "citations": [
                 {
                     "question_id": c.question_id,
@@ -158,99 +183,6 @@ class LLMBackendBase(LLMBackend):
             ]
         }
 
-    async def _process_patient_async(self, patient: pd.DataFrame, questions: typing.List[typing.Tuple[int, str, str]]):
-        """
-        Extract medical information from patient records asynchronously.
-
-        Args:
-            patient: DataFrame with columns [patient_id, record_id, date, type, text]
-            questions: List of (question_id, question_text, additional_instructions) tuples
-
-        Returns:
-            Dictionary with patient_id, total_citations, and list of citations with spans
-        """
-        # Validate inputs
-        if patient.empty:
-            raise ValueError("Patient DataFrame is empty")
-        if not questions:
-            raise ValueError("Questions list is empty")
-
-        # Get patient_id from first row
-        patient_id = str(patient.iloc[0]['patient_id'])
-
-        # Convert DataFrame to MedicalRecord objects
-        records = []
-        seen_hashes = set()
-
-        for idx, row in patient.iterrows():
-            text = str(row['text'])
-            text_hash = hashlib.sha256(text.encode('utf-8')).hexdigest()
-
-            # Skip duplicates - For now, do not use duplicate removal
-            # if text_hash in seen_hashes:
-            #     continue
-
-            # seen_hashes.add(text_hash)
-
-            record = MedicalRecord(
-                record_id=row['record_id'],
-                patient_id=patient_id,
-                date=str(row['date']),
-                record_type=str(row['type']),
-                text=text,
-                text_hash=text_hash
-            )
-            records.append(record)
-
-        # Create PatientData object
-        patient_data = PatientData(patient_id=patient_id, records=records)
-
-        # Convert question tuples to Question objects
-        question_objects = [
-            Question(
-                question_id=qid,
-                text=text,
-                additional_instructions=instructions
-            )
-            for qid, text, instructions in questions
-        ]
-
-        # Extract and process citations
-        sorted_citations = await self._extract_citations(patient_data, question_objects)
-
-        # Extract and process highlights
-        sorted_highlights = await self._extract_highlights(patient_data)
-
-        # Generate patient summary
-        summary = await self._summarize_patient_async(patient)
-
-        # Format results as dictionary
-        return {
-            "patient_id": patient_id,
-            "total_citations": len(sorted_citations),
-            "summary_long": summary,
-            "citations": [
-                {
-                    "question_id": c.question_id,
-                    "quoted_text": c.quoted_text,
-                    "confidence": c.confidence,
-                    "record_id": c.record_id,
-                    "start_char": c.start_char,
-                    "end_char": c.end_char
-                }
-                for c in sorted_citations
-            ],
-            "highlights": [
-                {
-                    "quoted_text": h.quoted_text,
-                    "note": h.note,
-                    "record_id": h.record_id,
-                    "start_char": h.start_char,
-                    "end_char": h.end_char
-                }
-                for h in sorted_highlights
-            ]
-        }
 
     async def _extract_citations(self, patient_data: PatientData, question_objects: typing.List[Question]):
         """
@@ -328,6 +260,29 @@ class LLMBackendBase(LLMBackend):
         # Generate summary using LLM (async)
         return await self.patient_summary_extractor.summarize_patient_async(patient_data)
 
+    async def _summarize_citations(
+        self,
+        citations_with_spans: typing.List,
+        questions: typing.List[Question],
+        patient_data: PatientData
+    ) -> str:
+        """
+        Generate short summary from citations asynchronously.
+
+        Args:
+            citations_with_spans: List of ExtractionCitationWithSpan objects
+            questions: List of Question objects
+            patient_data: Patient data with medical records
+
+        Returns:
+            String containing concise summary (or empty string if no citations)
+        """
+        return await self.patient_summary_extractor.summarize_citations_async(
+            citations_with_spans,
+            questions,
+            patient_data
+        )
+
     def summarize_patient(self, patient: pd.DataFrame) -> str:
         """
         Generate a comprehensive narrative summary of patient's medical journey.
@@ -344,6 +299,37 @@ class LLMBackendBase(LLMBackend):
         # Generate patient summary
         return asyncio.run(self._summarize_patient(patient_data))
 
-    def summarize_batch(self, patients: typing.List[typing.Tuple[pd.DataFrame, typing.Any, str]]) -> str:
-        """Not currently used."""
-        raise NotImplementedError("summarize_batch is not currently used")
+    async def _summarize_batch(self, patient_summaries: typing.List[typing.Tuple[str, str]]) -> str:
+        """
+        Generate batch summary asynchronously.
+
+        Args:
+            patient_summaries: List of (patient_id, summary) tuples
+
+        Returns:
+            String containing comprehensive summary of entire patient cohort
+        """
+        # Generate batch summary using LLM (async)
+        return await self.batch_summary_extractor.summarize_batch_async(patient_summaries)
+
+    def summarize_batch(self, patient_summaries: typing.List[typing.Tuple[str, str]]) -> str:
+        """
+        Generate a comprehensive summary across multiple patients for cohort-level overview.
+
+        Args:
+            patient_summaries: List of (patient_id, summary) tuples where each tuple contains:
+                - patient_id (str): Patient identifier (e.g., "HACK01")
+                - summary (str): Individual patient summary generated by summarize_patient()
+
+        Returns:
+            String containing narrative summary of entire patient cohort
+
+        Example:
+            >>> patient_summaries = [
+            ...     ("HACK01", "Pacientka s karcinomem prsu..."),
+            ...     ("HACK02", "Pacientka s metastázami..."),
+            ... ]
+            >>> batch_summary = backend.summarize_batch(patient_summaries)
+        """
+        # Generate batch summary
+        return asyncio.run(self._summarize_batch(patient_summaries))
