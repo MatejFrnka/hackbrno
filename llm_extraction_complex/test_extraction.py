@@ -31,14 +31,14 @@ def main():
     print("Initializing components...")
     client = OpenAI(api_key=api_key)
     xml_parser = XMLParser()
-    extractor = FeatureExtractor(client, model="gpt-4o-2024-08-06")
+    extractor = FeatureExtractor(client, model="gpt-4o")
     span_calculator = SpanCalculator()
     print("✓ Components initialized")
     print()
 
     # Step 1: Parse XML
     print("Step 1: Parsing XML file...")
-    patient_data = xml_parser.parse_patient_file("data/HACK01.xml")
+    patient_data = xml_parser.parse_patient_file("data/HACK05.xml")
     print(f"✓ Parsed {patient_data.patient_id}")
     print(f"  - {len(patient_data.records)} records")
     print(f"  - {patient_data.duplicate_count} duplicates removed")
@@ -46,7 +46,7 @@ def main():
 
     # Step 2: Extract features
     print("Step 2: Extracting features with LLM...")
-    extractions = extractor.extract_features(patient_data, mode="per_record")
+    extractions = extractor.extract_features(patient_data, mode="bulk")
     print(f"✓ Extracted features from {len(extractions)} records")
 
     # Count total extractions
@@ -82,7 +82,7 @@ def main():
     output_dir = "output"
     os.makedirs(output_dir, exist_ok=True)
 
-    output_file = f"{output_dir}/{patient_data.patient_id}_extractions.json"
+    output_file = f"{output_dir}/{patient_data.patient_id}_extractions_bulk.json"
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(extractions_with_spans.model_dump(), f, ensure_ascii=False, indent=2)
 
