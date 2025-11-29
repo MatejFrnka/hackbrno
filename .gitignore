@@ -3,7 +3,7 @@ __pycache__/
 node_modules
 .vite
 *.db
-
+*.db-journal
 .env
 .python-version
 __pycache__/
