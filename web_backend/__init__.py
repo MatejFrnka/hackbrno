@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask, jsonify, redirect
 from flask_sqlalchemy import SQLAlchemy
 
