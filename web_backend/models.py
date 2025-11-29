@@ -74,7 +74,7 @@ class PatientRecord(db.Model):
 
     findings = db.relationship('Finding', lazy=True)
     highlights = db.relationship('Highlight', lazy=True)
-    duplicates = db.relationship('TextDuplicate', lazy=True)
+    duplicates = db.relationship('TextDuplicate', lazy=True, foreign_keys='TextDuplicate.patient_record_id')
 
 
 class TextDuplicate(db.Model):
