@@ -1,14 +1,74 @@
 import { getColorBgClass } from '../utils/colorUtils';
 
-const ColorFilter = ({ questions, selectedColors, onToggleColor, onClear, compact = false }) => {
+const ColorFilter = ({
+    questions,
+    selectedColors,
+    onToggleColor,
+    onClear,
+    documentTypes,
+    selectedTypes,
+    onToggleType,
+    onClearTypes,
+    compact = false,
+    isTypeFilter = false,
+    label
+}) => {
+    // Type filter mode (compact only)
+    if (isTypeFilter && compact) {
+        return (
+            <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                    <p className="text-[10px] uppercase tracking-wide text-slate-500 font-medium">
+                        Document Type
+                    </p>
+                    {selectedTypes?.length > 0 && onClearTypes && (
+                        <button
+                            onClick={onClearTypes}
+                            className="text-[10px] text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                            Clear
+                        </button>
+                    )}
+                </div>
+                <div className="flex flex-col gap-1.5">
+                    {documentTypes?.map((type) => {
+                        const isSelected = selectedTypes?.includes(type);
+                        return (
+                            <button
+                                key={type}
+                                type="button"
+                                onClick={() => onToggleType(type)}
+                                className={`group flex items-start gap-2 rounded-lg px-2 py-1.5 text-left transition-all ${isSelected
+                                        ? 'bg-slate-900'
+                                        : 'hover:bg-slate-50'
+                                    }`}
+                            >
+                                <span
+                                    className={`w-3 h-3 rounded flex-shrink-0 mt-0.5 ${isSelected ? 'bg-white' : 'bg-slate-300'
+                                        }`}
+                                    aria-hidden="true"
+                                />
+                                <span className={`text-[11px] leading-tight font-medium ${isSelected ? 'text-white' : 'text-slate-600'
+                                    }`}>
+                                    {type}
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
+    // Color filter mode (compact)
     if (compact) {
         return (
             <div className="space-y-3">
                 <div className="flex items-center justify-between">
                     <p className="text-[10px] uppercase tracking-wide text-slate-500 font-medium">
-                        Filter
+                        {label || 'Filter'}
                     </p>
-                    {selectedColors.length > 0 && onClear && (
+                    {selectedColors?.length > 0 && onClear && (
                         <button
                             onClick={onClear}
                             className="text-[10px] text-slate-400 hover:text-slate-600 transition-colors"
@@ -18,8 +78,8 @@ const ColorFilter = ({ questions, selectedColors, onToggleColor, onClear, compac
                     )}
                 </div>
                 <div className="flex flex-col gap-1.5">
-                    {questions.map((question) => {
-                        const isSelected = selectedColors.includes(question.color);
+                    {questions?.map((question) => {
+                        const isSelected = selectedColors?.includes(question.color);
                         return (
                             <button
                                 key={question.id}

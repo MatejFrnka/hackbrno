@@ -1,7 +1,7 @@
 import { formatDate, getDaysBetween } from '../utils/dateUtils';
 import { getColorClass } from '../utils/colorUtils';
 
-const DocumentCard = ({ document, index, previousDate }) => {
+const DocumentCard = ({ document, index, previousDate, selectedColors = [] }) => {
     const daysBetween = previousDate ? getDaysBetween(previousDate, document.date) : null;
 
     return (
@@ -37,18 +37,23 @@ const DocumentCard = ({ document, index, previousDate }) => {
                 </div>
 
                 <div className="text-sm leading-relaxed text-slate-700 whitespace-pre-line">
-                    {document.highlightedText.map((part, index) =>
-                        part.type === 'highlight' ? (
-                            <span
-                                key={`${document.id}-${index}`}
-                                className={`px-1.5 py-0.5 rounded-full border ${getColorClass(part.color)} font-medium`}
-                            >
-                                {part.content}
-                            </span>
-                        ) : (
-                            <span key={`${document.id}-${index}`}>{part.content}</span>
-                        ),
-                    )}
+                    {document.highlightedText.map((part, idx) => {
+                        if (part.type === 'highlight') {
+                            const shouldHighlight = selectedColors.length === 0 || selectedColors.includes(part.color);
+                            return (
+                                <span
+                                    key={`${document.id}-${idx}`}
+                                    className={`px-1.5 py-0.5 rounded-full border font-medium ${shouldHighlight
+                                        ? getColorClass(part.color)
+                                        : 'bg-slate-100 text-slate-500 border-slate-200'
+                                        }`}
+                                >
+                                    {part.content}
+                                </span>
+                            );
+                        }
+                        return <span key={`${document.id}-${idx}`}>{part.content}</span>;
+                    })}
                 </div>
             </article>
         </>
