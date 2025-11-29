@@ -9,7 +9,14 @@ from typing import Optional, List
 import re
 from difflib import SequenceMatcher
 
-from llm_extraction.models import ExtractionCitation, ExtractionCitationWithSpan, MedicalRecord, PatientData
+from llm_extraction.models import (
+    ExtractionCitation,
+    ExtractionCitationWithSpan,
+    HighlightCitation,
+    HighlightCitationWithSpan,
+    MedicalRecord,
+    PatientData
+)
 
 
 class SpanMatcher:
@@ -83,6 +90,11 @@ class SpanMatcher:
                 norm_end=end_pos
             )
 
+            # Check for invalid span (both start and end are 0)
+            if original_start == 0 and original_end == 0:
+                print(f"WARNING: Invalid span (start=0, end=0) for citation: '{citation.quoted_text}' in record {record.record_id}")
+                return None
+
             return ExtractionCitationWithSpan(
                 question_id=citation.question_id,
                 quoted_text=citation.quoted_text,
@@ -107,6 +119,11 @@ class SpanMatcher:
                 norm_start=fuzzy_match['start'],
                 norm_end=fuzzy_match['end']
             )
+
+            # Check for invalid span (both start and end are 0)
+            if original_start == 0 and original_end == 0:
+                print(f"WARNING: Invalid span (start=0, end=0) for citation: '{citation.quoted_text}' in record {record.record_id}")
+                return None
 
             return ExtractionCitationWithSpan(
                 question_id=citation.question_id,
@@ -260,5 +277,70 @@ class SpanMatcher:
                     all_spans.append(span)
 
         print(f"  → Matched {len(all_spans)} citations successfully")
+
+        return all_spans
+
+    def match_highlight_citations(
+        self,
+        highlight_results: List[dict],
+        patient_data: PatientData
+    ) -> List[HighlightCitationWithSpan]:
+        """
+        Match highlight citations to their source positions.
+
+        Args:
+            highlight_results: List of {
+                'record_id': int,
+                'record_date': str,
+                'record_type': str,
+                'highlights': List[HighlightCitation]
+            }
+            patient_data: Patient data with records
+
+        Returns:
+            List of HighlightCitationWithSpan (only successful matches)
+        """
+        all_spans = []
+
+        print(f"Matching highlight citations to source text positions...")
+
+        for result in highlight_results:
+            record_id = result['record_id']
+            highlights = result['highlights']
+
+            # Find corresponding record
+            record = None
+            for r in patient_data.records:
+                if r.record_id == record_id:
+                    record = r
+                    break
+
+            if not record:
+                print(f"WARNING: Record {record_id} not found")
+                continue
+
+            # Match each highlight
+            for highlight in highlights:
+                # Create temporary ExtractionCitation for compatibility with find_first_match
+                temp_citation = ExtractionCitation(
+                    question_id=0,  # Not used for highlights
+                    quoted_text=highlight.quoted_text,
+                    confidence="high"  # Not used for highlights
+                )
+
+                span = self.find_first_match(temp_citation, record)
+
+                if span:
+                    # Convert to HighlightCitationWithSpan
+                    highlight_span = HighlightCitationWithSpan(
+                        quoted_text=highlight.quoted_text,
+                        note=highlight.note,
+                        record_id=record_id,
+                        start_char=span.start_char,
+                        end_char=span.end_char
+                    )
+                    all_spans.append(highlight_span)
+
+        print(f"  → Matched {len(all_spans)} highlight citations successfully")
 
         return all_spans
