@@ -281,7 +281,7 @@ const PatientInformation = () => {
                                     {t('patient.snapshot')}
                                 </h2>
                             </div>
-                            <p className="text-slate-600 leading-relaxed">{patient.summary}</p>
+                            <div className="text-slate-600 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: patient.summary }} />
                             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                                 {summaryStats.map((item) => (
                                     <div
