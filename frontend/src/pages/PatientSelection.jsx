@@ -93,9 +93,7 @@ const PatientSelection = () => {
 
                     <div className="text-base text-slate-700 leading-relaxed border-t border-slate-100 pt-6 space-y-4">
                         {dashboardData.summary && (
-                            <p>
-                                {dashboardData.summary}
-                            </p>
+                            <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: dashboardData.summary }} />
                         )}
                     </div>
                 </section>

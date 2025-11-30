@@ -104,9 +104,7 @@ const PatientCard = ({ patient }) => {
                 </div>
             </div>
 
-            <p className="text-sm text-slate-600 leading-relaxed">
-                {patient.summary}
-            </p>
+            <div className="text-sm text-slate-600 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: patient.summary }} />
 
             <div className="pt-2 flex justify-end">
                 <button
