@@ -152,7 +152,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                         .flatMap(({ highlights: chHighlights }) => chHighlights);
 
                                     return (
-                                        <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1">
+                                        <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1 relative">
                                             {highlights.map((highlight) => {
                                                 const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(highlight.questionId));
                                                 return (
@@ -171,43 +171,59 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                                 );
                                             })}
                                             {/* Render commented highlights - AlertCircle icon with hover popup */}
-                                            {commentedHighlightsForDoc.length > 0 && (
-                                                <div className="relative group inline-flex items-center justify-center w-6 h-6 ml-4">
-                                                    {/* AlertCircle icon button */}
-                                                    <button
-                                                        type="button"
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            onDocumentClick && onDocumentClick(docId);
-                                                        }}
-                                                        onMouseEnter={() => setOpenPopupId(`commented-${docId}`)}
-                                                        onMouseLeave={() => setOpenPopupId(null)}
-                                                        className="w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all relative z-10 cursor-pointer flex items-center justify-center"
-                                                        style={{ backgroundColor: '#faac8bff' }}
-                                                    >
-                                                        <AlertCircle className="w-5 h-5 text-black-200" strokeWidth={2.5} />
-                                                    </button>
-                                                    
-                                                    {/* Hover popup above icon */}
-                                                    <div
-                                                        className={`absolute bottom-full mb-2 right-0 text-sm text-slate-600 bg-white border border-slate-200 rounded px-3 py-2 shadow-lg whitespace-normal max-w-md text-left transition-opacity duration-200 pointer-events-none ${
-                                                            openPopupId === `commented-${docId}` ? 'opacity-100 z-50' : 'opacity-0 z-0'
-                                                        }`}
-                                                        style={{ minWidth: '200px' }}
-                                                    >
-                                                        {commentedHighlightsForDoc.map((ch, idx) => (
-                                                            <div key={ch.id} className={idx < commentedHighlightsForDoc.length - 1 ? 'mb-2' : ''}>
-                                                                {ch.description}
+                                            {commentedHighlightsForDoc.length > 0 && (() => {
+                                                // Determine if popup should appear below (when near top) or above (default)
+                                                const showBelow = point.position < 25;
+                                                
+                                                return (
+                                                    <div className="relative group inline-flex items-center justify-center w-6 h-6 ml-4" style={{ zIndex: 100 }}>
+                                                        {/* AlertCircle icon button */}
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                onDocumentClick && onDocumentClick(docId);
+                                                            }}
+                                                            onMouseEnter={() => setOpenPopupId(`commented-${docId}`)}
+                                                            onMouseLeave={() => setOpenPopupId(null)}
+                                                            className="w-6 h-6 rounded-full border-2 border-white shadow-sm hover:scale-110 transition-all relative cursor-pointer flex items-center justify-center"
+                                                            style={{ backgroundColor: '#faac8bff', zIndex: 100 }}
+                                                        >
+                                                            <AlertCircle className="w-5 h-5 text-black-200" strokeWidth={2.5} />
+                                                        </button>
+                                                        
+                                                        {/* Hover popup - positioned above or below based on timeline position */}
+                                                        {openPopupId === `commented-${docId}` && (
+                                                            <div
+                                                                className={`absolute ${showBelow ? 'top-full mt-2' : 'bottom-full mb-2'} right-0 text-sm text-slate-600 bg-white border border-slate-200 rounded px-3 py-2 shadow-lg whitespace-normal max-w-md text-left pointer-events-none`}
+                                                                style={{ minWidth: '200px', zIndex: 101 }}
+                                                                onMouseEnter={() => setOpenPopupId(`commented-${docId}`)}
+                                                                onMouseLeave={() => setOpenPopupId(null)}
+                                                            >
+                                                                {commentedHighlightsForDoc.map((ch, idx) => (
+                                                                    <div key={ch.id} className={idx < commentedHighlightsForDoc.length - 1 ? 'mb-2' : ''}>
+                                                                        {ch.description}
+                                                                    </div>
+                                                                ))}
+                                                                {/* Small pointer arrow - at top if showBelow, at bottom otherwise */}
+                                                                <div className={`absolute ${showBelow ? 'bottom-full' : 'top-full'} right-2 -translate-y-px`}>
+                                                                    {showBelow ? (
+                                                                        <>
+                                                                            <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-b-4 border-b-slate-200"></div>
+                                                                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-px w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-b-4 border-b-white"></div>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-slate-200"></div>
+                                                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-white"></div>
+                                                                        </>
+                                                                    )}
+                                                                </div>
                                                             </div>
-                                                        ))}
-                                                        {/* Small pointer arrow at bottom */}
-                                                        <div className="absolute top-full right-2 -translate-y-px">
-                                                            <div className="w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-slate-200"></div>
-                                                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-px w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-white"></div>
-                                                        </div>
+                                                        )}
                                                     </div>
-                                                </div>
-                                            )}
+                                                );
+                                            })()}
                                         </div>
                                     );
                                 })}
