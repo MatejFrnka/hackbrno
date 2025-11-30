@@ -154,9 +154,12 @@ export const translations = {
     'filter.clear': 'Zrušit',
     'filter.clearAll': 'Zrušit vše',
 
-    // Plurals (Czech: 3 forms - singular, paucal 2-4, plural 5+)
+    // Plurals (Czech: 3 forms with correct cases)
+    // Form 1 (count=1): nominative singular
+    // Form 2 (count=2-4): nominative plural
+    // Form 3 (count=5+): genitive plural
     'plural.document': ['dokument', 'dokumenty', 'dokumentů'],
     'plural.day': ['den', 'dny', 'dní'],
-    'plural.docs': ['dok.', 'doky.', 'doků.'],
+    'plural.docs': ['dokument', 'dokumenty', 'dokumentů'],
   }
 };
