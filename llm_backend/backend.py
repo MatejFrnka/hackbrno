@@ -6,7 +6,7 @@ import typing
 from openai import AsyncOpenAI
 import markdown2
 
-from llm_extraction.models import Question, MedicalRecord, PatientData
+from llm_extraction.models import Question, MedicalRecord, PatientData, ExtractionCitationWithSpan
 from llm_extraction.extraction import FeatureExtractor, HighlightExtractor, HighlightFilter, PatientSummaryExtractor, BatchSummaryExtractor
 from llm_extraction.span_matcher import SpanMatcher
 
@@ -25,6 +25,18 @@ class LLMBackend:
     def summarize_batch(self, patients: typing.List[typing.Tuple[str, str]]) -> str:
         # TODO
         return 'You have 10 patients ...'
+    
+    def regenerate_patient_summaries(
+        self,
+        patient_df: pd.DataFrame,
+        existing_findings: typing.List[typing.Dict[str, typing.Any]],
+        questions: typing.List[typing.Tuple[int, str, str]]
+    ) -> typing.Dict[str, str]:
+        # TODO
+        return {
+            'summary_long': '<p>Long summary ...</p>',
+            'summary_short': '<p>Short summary ...</p>'
+        }
 
 
 class LLMBackendBase(LLMBackend):
@@ -367,3 +379,54 @@ class LLMBackendBase(LLMBackend):
         batch_summary_html = self._convert_markdown_to_html(batch_summary_markdown)
 
         return batch_summary_html
+
+    def regenerate_patient_summaries(
+        self,
+        patient_df: pd.DataFrame,
+        existing_findings: typing.List[typing.Dict[str, typing.Any]],
+        questions: typing.List[typing.Tuple[int, str, str]]
+    ) -> typing.Dict[str, str]:
+        """
+        Regenerate patient summaries using existing findings from database.
+
+        Args:
+            patient_df: DataFrame with patient records (from patient_data())
+            existing_findings: List of dicts with keys: {question_id, quoted_text, confidence, record_id, start_char, end_char}
+            questions: List of (id, name, description) tuples
+
+        Returns:
+            Dict with {summary_long, summary_short} (both HTML)
+
+        Example:
+            >>> existing_findings = [
+            ...     {'question_id': 1, 'quoted_text': '...', 'confidence': 'high',
+            ...      'record_id': 42, 'start_char': 10, 'end_char': 50},
+            ... ]
+            >>> questions = [(1, 'Datum diagnózy', '...'), ...]
+            >>> result = backend.regenerate_patient_summaries(patient_df, existing_findings, questions)
+            >>> print(result['summary_long'])  # HTML formatted long summary
+            >>> print(result['summary_short'])  # HTML formatted short summary
+        """
+        # Prepare patient data
+        patient_data = self.prepare_patient_data(patient_df)
+        question_objects = self.prepare_questions(questions)
+
+        # Convert existing_findings dicts to ExtractionCitationWithSpan objects
+        citations = [ExtractionCitationWithSpan(**f) for f in existing_findings]
+
+        # Generate summaries asynchronously
+        summary_long_markdown = asyncio.run(self._summarize_patient(patient_data))
+        summary_short_markdown = asyncio.run(self._summarize_citations(
+            citations,
+            question_objects,
+            patient_data
+        ))
+
+        # Convert markdown to HTML
+        summary_long = self._convert_markdown_to_html(summary_long_markdown)
+        summary_short = self._convert_markdown_to_html(summary_short_markdown)
+
+        return {
+            'summary_long': summary_long,
+            'summary_short': summary_short
+        }

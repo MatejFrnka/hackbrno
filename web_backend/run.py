@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import xml.etree.ElementTree as ET
 import difflib
 import bisect
+import time
 
 import pandas as pd
 
@@ -156,3 +157,107 @@ def process_batch(batch: Batch, backend: LLMBackend):
     batch.summary = backend.summarize_batch(patients)
     batch.done = datetime.now()
     db.session.commit()
+
+
+def _load_existing_findings_as_dicts(patient: BatchPatient):
+    """
+    Load existing findings from database and convert to list of dicts.
+
+    Args:
+        patient: BatchPatient instance
+
+    Returns:
+        List of dicts with keys: {question_id, quoted_text, confidence, record_id, start_char, end_char}
+    """
+    findings_dicts = []
+
+    # Iterate through patient's records and their findings
+    for record in patient.records:
+        for finding in record.findings:
+            # Extract quoted text from record using offsets
+            quoted_text = record.text[finding.offset_start:finding.offset_end]
+
+            findings_dicts.append({
+                'question_id': finding.question_id,
+                'quoted_text': quoted_text,
+                'confidence': finding.confidence,
+                'record_id': finding.patient_record_id,
+                'start_char': finding.offset_start,
+                'end_char': finding.offset_end
+            })
+
+    return findings_dicts
+
+
+def regenerate_patient_summary(patient_id: int):
+    """
+    Regenerate summaries for a single patient using existing findings.
+
+    Args:
+        patient_id: BatchPatient ID
+
+    Returns:
+        Dictionary with:
+            - status: "success" or "error"
+            - patient_id: Patient identifier
+            - short_summary: HTML summary
+            - long_summary: HTML summary
+            - total_citations: Number of citations
+            - processing_time_seconds: Float
+            - error: Error message (if status="error")
+    """
+    start_time = time.time()
+
+    backend = LLMBackendBase()
+    # 1. Retrieve patient and validate
+    patient = BatchPatient.query.get(patient_id)
+    if patient is None:
+        return {
+            'status': 'error',
+            'error': f'Patient with ID {patient_id} not found'
+        }
+
+    try:
+        # 2. Load patient data
+        input_data, records_dict = patient_data(patient)
+
+        # 3. Load existing findings as dicts
+        findings_dicts = _load_existing_findings_as_dicts(patient)
+
+        # 4. Get batch questions
+        batch = Batch.query.get(patient.batch_id)
+        questions = [(q.id, q.name, q.description) for q in batch.questions]
+
+        # 5. Call LLM backend to regenerate summaries
+        result = backend.regenerate_patient_summaries(input_data, findings_dicts, questions)
+
+        # 6. Update patient summaries
+        patient.long_summary = result['summary_long']
+        patient.short_summary = result['summary_short']
+
+        # 7. Commit to database
+        db.session.commit()
+
+        # 8. Calculate processing time
+        processing_time = time.time() - start_time
+
+        # 9. Return success response
+        return {
+            'status': 'success',
+            'patient_id': patient.patient_id,
+            'short_summary': result['summary_short'],
+            'long_summary': result['summary_long'],
+            'total_citations': len(findings_dicts),
+            'processing_time_seconds': round(processing_time, 2)
+        }
+
+    except Exception as e:
+        # Rollback any database changes
+        db.session.rollback()
+
+        # Return error response
+        return {
+            'status': 'error',
+            'error': str(e),
+            'patient_id': patient.patient_id if patient else None
+        }
