@@ -34,7 +34,7 @@ const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [],
                             </p>
                         )}
                         <h4 className="text-lg font-semibold text-slate-900">
-                            {t('timeline.medicalDocument', { index })}
+                            {t('timeline.medicalDocument', { type: document.typ, date: formatDate(document.date, language) })}
                         </h4>
                     </div>
                     <div className="flex items-center gap-3">

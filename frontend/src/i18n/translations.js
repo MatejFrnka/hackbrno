@@ -63,7 +63,7 @@ export const translations = {
     'timeline.medical': 'Medical documents',
     'timeline.notes': 'Timeline of notes',
     'timeline.showing': 'Showing {count} {plural}',
-    'timeline.medicalDocument': 'Medical document ({index})',
+    'timeline.medicalDocument': 'Medical document {type} at {date}',
     'timeline.noMatch': 'No documents match the selected filters.',
 
     // Filters
@@ -143,7 +143,7 @@ export const translations = {
     'timeline.medical': 'Lékařská dokumentace',
     'timeline.notes': 'Časová osa',
     'timeline.showing': 'Zobrazeno {count} {plural}',
-    'timeline.medicalDocument': 'Lékařský záznam ({index})',
+    'timeline.medicalDocument': 'Lékařský záznam {type} dne {date}',
     'timeline.noMatch': 'Žádné dokumenty nevyhovují vybraným filtrům.',
 
     // Filters
