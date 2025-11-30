@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from flask import Flask, jsonify, redirect
+from flask import Flask, jsonify, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -177,7 +177,7 @@ def patient_api(patient_id: int):
         }
         for q in bt.questions
     ]
-    
+
     # Get all documents with highlights
     documents = []
     for record in patient.records:
@@ -198,7 +198,7 @@ def patient_api(patient_id: int):
                 'offset_end': highlight.offset_end,
                 'description': highlight.description,
             })
-        
+
         documents.append({
             'id': record.id,
             'date': record.date.isoformat() if record.date else None,
@@ -207,13 +207,33 @@ def patient_api(patient_id: int):
             'highlights': highlights,
             'commented_highlights': commented_highlights,
         })
-    
+
     # Sort documents by date
     documents.sort(key=lambda d: d['date'] if d['date'] else '')
-    
+
     return jsonify({
-        'name': patient.patient_id, 
+        'name': patient.patient_id,
         'long_summary': patient.long_summary,
         'questions_types': questions,
         'documents': documents,
     })
+
+
+@app.route('/api/patient/<int:patient_id>/regenerate-summary', methods=['GET', 'OPTIONS'])
+def regenerate_summary_api(patient_id: int):
+    """
+    Regenerate patient summaries (short and long) using existing findings.
+    """
+    # Handle OPTIONS for CORS preflight
+    if request.method == 'OPTIONS':
+        return '', 204
+
+    # Process regeneration
+    result = run.regenerate_patient_summary(patient_id)
+
+    # Return response
+    if result['status'] == 'success':
+        return jsonify(result), 200
+    else:
+        return jsonify(result), 500
+
