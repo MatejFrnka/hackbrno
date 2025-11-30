@@ -5,8 +5,11 @@ import { formatDateRange } from '../utils/dateUtils';
 import DocumentCard from '../components/DocumentCard';
 import Timeline from '../components/Timeline';
 import ColorFilter from '../components/ColorFilter';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
+import { useTranslation } from '../i18n/useTranslation';
 
 const PatientInformation = () => {
+    const { t, language, plural } = useTranslation();
     const { id: encodedId } = useParams();
     const navigate = useNavigate();
     const [patient, setPatient] = useState(null);
@@ -179,7 +182,7 @@ const PatientInformation = () => {
     if (loading) {
         return (
             <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center">
-                <div className="text-slate-500">Loading...</div>
+                <div className="text-slate-500">{t('common.loading')}</div>
             </div>
         );
     }
@@ -188,13 +191,13 @@ const PatientInformation = () => {
         return (
             <div className="min-h-screen bg-[#f5f5f7] flex items-center justify-center px-4">
                 <div className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 text-center space-y-4">
-                    <h1 className="text-2xl font-semibold text-slate-900">Patient not found</h1>
-                    <p className="text-slate-500">{error || 'The identifier you followed does not exist.'}</p>
+                    <h1 className="text-2xl font-semibold text-slate-900">{t('patient.notFound')}</h1>
+                    <p className="text-slate-500">{error || t('patient.notFoundDesc')}</p>
                     <button
                         onClick={() => navigate('/')}
                         className="text-sm font-medium text-slate-900 underline underline-offset-4"
                     >
-                        Return to patient list
+                        {t('nav.returnToList')}
                     </button>
                 </div>
             </div>
@@ -202,10 +205,10 @@ const PatientInformation = () => {
     }
 
     const summaryStats = [
-        { label: 'Total documents', value: patient.totalDocuments, caption: 'complete record' },
-        { label: 'Relevant documents', value: patient.relevantDocuments, caption: 'marked for review' },
-        { label: 'Located answers', value: patient.totalLocated, caption: 'answers found' },
-        { label: 'Missing answers', value: patient.totalMissing, caption: 'still pending' },
+        { label: t('patient.totalDocuments'), value: patient.totalDocuments, caption: t('patient.completeRecord') },
+        { label: t('patient.relevantDocuments'), value: patient.relevantDocuments, caption: t('patient.markedReview') },
+        { label: t('patient.locatedAnswers'), value: patient.totalLocated, caption: t('patient.answersFound') },
+        { label: t('patient.missingAnswers'), value: patient.totalMissing, caption: t('patient.stillPending') },
     ];
 
     console.log(patient);
@@ -218,18 +221,21 @@ const PatientInformation = () => {
                             onClick={() => navigate('/')}
                             className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors mb-2"
                         >
-                            ← Back to patient list
+                            {t('nav.backToList')}
                         </button>
                         <h1 className="text-3xl font-semibold text-slate-900">
-                            Patient {patient.name}
+                            {t('patient.label')} {patient.name}
                         </h1>
                         <p className="text-sm text-slate-500 mt-1">
-                            {formatDateRange(patient.startDate, patient.endDate)}
+                            {formatDateRange(patient.startDate, patient.endDate, language)}
                         </p>
                     </div>
-                    <div className="text-right text-sm text-slate-500">
-                        <p>{patient.totalDocuments} total documents</p>
-                        <p>{patient.relevantDocuments} relevant</p>
+                    <div className="flex items-center gap-4">
+                        <div className="text-right text-sm text-slate-500">
+                            <p>{t('patient.totalDocs', { count: patient.totalDocuments })}</p>
+                            <p>{t('patient.relevantDocs', { count: patient.relevantDocuments })}</p>
+                        </div>
+                        <LanguageSwitcher />
                     </div>
                 </div>
             </header>
@@ -246,7 +252,7 @@ const PatientInformation = () => {
                                     onToggle={handleToggleQuestion}
                                     onClear={() => setSelectedQuestionIds([])}
                                     compact
-                                    label="Highlight"
+                                    label={t('filter.highlight')}
                                     showColorIndicator
                                     hoveredId={hoveredQuestionId}
                                 />
@@ -259,7 +265,7 @@ const PatientInformation = () => {
                                     onToggle={handleToggleType}
                                     onClear={() => setSelectedTypeIds([])}
                                     compact
-                                    label="Document Type"
+                                    label={t('filter.documentType')}
                                 />
                             </div>
                         </div>
@@ -269,10 +275,10 @@ const PatientInformation = () => {
                         <section className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-8 space-y-6">
                             <div className="space-y-2">
                                 <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
-                                    Patient summary
+                                    {t('patient.summary')}
                                 </p>
                                 <h2 className="text-2xl font-semibold text-slate-900">
-                                    Executive snapshot
+                                    {t('patient.snapshot')}
                                 </h2>
                             </div>
                             <p className="text-slate-600 leading-relaxed">{patient.summary}</p>
@@ -298,16 +304,15 @@ const PatientInformation = () => {
                             <div className="flex items-center justify-between flex-wrap gap-2">
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
-                                        Medical documents
+                                        {t('timeline.medical')}
                                     </p>
                                     <h3 className="text-xl font-semibold text-slate-900">
-                                        Timeline of notes
+                                        {t('timeline.notes')}
                                     </h3>
                                 </div>
                                 {selectedTypeIds.length > 0 && (
                                     <span className="text-sm text-slate-500">
-                                        Showing {filteredDocuments.length}{' '}
-                                        {filteredDocuments.length === 1 ? 'document' : 'documents'}
+                                        {t('timeline.showing', { count: filteredDocuments.length, plural: plural('document', filteredDocuments.length) })}
                                     </span>
                                 )}
                             </div>
@@ -334,7 +339,7 @@ const PatientInformation = () => {
                             ) : (
                                 <div className="bg-white rounded-3xl border border-slate-200/70 shadow-sm p-10 text-center">
                                     <p className="text-slate-500">
-                                        No documents match the selected filters.
+                                        {t('timeline.noMatch')}
                                     </p>
                                 </div>
                             )}

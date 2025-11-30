@@ -1,15 +1,16 @@
-export const formatDate = (dateString) => {
+export const formatDate = (dateString, language = 'cs') => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    const locale = language === 'cs' ? 'cs-CZ' : 'en-US';
+    return date.toLocaleDateString(locale, {
         year: 'numeric',
-        month: 'short',
+        month: language === 'cs' ? 'numeric' : 'short',
         day: 'numeric'
     });
 };
 
-export const formatDateRange = (startDate, endDate) => {
-    const start = formatDate(startDate);
-    const end = formatDate(endDate);
+export const formatDateRange = (startDate, endDate, language = 'cs') => {
+    const start = formatDate(startDate, language);
+    const end = formatDate(endDate, language);
     return `${start} - ${end}`;
 };
 

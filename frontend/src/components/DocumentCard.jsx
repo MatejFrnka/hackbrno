@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { formatDate, getDaysBetween } from '../utils/dateUtils';
+import { useTranslation } from '../i18n/useTranslation';
 
 const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [], onHoverQuestion }) => {
+    const { t, language, plural } = useTranslation();
     const [isCollapsed, setIsCollapsed] = useState(false);
     const daysBetween = previousDate ? getDaysBetween(previousDate, document.date) : null;
 
@@ -13,7 +15,7 @@ const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [],
                     <div className="flex flex-col items-center gap-1 py-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                         <span className="text-xs font-medium text-slate-500">
-                            {daysBetween} {daysBetween === 1 ? 'day' : 'days'}
+                            {daysBetween} {plural('day', daysBetween)}
                         </span>
                         <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                     </div>
@@ -32,12 +34,12 @@ const DocumentCard = ({ document, index, previousDate, selectedQuestionIds = [],
                             </p>
                         )}
                         <h4 className="text-lg font-semibold text-slate-900">
-                            Medical document ({index})
+                            {t('timeline.medicalDocument', { index })}
                         </h4>
                     </div>
                     <div className="flex items-center gap-3">
                         <span className="text-sm text-slate-500">
-                            {formatDate(document.date)}
+                            {formatDate(document.date, language)}
                         </span>
                         <svg
                             className={`w-5 h-5 text-slate-400 transition-transform duration-200 ${isCollapsed ? '' : 'rotate-180'}`}

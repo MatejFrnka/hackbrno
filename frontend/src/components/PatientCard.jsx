@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { formatDateRange } from '../utils/dateUtils';
 import DifficultyRating from './DifficultyRating';
+import { useTranslation } from '../i18n/useTranslation';
 
 const PatientCard = ({ patient }) => {
+    const { t, language, plural } = useTranslation();
     const navigate = useNavigate();
     const handleReview = (e) => {
         e.stopPropagation();
@@ -30,13 +32,13 @@ const PatientCard = ({ patient }) => {
             <div className="flex items-start justify-between gap-4">
                 <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-slate-400 mb-2">
-                        Patient
+                        {t('patient.label')}
                     </p>
                     <h3 className="text-2xl font-semibold text-slate-900">
                         {patient.name}
                     </h3>
                     <p className="text-sm text-slate-500 mt-1">
-                        {formatDateRange(patient.startDate, patient.endDate)}
+                        {formatDateRange(patient.startDate, patient.endDate, language)}
                     </p>
                 </div>
                 <DifficultyRating rating={patient.difficulty} />
@@ -45,20 +47,20 @@ const PatientCard = ({ patient }) => {
             <div className="grid grid-cols-2 gap-4">
                 <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100">
                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                        Documents
+                        {t('patient.documents')}
                     </p>
                     <p className="text-lg font-semibold text-slate-900 mt-2">
-                        {patient.relevantDocuments} relevant
-                        <span className="text-sm text-slate-500">, {patient.totalDocuments} total</span>
+                        {patient.relevantDocuments} {t('patient.relevant')}
+                        <span className="text-sm text-slate-500">, {patient.totalDocuments} {t('patient.total')}</span>
                     </p>
                 </div>
                 <div className="rounded-2xl bg-slate-50 p-4 border border-slate-100">
                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                        Answers
+                        {t('patient.answers')}
                     </p>
                     <p className="text-lg font-semibold text-slate-900 mt-2">
                         {patient.locatedAnswers.length}
-                        <span className="text-sm text-slate-500"> out of {patient.locatedAnswers.length + patient.missingAnswers.length} found</span>
+                        <span className="text-sm text-slate-500"> {t('patient.outOf')} {patient.locatedAnswers.length + patient.missingAnswers.length} {t('patient.found')}</span>
                     </p>
                 </div>
             </div>
@@ -66,7 +68,7 @@ const PatientCard = ({ patient }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">
-                        Located answers
+                        {t('patient.locatedAnswers')}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {patient.locatedAnswers.length > 0 ? (
@@ -75,18 +77,18 @@ const PatientCard = ({ patient }) => {
                                     key={`${patient.id}-${item.id}-located`}
                                     item={item}
                                     value={item.located}
-                                    label="docs"
+                                    label={plural('docs', item.documents_count)}
                                 />
                             ))
                         ) : (
-                            <span className="text-xs text-slate-400">No answers located yet</span>
+                            <span className="text-xs text-slate-400">{t('patient.noAnswers')}</span>
                         )}
                     </div>
                 </div>
 
                 <div>
                     <p className="text-xs uppercase tracking-wide text-slate-500 mb-2">
-                        Missing answers
+                        {t('patient.missingAnswers')}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {patient.missingAnswers.length > 0 ? (
@@ -98,7 +100,7 @@ const PatientCard = ({ patient }) => {
                                 />
                             ))
                         ) : (
-                            <span className="text-xs text-slate-400">All questions covered</span>
+                            <span className="text-xs text-slate-400">{t('patient.allCovered')}</span>
                         )}
                     </div>
                 </div>
@@ -113,7 +115,7 @@ const PatientCard = ({ patient }) => {
                     onClick={handleReview}
                     className="inline-flex items-center gap-2 bg-slate-900 text-white rounded-xl px-5 py-2.5 text-sm font-semibold hover:bg-slate-800 hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900/20"
                 >
-                    Review
+                    {t('patient.review')}
                     <span>→</span>
                 </button>
             </div>

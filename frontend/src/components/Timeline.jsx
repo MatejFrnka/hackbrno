@@ -1,8 +1,10 @@
 import { formatDate } from '../utils/dateUtils';
 import { AlertCircle } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from '../i18n/useTranslation';
 
 const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds = [], significantEvents = [] }) => {
+    const { language } = useTranslation();
     const [openPopupId, setOpenPopupId] = useState(null);
 
     // Get all dates from documents and events
@@ -79,7 +81,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                 {/* Start date at top */}
                 <div className="text-center pt-8 pb-2">
                     <p className="text-[10px] text-slate-500 font-medium">
-                        {formatDate(startDate)}
+                        {formatDate(startDate, language)}
                     </p>
                 </div>
 
@@ -163,7 +165,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                                         />
                                                         {/* Hover tooltip for date */}
                                                         <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">
-                                                            {formatDate(point.date)}
+                                                            {formatDate(point.date, language)}
                                                         </span>
                                                     </div>
                                                 );
@@ -263,7 +265,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                 {/* End date at bottom */}
                 <div className="text-center pt-2 pb-8">
                     <p className="text-[10px] text-slate-500 font-medium">
-                        {formatDate(endDate)}
+                        {formatDate(endDate, language)}
                     </p>
                 </div>
             </div>

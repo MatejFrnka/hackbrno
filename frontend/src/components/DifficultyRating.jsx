@@ -1,4 +1,8 @@
+import { useTranslation } from '../i18n/useTranslation';
+
 const DifficultyRating = ({ rating }) => {
+    const { t } = useTranslation();
+
     return (
         <div className="text-right" aria-label={`Difficulty ${rating} out of 5`}>
             <div className="flex items-center gap-1 justify-end mb-1">
@@ -10,7 +14,7 @@ const DifficultyRating = ({ rating }) => {
                     />
                 ))}
             </div>
-            <span className="text-xs font-medium text-slate-500">Completness {rating}/5</span>
+            <span className="text-xs font-medium text-slate-500">{t('patient.difficulty')} {rating}/5</span>
         </div>
     );
 };

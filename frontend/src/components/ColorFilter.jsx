@@ -1,3 +1,4 @@
+import { useTranslation } from '../i18n/useTranslation';
 
 const ColorFilter = ({
     items = [],
@@ -10,6 +11,7 @@ const ColorFilter = ({
     showColorIndicator = false,
     hoveredId = null
 }) => {
+    const { t } = useTranslation();
     if (compact) {
         return (
             <div className="space-y-3">
@@ -22,7 +24,7 @@ const ColorFilter = ({
                             onClick={onClear}
                             className="text-[10px] text-slate-400 hover:text-slate-600 transition-colors"
                         >
-                            Clear
+                            {t('filter.clear')}
                         </button>
                     )}
                 </div>
@@ -92,7 +94,7 @@ const ColorFilter = ({
             <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
                 <div>
                     <p className="text-xs uppercase tracking-[0.25em] text-slate-400">
-                        Filters
+                        {t('filter.filters')}
                     </p>
                     <h3 className="text-lg font-semibold text-slate-900">
                         {label}
@@ -103,7 +105,7 @@ const ColorFilter = ({
                         onClick={onClear}
                         className="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
                     >
-                        Clear all
+                        {t('filter.clearAll')}
                     </button>
                 )}
             </div>
