@@ -145,6 +145,7 @@ export const fetchPatient = async (patientId) => {
                 end: h.offset_end,
                 color: question ? question.rgb_color : 'slate',
                 question_id: h.question_id,
+                confidence: h.confidence,
             };
         });
 

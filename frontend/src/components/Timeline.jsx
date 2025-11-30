@@ -28,12 +28,12 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
         ? ((new Date(currentDate).getTime() - startTime) / totalTime) * 100
         : null;
 
-    // Group documents by date with their question IDs, colors, and document IDs
+    // Group documents by date with their question IDs, colors, document IDs, and confidence
     // Also include commented highlights
     const documentsByDate = {};
     documents.forEach((doc) => {
         if (!documentsByDate[doc.date]) {
-            documentsByDate[doc.date] = { questionIds: {}, colors: {}, docIds: {}, commentedHighlights: [] };
+            documentsByDate[doc.date] = { questionIds: {}, colors: {}, docIds: {}, confidences: {}, commentedHighlights: [] };
         }
         doc.highlights.forEach((h) => {
             const questionId = h.question_id;
@@ -41,6 +41,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                 documentsByDate[doc.date].questionIds[questionId] = true;
                 documentsByDate[doc.date].colors[questionId] = h.color;
                 documentsByDate[doc.date].docIds[questionId] = doc.id;
+                documentsByDate[doc.date].confidences[questionId] = h.confidence;
             }
         });
         // Add commented highlights for this document
@@ -56,12 +57,13 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
     const timelinePoints = sortedDates.map((date) => {
         const dateTime = new Date(date).getTime();
         const position = totalTime > 0 ? ((dateTime - startTime) / totalTime) * 100 : 0;
-        const dateData = documentsByDate[date] || { questionIds: {}, colors: {}, docIds: {}, commentedHighlights: [] };
+        const dateData = documentsByDate[date] || { questionIds: {}, colors: {}, docIds: {}, confidences: {}, commentedHighlights: [] };
         const questionIds = Object.keys(dateData.questionIds);
         const colors = dateData.colors;
         const docIds = dateData.docIds;
+        const confidences = dateData.confidences;
         const commentedHighlights = dateData.commentedHighlights || [];
-        return { date, position, questionIds, colors, docIds, commentedHighlights };
+        return { date, position, questionIds, colors, docIds, confidences, commentedHighlights };
     });
 
     // Calculate positions for significant events
@@ -129,6 +131,7 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                     questionId,
                                     color: point.colors[questionId],
                                     docId,
+                                    confidence: point.confidences[questionId],
                                 });
                             }
                         });
@@ -155,13 +158,31 @@ const Timeline = ({ documents, onDocumentClick, currentDate, selectedQuestionIds
                                         <div key={`${point.date}-doc-${docIndex}`} className="flex items-center -space-x-1 relative">
                                             {highlights.map((highlight) => {
                                                 const isActive = selectedQuestionIds.length === 0 || selectedQuestionIds.includes(Number(highlight.questionId));
+                                                // Map confidence string to numeric value
+                                                const confidenceMap = {
+                                                    'low': 0,
+                                                    'medium': 0.5,
+                                                    'high': 1.0
+                                                };
+                                                const confidence = confidenceMap[highlight.confidence?.toLowerCase()] || 0.5;
+                                                const circleSize = 8 + (confidence * 8); // 8px (low) to 16px (high)
+                                                const containerSize = Math.max(16, circleSize + 2); // Ensure container is large enough
+                                                
                                                 return (
-                                                    <div key={`${point.date}-${highlight.questionId}`} className="relative group pointer-events-none inline-flex items-center justify-center w-3 h-3">
+                                                    <div 
+                                                        key={`${point.date}-${highlight.questionId}`} 
+                                                        className="relative group pointer-events-none inline-flex items-center justify-center"
+                                                        style={{ width: `${containerSize}px`, height: `${containerSize}px` }}
+                                                    >
                                                         <button
                                                             type="button"
                                                             onClick={() => onDocumentClick && onDocumentClick(highlight.docId)}
-                                                            className={`w-3 h-3 rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto`}
-                                                            style={{ backgroundColor: isActive ? highlight.color : '#cbd5e1' }}
+                                                            className="rounded-full border-2 border-white shadow-sm hover:scale-125 transition-all relative z-10 cursor-pointer pointer-events-auto"
+                                                            style={{ 
+                                                                backgroundColor: isActive ? highlight.color : '#cbd5e1',
+                                                                width: `${circleSize}px`,
+                                                                height: `${circleSize}px`
+                                                            }}
                                                         />
                                                         {/* Hover tooltip for date */}
                                                         <span className="absolute right-full mr-2 top-1/2 -translate-y-1/2 text-xs text-slate-600 bg-white border border-slate-200 rounded px-2 py-1 shadow-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity z-20">

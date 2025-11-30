@@ -186,6 +186,7 @@ def patient_api(patient_id: int):
                 'question_id': finding.question_id,
                 'offset_start': finding.offset_start,
                 'offset_end': finding.offset_end,
+                'confidence': finding.confidence,
             })
         commented_highlights = []
         for highlight in record.highlights:
