@@ -1,5 +1,3 @@
-const API_BASE_URL = 'http://localhost:5001';
-
 // Lighten a hex color by blending it with white
 const lightenHexColor = (hex, factor = 0.6) => {
     if (!hex || !hex.startsWith('#')) return hex;
@@ -60,7 +58,7 @@ const createHighlightedText = (text, highlights, questions) => {
 
 // Fetch dashboard data
 export const fetchDashboard = async () => {
-    const response = await fetch(`${API_BASE_URL}/api/dashboard`);
+    const response = await fetch('/api/dashboard');
     if (!response.ok) {
         throw new Error('Failed to fetch dashboard data');
     }
@@ -114,7 +112,7 @@ export const fetchDashboard = async () => {
 
 // Fetch patient data
 export const fetchPatient = async (patientId) => {
-    const response = await fetch(`${API_BASE_URL}/api/patient/${encodeURIComponent(patientId)}`);
+    const response = await fetch(`/api/patient/${encodeURIComponent(patientId)}`);
     if (!response.ok) {
         if (response.status === 404) {
             return null;
